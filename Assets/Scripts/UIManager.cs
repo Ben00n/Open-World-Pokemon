@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject playerHUD;
+    public GameObject battleHUD;
     PlayerManager playerManager;
 
     private void Awake()
@@ -21,11 +21,11 @@ public class UIManager : MonoBehaviour
     {
         if(playerManager.isInBattle)
         {
-            playerHUD.SetActive(true);
+            battleHUD.SetActive(true);
         }
         else
         {
-            playerHUD.SetActive(false);
+            battleHUD.SetActive(false);
         }
     }
 }

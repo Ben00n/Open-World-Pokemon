@@ -9,10 +9,12 @@ public class CollisionManager : MonoBehaviour
     BattleHUD battleHUD;
     PokemonPartyManager pokemonPartyManager;
     BattleManager battleManager;
+    BattleDialogBox battleDialogBox;
 
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
+        battleDialogBox = FindObjectOfType<BattleDialogBox>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         battleHUD = FindObjectOfType<BattleHUD>();
         animator = GetComponentInParent<Animator>();
@@ -41,8 +43,11 @@ public class CollisionManager : MonoBehaviour
                 pokemonPartyManager.pokemons[0].transform.position = transform.position;
                 pokemonPartyManager.pokemons[0].transform.LookAt(Vector3.forward + pokemonPartyManager.pokemons[0].transform.position);
 
+                battleDialogBox.SetDialog("Encountered a wild " + wildPokemonConfiguration.pokemonBase.Name + "!");
 
                 transform.gameObject.SetActive(false);
+
+
             }
         }
     }

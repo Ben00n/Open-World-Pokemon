@@ -126,7 +126,11 @@ public class PokemonStatsCalculator : MonoBehaviour
             pokemonAnimatorManager.PlayTargetAnimation("Faint");
             return true;
         }
-        return false;
+        else
+        {
+            pokemonAnimatorManager.PlayTargetAnimation("Hit");
+            return false;
+        }
     }
 
     public MoveBase GetRandomMove()

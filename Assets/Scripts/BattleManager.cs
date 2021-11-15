@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BattleState { Start, PlayerAction, PlayerMove, EnemyMove, Busy}
+
 public class BattleManager : MonoBehaviour
 {
+    BattleDialogBox battleDialogBox;
     BattleHUD battleHUD;
     PokemonAnimatorManager pokemonAnimatorManager;
     PokemonPartyManager pokemonPartyManager;
@@ -15,6 +18,7 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+        battleDialogBox = FindObjectOfType<BattleDialogBox>();
         battleHUD = FindObjectOfType<BattleHUD>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
     }
@@ -39,19 +43,19 @@ public class BattleManager : MonoBehaviour
             pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
+        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
 
         if (isFainted)
         {
-            //do whateve
+            yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
         }
         else
         {
             StartCoroutine(EnemyMove());
         }
-
-        yield return new WaitForSeconds(1);
     }
 
     public void PerformMove2()
@@ -74,19 +78,20 @@ public class BattleManager : MonoBehaviour
             pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
+        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+
+
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
 
         if (isFainted)
         {
-            //do whateve
+            yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
         }
         else
         {
             StartCoroutine(EnemyMove());
         }
-
-        yield return new WaitForSeconds(1);
     }
 
     public void PerformMove3()
@@ -109,19 +114,20 @@ public class BattleManager : MonoBehaviour
             pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
+        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+
+
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
 
         if (isFainted)
         {
-            //do whateve
+            yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
         }
         else
         {
             StartCoroutine(EnemyMove());
         }
-
-        yield return new WaitForSeconds(1);
     }
 
     public void PerformMove4()
@@ -144,19 +150,20 @@ public class BattleManager : MonoBehaviour
             pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
+        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+
+
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
 
         if (isFainted)
         {
-            //do whateve
+            yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
         }
         else
         {
             StartCoroutine(EnemyMove());
         }
-
-        yield return new WaitForSeconds(1);
     }
 
     IEnumerator EnemyMove()
@@ -172,17 +179,20 @@ public class BattleManager : MonoBehaviour
             wildPokemonManager.isAttacking = true;
             wildPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
         }
+        yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+
         bool isFainted = pokemonStatsCalculator.TakeDamage(move, wildPokemonStatsCalculator);
         yield return battleHUD.UpdateMyPokemonHP();
         
 
         if (isFainted)
         {
-            //i fainted -> do smthn
+            yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} Fainted");
         }
         else
         {
             yield return new WaitForSeconds(1);
+            battleHUD.ActionSelector.SetActive(true);
         }
     }
 

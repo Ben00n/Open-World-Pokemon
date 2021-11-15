@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BattleHUD : MonoBehaviour
 {
+    public GameObject ActionSelector;
+    public GameObject battleDialogBox;
     BattleManager battleManager;
 
     [Header("Wild Pokemon HUD")]
@@ -51,7 +53,7 @@ public class BattleHUD : MonoBehaviour
         for (int i = 0; i < ppText.Count; ++i)
         {
             if (i < moves.Count)
-                ppText[i].text = moves[i].PP.ToString() + "/" + moves[i].PP.ToString();
+                ppText[i].text = moves[i].maximumPP.ToString() + "/" + moves[i].maximumPP.ToString();
             else
                 ppText[i].text = "-";
         }
