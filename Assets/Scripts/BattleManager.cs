@@ -6,18 +6,27 @@ public enum BattleState { Start, PlayerAction, PlayerMove, EnemyMove, Busy}
 
 public class BattleManager : MonoBehaviour
 {
+    CollisionManager collisionManager;
+    PlayerManager playerManager;
     BattleDialogBox battleDialogBox;
     BattleHUD battleHUD;
-    PokemonAnimatorManager pokemonAnimatorManager;
     PokemonPartyManager pokemonPartyManager;
-    PokemonManager pokemonManager;
-    public PokemonStatsCalculator pokemonStatsCalculator;
+
+    [Header("Player Pokemon Components")]
+    public PokemonStatsCalculator playerPokemonStatsCalculator;
+    public PokemonAnimatorManager playerPokemonAnimatorManager;
+    public PokemonManager playerPokemonManager;
+
+    [Header("Wild Pokemon Components")]
     public PokemonStatsCalculator wildPokemonStatsCalculator;
-    public PokemonManager wildPokemonManager;
     public PokemonAnimatorManager wildPokemonAnimatorManager;
+    public PokemonManager wildPokemonManager;
+    public Animator wildPokemonAnimator;
 
     private void Awake()
     {
+        collisionManager = FindObjectOfType<CollisionManager>();
+        playerManager = FindObjectOfType<PlayerManager>();
         battleDialogBox = FindObjectOfType<BattleDialogBox>();
         battleHUD = FindObjectOfType<BattleHUD>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
@@ -30,20 +39,20 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator PerformPlayerMove1()
     {
-        var move = pokemonStatsCalculator.pokemonBase.Move[0];
+        var move = playerPokemonStatsCalculator.pokemonBase.Move[0];
         if (move.isPhysicalAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
         }
 
         if (move.isSpecialAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
-        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+        yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
@@ -51,6 +60,14 @@ public class BattleManager : MonoBehaviour
         if (isFainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
+            yield return new WaitForSeconds(1f);
+            playerManager.animator.SetBool("isInBattle", false);
+            wildPokemonManager.gameObject.tag = "FaintedPokemon";
+            wildPokemonAnimator.SetBool("isInBattle", false);
+            wildPokemonAnimator.SetBool("isFainted", true);
+            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+            collisionManager.playerCollider.enabled = true; // main player collider
+            playerPokemonManager.transform.gameObject.SetActive(false); // party pokemon gameobject disappear
         }
         else
         {
@@ -65,20 +82,20 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator PerformPlayerMove2()
     {
-        var move = pokemonStatsCalculator.pokemonBase.Move[1];
+        var move = playerPokemonStatsCalculator.pokemonBase.Move[1];
         if (move.isPhysicalAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
         }
 
         if (move.isSpecialAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
-        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+        yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
 
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
@@ -87,6 +104,14 @@ public class BattleManager : MonoBehaviour
         if (isFainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
+            yield return new WaitForSeconds(1f);
+            playerManager.animator.SetBool("isInBattle", false);
+            wildPokemonManager.gameObject.tag = "FaintedPokemon";
+            wildPokemonAnimator.SetBool("isInBattle", false);
+            wildPokemonAnimator.SetBool("isFainted", true);
+            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+            collisionManager.playerCollider.enabled = true; // main player collider
+            playerPokemonManager.transform.gameObject.SetActive(false); // party pokemon gameobject disappear
         }
         else
         {
@@ -101,20 +126,20 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator PerformPlayerMove3()
     {
-        var move = pokemonStatsCalculator.pokemonBase.Move[2];
+        var move = playerPokemonStatsCalculator.pokemonBase.Move[2];
         if (move.isPhysicalAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
         }
 
         if (move.isSpecialAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
-        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+        yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
 
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
@@ -123,6 +148,14 @@ public class BattleManager : MonoBehaviour
         if (isFainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
+            yield return new WaitForSeconds(1f);
+            playerManager.animator.SetBool("isInBattle", false);
+            wildPokemonManager.gameObject.tag = "FaintedPokemon";
+            wildPokemonAnimator.SetBool("isInBattle", false);
+            wildPokemonAnimator.SetBool("isFainted", true);
+            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+            collisionManager.playerCollider.enabled = true; // main player collider
+            playerPokemonManager.transform.gameObject.SetActive(false); // party pokemon gameobject disappear
         }
         else
         {
@@ -137,20 +170,20 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator PerformPlayerMove4()
     {
-        var move = pokemonStatsCalculator.pokemonBase.Move[3];
+        var move = playerPokemonStatsCalculator.pokemonBase.Move[3];
         if (move.isPhysicalAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
         }
 
         if (move.isSpecialAttack)
         {
-            pokemonManager.isAttacking = true;
-            pokemonAnimatorManager.PlayTargetAnimation("Special Attack");
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
 
-        yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
+        yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
 
         bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
@@ -159,6 +192,14 @@ public class BattleManager : MonoBehaviour
         if (isFainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
+            yield return new WaitForSeconds(1f);
+            playerManager.animator.SetBool("isInBattle", false);
+            wildPokemonManager.gameObject.tag = "FaintedPokemon";
+            wildPokemonAnimator.SetBool("isInBattle", false);
+            wildPokemonAnimator.SetBool("isFainted", true);
+            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+            collisionManager.playerCollider.enabled = true; // main player collider
+            playerPokemonManager.transform.gameObject.SetActive(false); // party pokemon gameobject disappear
         }
         else
         {
@@ -181,13 +222,18 @@ public class BattleManager : MonoBehaviour
         }
         yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
-        bool isFainted = pokemonStatsCalculator.TakeDamage(move, wildPokemonStatsCalculator);
+        bool isFainted = playerPokemonStatsCalculator.TakeDamage(move, wildPokemonStatsCalculator);
         yield return battleHUD.UpdateMyPokemonHP();
         
 
         if (isFainted)
         {
-            yield return battleDialogBox.TypeDialog($"{pokemonStatsCalculator.pokemonBase.Name} Fainted");
+            yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} Fainted");
+            playerManager.animator.SetBool("isInBattle", false);
+            wildPokemonAnimator.SetBool("isInBattle", false);
+            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+            collisionManager.playerCollider.enabled = true; // main player collider
+            playerPokemonManager.transform.gameObject.SetActive(false); // party pokemon gameobject disappear
         }
         else
         {
@@ -200,9 +246,9 @@ public class BattleManager : MonoBehaviour
     {
         if (pokemonPartyManager.pokemons.Count > 0)
         {
-            pokemonManager = pokemonPartyManager.pokemons[0].GetComponent<PokemonManager>();
-            pokemonStatsCalculator = pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>();
-            pokemonAnimatorManager = pokemonPartyManager.pokemons[0].GetComponentInChildren<PokemonAnimatorManager>();
+            playerPokemonManager = pokemonPartyManager.pokemons[0].GetComponent<PokemonManager>();
+            playerPokemonStatsCalculator = pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>();
+            playerPokemonAnimatorManager = pokemonPartyManager.pokemons[0].GetComponentInChildren<PokemonAnimatorManager>();
         }
     }
 }

@@ -42,13 +42,16 @@ public class PokeBallCollider : MonoBehaviour
             {
                 hasCollided = true;
                 PokemonStatsCalculator pokemonStatsCalculator = collision.transform.GetComponent<PokemonStatsCalculator>();
+                PokemonManager pokemonManager = collision.transform.GetComponent<PokemonManager>();
 
                 impactParticles = Instantiate(impactParticles, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
                 transform.position = new Vector3(transform.position.x, 0, transform.position.z);
                 rigidBody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-                rigidBody.AddForce(Vector3.up * 200, ForceMode.Impulse);
+                rigidBody.AddForce(Vector3.up * 200, ForceMode.Impulse); // jump pokeball on hit
                 StartCoroutine(PokeBallChannel());
-                pokemonStatsCalculator.shrinking = true;
+
+                pokemonManager.shrinking = true;
+
                 StartCoroutine(HidePokemon(pokemonStatsCalculator.transform.gameObject));
                 pokemonPartyManager.pokemons.Add(collision.gameObject);
 
@@ -88,7 +91,7 @@ public class PokeBallCollider : MonoBehaviour
         foreach (var poke in pokemonPartyManager.pokemons)
         {
             poke.GetComponent<PokemonStatsCalculator>().isWild = false;
-            poke.GetComponent<PokemonStatsCalculator>().shrinking = false;
+            poke.GetComponent<PokemonManager>().shrinking = false;
 
         }
         pokemon.tag = "PartyPokemon";

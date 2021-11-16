@@ -35,43 +35,58 @@ public class PokemonLocomotion : MonoBehaviour
 
     public void HandleRandomMovement()
     {
-        if(!navmeshAgent.hasPath && navmeshAgent.isStopped == false && pokemonStatsCalculator.isWild)
+        if (pokemonManager.isFainted)
         {
-            pokemonAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0f, Time.deltaTime);
-
-            if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Grass || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Grass)
-            {
-                navmeshAgent.SetDestination(GrassArea.Grass.GetRandomPoint());
-            }
-            else if(pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Fire || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Fire)
-            {
-                navmeshAgent.SetDestination(FireArea.Fire.GetRandomPoint());
-            }
-            else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Water || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Water)
-            {
-                navmeshAgent.SetDestination(WaterArea.Water.GetRandomPoint());
-            }
+            pokemonAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+            navmeshAgent.enabled = false;
         }
-
-        if (navmeshAgent.remainingDistance <= 0.1)
+        else
         {
-            navmeshAgent.isStopped = true;
-            pokemonAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-            StartCoroutine(Wait());
-        }
+            if (!navmeshAgent.hasPath && navmeshAgent.isStopped == false && pokemonStatsCalculator.isWild && !pokemonManager.isFainted)
+            {
+                pokemonAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0f, Time.deltaTime);
 
-        CheckIfIsInBattleAndMoveToBattlePoint();
+                if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Grass || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Grass)
+                {
+                    navmeshAgent.SetDestination(GrassArea.Grass.GetRandomPoint());
+                }
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Fire || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Fire)
+                {
+                    navmeshAgent.SetDestination(FireArea.Fire.GetRandomPoint());
+                }
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Water || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Water)
+                {
+                    navmeshAgent.SetDestination(WaterArea.Water.GetRandomPoint());
+                }
+            }
+
+            if (navmeshAgent.remainingDistance <= 0.1)
+            {
+                navmeshAgent.isStopped = true;
+                pokemonAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+                StartCoroutine(Wait());
+            }
+
+            CheckIfIsInBattleAndMoveToBattlePoint();
+        }
     }
 
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(3);
-        navmeshAgent.isStopped = false;
+        if (pokemonManager.isFainted)
+        {
+            pokemonAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+            navmeshAgent.enabled = false;
+        }  
+        else
+            navmeshAgent.isStopped = false;
+
     }
 
     private void CheckIfIsInBattleAndMoveToBattlePoint()
     {
-        if (pokemonManager.isInBattle)
+        if (pokemonManager.isInBattle && !pokemonManager.isFainted)
         {
             navmeshAgent.SetDestination(pokemonPartyManager.pokemons[0].transform.position + (Vector3.forward * 3));
             if (navmeshAgent.remainingDistance <= 0.1)

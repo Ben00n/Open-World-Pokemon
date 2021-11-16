@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CollisionManager : MonoBehaviour
 {
-    Collider playerCollider;
+    Collider playerTriggerCollider;
     Animator animator;
     BattleHUD battleHUD;
     PokemonPartyManager pokemonPartyManager;
     BattleManager battleManager;
     BattleDialogBox battleDialogBox;
+    public Collider playerCollider;
 
     private void Awake()
     {
@@ -18,8 +19,9 @@ public class CollisionManager : MonoBehaviour
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         battleHUD = FindObjectOfType<BattleHUD>();
         animator = GetComponentInParent<Animator>();
-        playerCollider = GetComponent<Collider>();
-        playerCollider.isTrigger = true;
+        playerCollider = pokemonPartyManager.gameObject.GetComponent<Collider>();
+        playerTriggerCollider = GetComponent<Collider>();
+        playerTriggerCollider.isTrigger = true;
     }
 
 
@@ -27,28 +29,36 @@ public class CollisionManager : MonoBehaviour
     {
         if (collision.tag == "Pokemon")
         {
-            PokemonStatsCalculator wildPokemonConfiguration = collision.GetComponent<PokemonStatsCalculator>();
-            Animator pokemonAnimator = collision.GetComponentInChildren<Animator>();
+            battleManager.wildPokemonAnimator = collision.GetComponentInChildren<Animator>();
             battleManager.wildPokemonStatsCalculator = collision.GetComponent<PokemonStatsCalculator>();
             battleManager.wildPokemonManager = collision.GetComponent<PokemonManager>();
             battleManager.wildPokemonAnimatorManager = collision.GetComponentInChildren<PokemonAnimatorManager>();
 
-            if (wildPokemonConfiguration != null)
+            if (battleManager.wildPokemonStatsCalculator != null)
             {
                 animator.SetBool("isInBattle", true);
-                pokemonAnimator.SetBool("isInBattle", true);
-                battleHUD.SetData(wildPokemonConfiguration,pokemonPartyManager.pokemons[0].transform.GetComponent<PokemonStatsCalculator>());
-                pokemonPartyManager.pokemons[0].SetActive(true);
-                pokemonPartyManager.pokemons[0].transform.localScale = new Vector3(1, 1, 1);
-                pokemonPartyManager.pokemons[0].transform.position = transform.position;
-                pokemonPartyManager.pokemons[0].transform.LookAt(Vector3.forward + pokemonPartyManager.pokemons[0].transform.position);
+                battleManager.wildPokemonAnimator.SetBool("isInBattle", true);
+                battleHUD.SetData(battleManager.wildPokemonStatsCalculator,battleManager.playerPokemonStatsCalculator);
 
-                battleDialogBox.SetDialog("Encountered a wild " + wildPokemonConfiguration.pokemonBase.Name + "!");
 
-                transform.gameObject.SetActive(false);
+                PrepareMyPokemon();
+                pokemonPartyManager.transform.position = battleManager.playerPokemonManager.transform.position + new Vector3(1, 0, 0); //set player position in battle
+                playerCollider.enabled = false; // disable main collider for player
 
+                battleDialogBox.SetDialog("Encountered a wild " + battleManager.wildPokemonStatsCalculator.pokemonBase.Name + "!");
+                battleHUD.ActionSelector.SetActive(true);
+
+                transform.gameObject.SetActive(false); // disable trigger collider as a gameobject
 
             }
         }
+    }
+
+    private void PrepareMyPokemon()
+    {
+        pokemonPartyManager.pokemons[0].SetActive(true);
+        pokemonPartyManager.pokemons[0].transform.localScale = new Vector3(1, 1, 1);
+        pokemonPartyManager.pokemons[0].transform.position = transform.position;
+        pokemonPartyManager.pokemons[0].transform.LookAt(Vector3.forward + pokemonPartyManager.pokemons[0].transform.position);
     }
 }

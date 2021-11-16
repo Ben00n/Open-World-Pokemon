@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
 
     IEnumerator PokemonDrop()
     {
-        while (pokemonCount < 30)
+        while (pokemonCount < 10)
         {
             pulledPokemon = Random.Range(0, pokemonList.Count);
             xPos = Random.Range(0, 100);

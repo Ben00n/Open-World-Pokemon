@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerLocomotion : MonoBehaviour
 {
     InputManager inputManager;
+    PlayerManager playerManager;
+    Animator animator;
 
     Vector3 moveDirection;
     Transform cameraObject;
@@ -20,6 +22,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+        playerManager = GetComponent<PlayerManager>();
         inputManager = GetComponent<InputManager>();
         playerRigidbody = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
@@ -27,6 +31,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleAllMovement()
     {
+        HandleBattleState();
         HandleMovement();
         HandleRotation();
     }
@@ -74,5 +79,20 @@ public class PlayerLocomotion : MonoBehaviour
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         transform.rotation = playerRotation;
+    }
+
+    private void HandleBattleState()
+    {
+        if (playerManager.isInBattle)
+        {
+            playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            animator.SetFloat("Vertical", 0f);
+            animator.SetFloat("Horizontal", 0f);
+        }
+        else
+        {
+            playerRigidbody.constraints = RigidbodyConstraints.None;
+            playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        }
     }
 }

@@ -73,6 +73,6 @@ public class BattleHUD : MonoBehaviour
 
     public IEnumerator UpdateMyPokemonHP()
     {
-        yield return playerPokemonHPBar.SetHPSmoothly((float)battleManager.pokemonStatsCalculator.currentHP / battleManager.pokemonStatsCalculator.maxHP);
+        yield return playerPokemonHPBar.SetHPSmoothly((float)battleManager.playerPokemonStatsCalculator.currentHP / battleManager.playerPokemonStatsCalculator.maxHP);
     }
 }

@@ -26,10 +26,6 @@ public class PokemonStatsCalculator : MonoBehaviour
     public int currentSpDefense;
     public int currentSpeed;
 
-    private float targetScale = 0.01f;
-    private float shrinkSpeed = 3f;
-    public bool shrinking = false;
-
     #region StatFormulas
     private int GetPokemonHP()
     {
@@ -93,13 +89,6 @@ public class PokemonStatsCalculator : MonoBehaviour
         currentSpeed = GetPokemonSpeed();
     }
 
-    private void Update()
-    {
-        if (shrinking) // called in pokeballcollider
-        {
-            transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(targetScale, targetScale, targetScale), Time.deltaTime * shrinkSpeed);
-        }
-    }
 
     public bool TakeDamage(MoveBase moveBase, PokemonStatsCalculator attacker)
     {

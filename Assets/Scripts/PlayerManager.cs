@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     [Header("CurrentPokeBall")]
     public ConsumableItem currentConsumable;
 
-    Animator animator;
+    public Animator animator;
     InputManager inputManager;
     CameraManager cameraManager;
     PlayerLocomotion playerLocomotion;

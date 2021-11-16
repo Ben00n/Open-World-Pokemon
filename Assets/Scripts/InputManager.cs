@@ -81,6 +81,9 @@ public class InputManager : MonoBehaviour
         cameraInputY = cameraInput.y;
         cameraInputX = cameraInput.x;
 
+        if (playerManager.isInBattle)
+            return;
+
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
         animatorManager.UpdateAnimatorValues(0, moveAmount, playerLocomotion.isSprinting);
     }
@@ -99,7 +102,7 @@ public class InputManager : MonoBehaviour
 
     private void HandleLockOnInput()
     {
-        if (lockOnInput && lockOnFlag == false)
+        if (lockOnInput && lockOnFlag == false && !playerManager.isInBattle)
         {
 
             lockOnInput = false;
