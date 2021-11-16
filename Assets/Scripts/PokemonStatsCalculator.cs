@@ -90,20 +90,31 @@ public class PokemonStatsCalculator : MonoBehaviour
     }
 
 
-    public bool TakeDamage(MoveBase moveBase, PokemonStatsCalculator attacker)
+    public DamageDetails TakeDamage(MoveBase moveBase, PokemonStatsCalculator attacker)
     {
+        float critical = 1f;
+        if (Random.value * 100f <= 6.25f)
+            critical = 2f;
+
+        float type = TypeChart.GetEffectiveness(moveBase.Type, this.pokemonBase.GetType1) * TypeChart.GetEffectiveness(moveBase.Type, this.pokemonBase.GetType2);
+
+        var damageDetails = new DamageDetails()
+        {
+            TypeEffectiveness = type,
+            Critical = critical,
+            Fainted = false
+        };
+
+        float modifiers = Random.Range(0.85f, 1f) * type * critical;
+        float a = (2 * attacker.Level + 10) / 250f;
         if (moveBase.isSpecialAttack)
         {
-            float modifiers = Random.Range(0.85f, 1f);
-            float a = (2 * attacker.Level + 10) / 250f;
             float d = a * moveBase.Power * ((float)attacker.currentSpAttack / currentSpDefense) + 2;
             int damage = Mathf.FloorToInt(d * modifiers);
             currentHP -= damage;
         }
         else if (moveBase.isPhysicalAttack)
         {
-            float modifiers = Random.Range(0.85f, 1f);
-            float a = (2 * attacker.Level + 10) / 250f;
             float d = a * moveBase.Power * ((float)attacker.currentAttack / currentAttack) + 2;
             int damage = Mathf.FloorToInt(d * modifiers);
             currentHP -= damage;
@@ -113,13 +124,14 @@ public class PokemonStatsCalculator : MonoBehaviour
         {
             currentHP = 0;
             pokemonAnimatorManager.PlayTargetAnimation("Faint");
-            return true;
+            damageDetails.Fainted = true;
         }
         else
         {
             pokemonAnimatorManager.PlayTargetAnimation("Hit");
-            return false;
+            return damageDetails;
         }
+        return damageDetails;
     }
 
     public MoveBase GetRandomMove()
@@ -127,4 +139,12 @@ public class PokemonStatsCalculator : MonoBehaviour
         int r = Random.Range(0, pokemonBase.Move.Count);
         return pokemonBase.Move[r];
     }
+}
+
+public class DamageDetails
+{
+    public bool Fainted { get; set; }
+    public float Critical { get; set; }
+    public float TypeEffectiveness { get; set; }
+
 }

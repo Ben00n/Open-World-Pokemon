@@ -14,8 +14,6 @@ public class PokemonLocomotion : MonoBehaviour
 
     public float radius;
 
-
-
     private void Awake()
     {
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();

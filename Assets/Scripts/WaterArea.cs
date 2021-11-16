@@ -45,7 +45,7 @@ public class WaterArea : MonoBehaviour
             return _point;
         }
 
-        return point == null ? Vector3.zero : point.position;
+        return point == null ? Vector3.zero : point.position; //FOR AREA BASED 
     }
 
 #if UNITY_EDITOR

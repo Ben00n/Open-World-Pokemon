@@ -54,13 +54,13 @@ public class BattleManager : MonoBehaviour
 
         yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
-        bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
+        var damageDetails = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
-            yield return new WaitForSeconds(1f);
             playerManager.animator.SetBool("isInBattle", false);
             wildPokemonManager.gameObject.tag = "FaintedPokemon";
             wildPokemonAnimator.SetBool("isInBattle", false);
@@ -76,7 +76,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public void PerformMove2()
-    {
+    { 
         StartCoroutine(PerformPlayerMove2());
     }
 
@@ -97,14 +97,13 @@ public class BattleManager : MonoBehaviour
 
         yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
-
-        bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
+        var damageDetails = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
-            yield return new WaitForSeconds(1f);
             playerManager.animator.SetBool("isInBattle", false);
             wildPokemonManager.gameObject.tag = "FaintedPokemon";
             wildPokemonAnimator.SetBool("isInBattle", false);
@@ -141,14 +140,13 @@ public class BattleManager : MonoBehaviour
 
         yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
-
-        bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
+        var damageDetails = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
-            yield return new WaitForSeconds(1f);
             playerManager.animator.SetBool("isInBattle", false);
             wildPokemonManager.gameObject.tag = "FaintedPokemon";
             wildPokemonAnimator.SetBool("isInBattle", false);
@@ -185,14 +183,13 @@ public class BattleManager : MonoBehaviour
 
         yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
-
-        bool isFainted = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
+        var damageDetails = wildPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateWildPokemonHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} Fainted");
-            yield return new WaitForSeconds(1f);
             playerManager.animator.SetBool("isInBattle", false);
             wildPokemonManager.gameObject.tag = "FaintedPokemon";
             wildPokemonAnimator.SetBool("isInBattle", false);
@@ -222,11 +219,12 @@ public class BattleManager : MonoBehaviour
         }
         yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} used {move.Name}");
 
-        bool isFainted = playerPokemonStatsCalculator.TakeDamage(move, wildPokemonStatsCalculator);
+        var damageDetails = playerPokemonStatsCalculator.TakeDamage(move, pokemonPartyManager.pokemons[0].GetComponent<PokemonStatsCalculator>());
         yield return battleHUD.UpdateMyPokemonHP();
-        
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+
+        if (damageDetails.Fainted)
         {
             yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} Fainted");
             playerManager.animator.SetBool("isInBattle", false);
@@ -240,6 +238,17 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             battleHUD.ActionSelector.SetActive(true);
         }
+    }
+
+    IEnumerator ShowDamageDetails(DamageDetails damageDetails)
+    {
+        if (damageDetails.Critical > 1f)
+            yield return battleDialogBox.TypeDialog("A critical hit!");
+
+        if(damageDetails.TypeEffectiveness > 1f)
+            yield return battleDialogBox.TypeDialog("It's super effective");
+        else if(damageDetails.TypeEffectiveness < 1f)
+            yield return battleDialogBox.TypeDialog("It's not very effective");
     }
 
     private void Update()
