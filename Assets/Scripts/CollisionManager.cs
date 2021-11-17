@@ -46,26 +46,26 @@ public class CollisionManager : MonoBehaviour
 
                 battleHUD.SetData(battleManager.wildPokemonStatsCalculator,battleManager.playerPokemonStatsCalculator);
 
-
-                PrepareMyPokemon();
-                pokemonPartyManager.transform.position = battleManager.playerPokemonManager.transform.position + new Vector3(1, 0, 0); //set player position in battle
-                playerCollider.enabled = false; // disable main collider for player
+                PrepareForBattle(battleManager.playerPokemonStatsCalculator);
 
                 battleDialogBox.SetDialog("Encountered a wild " + battleManager.wildPokemonStatsCalculator.pokemonBase.Name + "!");
-                battleHUD.ActionSelector.SetActive(true);
-
-                transform.gameObject.SetActive(false); // disable trigger collider as a gameobject
-
             }
         }
     }
 
-    private void PrepareMyPokemon()
+    public void PrepareForBattle(PokemonStatsCalculator pokemon)
     {
         var healthyPokemon = pokemonPartyManager.GetHealthyPokemon();
         healthyPokemon.SetActive(true);
         healthyPokemon.transform.localScale = new Vector3(1, 1, 1);
         healthyPokemon.transform.position = transform.position;
         healthyPokemon.transform.LookAt(Vector3.forward + healthyPokemon.transform.position);
+
+        pokemonPartyManager.transform.position = pokemon.transform.position + new Vector3(1, 0, 0); //set player position in battle
+        playerCollider.enabled = false; // disable main collider for player
+
+        battleHUD.ActionSelector.SetActive(true);
+
+        transform.gameObject.SetActive(false); // disable trigger collider as a gameobject
     }
 }

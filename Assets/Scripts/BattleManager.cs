@@ -236,12 +236,33 @@ public class BattleManager : MonoBehaviour
 
         if (damageDetails.Fainted)
         {
-            wildPokemonAnimator.SetBool("isInBattle", false);
             yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} Fainted");
-            playerManager.animator.SetBool("isInBattle", false);
-            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
-            collisionManager.playerCollider.enabled = true; // main player collider
             playerPokemonManager.transform.gameObject.SetActive(false); // party pokemon gameobject disappear
+            var nextPokemon = pokemonPartyManager.GetHealthyPokemon();
+            if(nextPokemon != null)
+            {
+                nextPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+
+                playerPokemonAnimatorManager = nextPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+                playerPokemonManager = nextPokemon.GetComponent<PokemonManager>();
+                playerPokemonAnimator = nextPokemon.GetComponentInChildren<Animator>();
+                playerPokemonStatsCalculator = nextPokemon.GetComponent<PokemonStatsCalculator>();
+
+                nextPokemon.SetActive(true);
+                nextPokemon.transform.localScale = new Vector3(1, 1, 1);
+                nextPokemon.transform.LookAt(Vector3.forward + nextPokemon.transform.position);
+                battleHUD.ActionSelector.SetActive(true);
+
+                battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+                yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+            }
+            else
+            {
+                playerManager.animator.SetBool("isInBattle", false);
+                wildPokemonAnimator.SetBool("isInBattle", false);
+                collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+                collisionManager.playerCollider.enabled = true; // main player collider
+            }
         }
         else
         {
