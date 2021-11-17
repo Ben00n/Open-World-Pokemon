@@ -32,6 +32,7 @@ public class PokemonManager : MonoBehaviour
         {
             transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(targetScale, targetScale, targetScale), Time.deltaTime * shrinkSpeed);
         }
+
     }
 
     private void FixedUpdate()
@@ -41,7 +42,6 @@ public class PokemonManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        
     }
 
     private void HandleCurrentAction()

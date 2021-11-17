@@ -10,6 +10,8 @@ public class PokemonStatsCalculator : MonoBehaviour
     PokemonManager pokemonManager;
     public PokemonBase pokemonBase;
 
+    public List<Move> Moves { get; set; }
+
     [SerializeField]
     public bool isWild;
 
@@ -58,6 +60,18 @@ public class PokemonStatsCalculator : MonoBehaviour
     {
         Level = Random.Range(1, 50);
     }
+    private void SetPokemonMoves()
+    {
+        Moves = new List<Move>();
+        foreach (var move in pokemonBase.LearnableMoves)
+        {
+            if (move.Level <= myLevel)
+                Moves.Add(new Move(move.Base));
+
+            if (Moves.Count >= 4)
+                break;
+        }
+    }
 
     private void Awake()
     {
@@ -67,6 +81,7 @@ public class PokemonStatsCalculator : MonoBehaviour
         if (Level == 0 && isWild)
         {
             SetPokemonLevel();
+            SetPokemonMoves();
         }
         else
         {
@@ -134,10 +149,10 @@ public class PokemonStatsCalculator : MonoBehaviour
         return damageDetails;
     }
 
-    public MoveBase GetRandomMove()
+    public Move GetRandomMove()
     {
-        int r = Random.Range(0, pokemonBase.Move.Count);
-        return pokemonBase.Move[r];
+        int r = Random.Range(0, Moves.Count);
+        return Moves[r];
     }
 }
 

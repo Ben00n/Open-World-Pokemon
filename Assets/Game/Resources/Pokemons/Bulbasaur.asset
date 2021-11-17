@@ -17,15 +17,19 @@ MonoBehaviour:
   prefab: {fileID: 220311845857445252, guid: 0576657014512d34ba8ce95d704c35fb, type: 3}
   sprite: {fileID: 0}
   type1: 5
-  type2: 9
+  type2: 0
   maxHp: 45
   attack: 49
   defense: 49
   spAttack: 65
   spDefense: 65
   speed: 45
-  Move:
-  - {fileID: 11400000, guid: 53c86184eec62af4ab259d6730afba90, type: 2}
-  - {fileID: 11400000, guid: a9b493863e157f04db2570b6c973db47, type: 2}
-  - {fileID: 11400000, guid: 59d9526b2d3b199478836ec9b888a590, type: 2}
-  - {fileID: 11400000, guid: b8064745aa95a9a4399cc3f373a19d92, type: 2}
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: 59d9526b2d3b199478836ec9b888a590, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: b8064745aa95a9a4399cc3f373a19d92, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: a9b493863e157f04db2570b6c973db47, type: 2}
+    level: 3
+  - moveBase: {fileID: 11400000, guid: 53c86184eec62af4ab259d6730afba90, type: 2}
+    level: 99

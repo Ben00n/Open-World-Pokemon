@@ -37,15 +37,15 @@ public class BattleHUD : MonoBehaviour
         playerPokemonNameText.text = playerPokemon.pokemonBase.Name;
         playerPokemonLevelText.text = "Lvl " + playerPokemon.Level;
         playerPokemonHPBar.SetHP((float)playerPokemon.currentHP / playerPokemon.maxHP);
-        SetMovesUI(playerPokemon.pokemonBase.Move);
+        SetMovesUI(playerPokemon.Moves);
     }
 
-    public void SetMovesUI(List<MoveBase> moves)
+    public void SetMovesUI(List<Move> moves)
     {
         for (int i = 0; i < moveTexts.Count; ++i)
         {
             if (i < moves.Count)
-                moveTexts[i].text = moves[i].Name;
+                moveTexts[i].text = moves[i].Base.Name;
             else
                 moveTexts[i].text = "-";
         }
@@ -53,14 +53,14 @@ public class BattleHUD : MonoBehaviour
         for (int i = 0; i < ppText.Count; ++i)
         {
             if (i < moves.Count)
-                ppText[i].text = moves[i].maximumPP.ToString() + "/" + moves[i].maximumPP.ToString();
+                ppText[i].text = moves[i].PP.ToString() + "/" + moves[i].Base.maximumPP.ToString();
             else
                 ppText[i].text = "-";
         }
         for (int i = 0; i < typeText.Count; ++i)
         {
             if (i < moves.Count)
-                typeText[i].text = moves[i].Type.ToString();
+                typeText[i].text = moves[i].Base.Type.ToString();
             else
                 typeText[i].text = "null";
         }

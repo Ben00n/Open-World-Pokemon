@@ -45,9 +45,9 @@ GameObject:
   - component: {fileID: 2514414992083234332}
   - component: {fileID: 7982608958899014558}
   - component: {fileID: 532600926332876418}
-  - component: {fileID: 4319843740893784179}
   - component: {fileID: 5628688710255430533}
   - component: {fileID: 4306861494225128944}
+  - component: {fileID: 2009769184127944569}
   m_Layer: 0
   m_Name: 0001 - Bulbasaur
   m_TagString: Pokemon
@@ -130,28 +130,7 @@ MonoBehaviour:
   lockOnTransform: {fileID: 5296172299731246680}
   isInBattle: 0
   isAttacking: 0
---- !u!114 &4319843740893784179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220311845857445252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f63a8da053e0f45a5d24221b238a9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pokemonBase: {fileID: 11400000, guid: 6ddc9d85e2335494181a4ff8fe54a04a, type: 2}
-  isWild: 1
-  myLevel: 0
-  maxHP: 0
-  currentHP: 0
-  currentAttack: 0
-  currentDefense: 0
-  currentSpAttack: 0
-  currentSpDefense: 0
-  currentSpeed: 0
+  isFainted: 0
   shrinking: 0
 --- !u!114 &5628688710255430533
 MonoBehaviour:
@@ -190,6 +169,28 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2009769184127944569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220311845857445252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f63a8da053e0f45a5d24221b238a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemonBase: {fileID: 11400000, guid: 6ddc9d85e2335494181a4ff8fe54a04a, type: 2}
+  isWild: 1
+  myLevel: 0
+  maxHP: 0
+  currentHP: 0
+  currentAttack: 0
+  currentDefense: 0
+  currentSpAttack: 0
+  currentSpDefense: 0
+  currentSpeed: 0
 --- !u!1 &376005676191426854
 GameObject:
   m_ObjectHideFlags: 0

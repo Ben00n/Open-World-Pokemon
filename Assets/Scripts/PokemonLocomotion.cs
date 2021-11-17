@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class PokemonLocomotion : MonoBehaviour
 {
+    BattleManager battleManager;
     PokemonManager pokemonManager;
     PokemonAnimatorManager pokemonAnimatorManager;
     NavMeshAgent navmeshAgent;
@@ -16,6 +17,7 @@ public class PokemonLocomotion : MonoBehaviour
 
     private void Awake()
     {
+        battleManager = FindObjectOfType<BattleManager>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         pokemonManager = GetComponent<PokemonManager>();
         pokemonAnimatorManager = GetComponentInChildren<PokemonAnimatorManager>();
@@ -33,10 +35,10 @@ public class PokemonLocomotion : MonoBehaviour
 
     public void HandleRandomMovement()
     {
-        if (pokemonManager.isFainted)
+        if(pokemonManager.isFainted)
         {
-            pokemonAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
-            navmeshAgent.enabled = false;
+            pokemonAnimatorManager.animator.SetFloat("Vertical", 0f, 0f, Time.deltaTime);
+            navmeshAgent.isStopped = true;
         }
         else
         {
@@ -44,20 +46,19 @@ public class PokemonLocomotion : MonoBehaviour
             {
                 pokemonAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0f, Time.deltaTime);
 
-                if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Grass || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Grass)
+                if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Grass)
                 {
                     navmeshAgent.SetDestination(GrassArea.Grass.GetRandomPoint());
                 }
-                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Fire || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Fire)
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Fire)
                 {
                     navmeshAgent.SetDestination(FireArea.Fire.GetRandomPoint());
                 }
-                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Water || pokemonStatsCalculator.pokemonBase.GetType2 == PokemonType.Water)
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Water)
                 {
                     navmeshAgent.SetDestination(WaterArea.Water.GetRandomPoint());
                 }
             }
-
             if (navmeshAgent.remainingDistance <= 0.1)
             {
                 navmeshAgent.isStopped = true;
@@ -72,24 +73,18 @@ public class PokemonLocomotion : MonoBehaviour
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(3);
-        if (pokemonManager.isFainted)
-        {
-            pokemonAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
-            navmeshAgent.enabled = false;
-        }  
-        else
-            navmeshAgent.isStopped = false;
-
+        navmeshAgent.isStopped = false;
     }
 
-    private void CheckIfIsInBattleAndMoveToBattlePoint()
+    public void CheckIfIsInBattleAndMoveToBattlePoint()
     {
-        if (pokemonManager.isInBattle && !pokemonManager.isFainted)
+        if (pokemonManager.isInBattle)
         {
-            navmeshAgent.SetDestination(pokemonPartyManager.pokemons[0].transform.position + (Vector3.forward * 3));
+            var healthyPokemonInParty = battleManager.playerPokemonManager.gameObject;
+            navmeshAgent.SetDestination(healthyPokemonInParty.transform.position + (Vector3.forward * 3));
             if (navmeshAgent.remainingDistance <= 0.1)
             {
-                transform.LookAt(pokemonPartyManager.pokemons[0].transform);
+                transform.LookAt(healthyPokemonInParty.transform);
                 navmeshAgent.isStopped = true; //stop the navmesh from moving
                 pokemonAnimatorManager.animator.SetFloat("Vertical", 0, 0f, Time.deltaTime); // go to idle animation
             }

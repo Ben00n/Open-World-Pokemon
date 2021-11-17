@@ -29,6 +29,11 @@ public class CollisionManager : MonoBehaviour
     {
         if (collision.tag == "Pokemon")
         {
+            battleManager.playerPokemonAnimator = pokemonPartyManager.GetHealthyPokemon().GetComponentInChildren<Animator>();
+            battleManager.playerPokemonStatsCalculator = pokemonPartyManager.GetHealthyPokemon().GetComponent<PokemonStatsCalculator>();
+            battleManager.playerPokemonManager = pokemonPartyManager.GetHealthyPokemon().GetComponent<PokemonManager>();
+            battleManager.playerPokemonAnimatorManager = pokemonPartyManager.GetHealthyPokemon().GetComponentInChildren<PokemonAnimatorManager>();
+
             battleManager.wildPokemonAnimator = collision.GetComponentInChildren<Animator>();
             battleManager.wildPokemonStatsCalculator = collision.GetComponent<PokemonStatsCalculator>();
             battleManager.wildPokemonManager = collision.GetComponent<PokemonManager>();
@@ -38,6 +43,7 @@ public class CollisionManager : MonoBehaviour
             {
                 animator.SetBool("isInBattle", true);
                 battleManager.wildPokemonAnimator.SetBool("isInBattle", true);
+
                 battleHUD.SetData(battleManager.wildPokemonStatsCalculator,battleManager.playerPokemonStatsCalculator);
 
 
@@ -56,9 +62,10 @@ public class CollisionManager : MonoBehaviour
 
     private void PrepareMyPokemon()
     {
-        pokemonPartyManager.pokemons[0].SetActive(true);
-        pokemonPartyManager.pokemons[0].transform.localScale = new Vector3(1, 1, 1);
-        pokemonPartyManager.pokemons[0].transform.position = transform.position;
-        pokemonPartyManager.pokemons[0].transform.LookAt(Vector3.forward + pokemonPartyManager.pokemons[0].transform.position);
+        var healthyPokemon = pokemonPartyManager.GetHealthyPokemon();
+        healthyPokemon.SetActive(true);
+        healthyPokemon.transform.localScale = new Vector3(1, 1, 1);
+        healthyPokemon.transform.position = transform.position;
+        healthyPokemon.transform.LookAt(Vector3.forward + healthyPokemon.transform.position);
     }
 }
