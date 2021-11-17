@@ -58,6 +58,10 @@ public class PokemonLocomotion : MonoBehaviour
                 {
                     navmeshAgent.SetDestination(WaterArea.Water.GetRandomPoint());
                 }
+                else if(pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Normal)
+                {
+                    navmeshAgent.SetDestination(NormalArea.Normal.GetRandomPoint());
+                }
             }
             if (navmeshAgent.remainingDistance <= 0.1)
             {

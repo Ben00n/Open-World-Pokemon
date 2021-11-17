@@ -251,6 +251,7 @@ public class BattleManager : MonoBehaviour
                 nextPokemon.SetActive(true);
                 nextPokemon.transform.localScale = new Vector3(1, 1, 1);
                 nextPokemon.transform.LookAt(Vector3.forward + nextPokemon.transform.position);
+
                 battleHUD.ActionSelector.SetActive(true);
 
                 battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
