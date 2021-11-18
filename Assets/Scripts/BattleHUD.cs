@@ -12,12 +12,12 @@ public class BattleHUD : MonoBehaviour
     [Header("Wild Pokemon HUD")]
     [SerializeField] Text wildPokemonNameText;
     [SerializeField] Text wildPokemonLevelText;
-    [SerializeField] HPBar wildPokemonHPBar;
+    [SerializeField] public HPBar wildPokemonHPBar;
 
     [Header("Player Pokemon HUD")]
     [SerializeField] Text playerPokemonNameText;
     [SerializeField] Text playerPokemonLevelText;
-    [SerializeField] HPBar playerPokemonHPBar;
+    [SerializeField] public HPBar playerPokemonHPBar;
 
     [Header("Moves")]
     [SerializeField] List<Text> moveTexts;
@@ -66,13 +66,8 @@ public class BattleHUD : MonoBehaviour
         }
     }
 
-    public IEnumerator UpdateWildPokemonHP()
+    public IEnumerator UpdatePokemonHP(PokemonStatsCalculator pokemon,HPBar hpBar)
     {
-        yield return wildPokemonHPBar.SetHPSmoothly((float)battleManager.wildPokemonStatsCalculator.currentHP / battleManager.wildPokemonStatsCalculator.maxHP);
-    }
-
-    public IEnumerator UpdateMyPokemonHP()
-    {
-        yield return playerPokemonHPBar.SetHPSmoothly((float)battleManager.playerPokemonStatsCalculator.currentHP / battleManager.playerPokemonStatsCalculator.maxHP);
+        yield return hpBar.SetHPSmoothly((float)pokemon.currentHP / pokemon.maxHP);
     }
 }

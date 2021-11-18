@@ -16,7 +16,7 @@ MonoBehaviour:
   pokemonName: Clefable
   prefab: {fileID: 6510955401246361070, guid: 9a6dc54d39dd8cf439f1f3ee0cfdefa2, type: 3}
   sprite: {fileID: 0}
-  type1: 5
+  type1: 18
   type2: 0
   maxHp: 95
   attack: 70
@@ -24,8 +24,12 @@ MonoBehaviour:
   spAttack: 95
   spDefense: 90
   speed: 60
-  Move:
-  - {fileID: 11400000, guid: 07b50985ed31203448ef739dec022b93, type: 2}
-  - {fileID: 11400000, guid: bfd8096d242276d4ba1a69795ddc70a7, type: 2}
-  - {fileID: 11400000, guid: c1d76ebecf9cad94c956a9e9282281ce, type: 2}
-  - {fileID: 11400000, guid: 24a925dfc1584da479be827b871b4206, type: 2}
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: 24a925dfc1584da479be827b871b4206, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: 07b50985ed31203448ef739dec022b93, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: c1d76ebecf9cad94c956a9e9282281ce, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: bfd8096d242276d4ba1a69795ddc70a7, type: 2}
+    level: 1
