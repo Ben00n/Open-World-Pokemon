@@ -47,7 +47,6 @@ public class BattleManager : MonoBehaviour
             playerPokemonManager.isAttacking = true;
             playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
         }
-
         if (move.Base.isSpecialAttack)
         {
             playerPokemonManager.isAttacking = true;
@@ -58,17 +57,65 @@ public class BattleManager : MonoBehaviour
 
     public void PerformMove2()
     {
-        //StartCoroutine(PerformPlayerMove2());
+        StartCoroutine(PerformPlayerMove2());
+    }
+
+    IEnumerator PerformPlayerMove2()
+    {
+        var move = playerPokemonStatsCalculator.Moves[1];
+        if (move.Base.isPhysicalAttack)
+        {
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
+        }
+        if (move.Base.isSpecialAttack)
+        {
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
+        }
+        yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
     }
 
     public void PerformMove3()
     {
-        //StartCoroutine(PerformPlayerMove3());
+        StartCoroutine(PerformPlayerMove3());
+    }
+
+    IEnumerator PerformPlayerMove3()
+    {
+        var move = playerPokemonStatsCalculator.Moves[2];
+        if (move.Base.isPhysicalAttack)
+        {
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
+        }
+        if (move.Base.isSpecialAttack)
+        {
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
+        }
+        yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
     }
 
     public void PerformMove4()
     {
-        //StartCoroutine(PerformPlayerMove4());
+        StartCoroutine(PerformPlayerMove4());
+    }
+
+    IEnumerator PerformPlayerMove4()
+    {
+        var move = playerPokemonStatsCalculator.Moves[3];
+        if (move.Base.isPhysicalAttack)
+        {
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
+        }
+        if (move.Base.isSpecialAttack)
+        {
+            playerPokemonManager.isAttacking = true;
+            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
+        }
+        yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
     }
 
     IEnumerator EnemyMove()
@@ -165,14 +212,271 @@ public class BattleManager : MonoBehaviour
             {
 
             }
+            else
+            {
+
+            }
         }
     }
 
     public void OpenPartyScreen()
     {
         partyScreen.SetPartyData(pokemonPartyManager.pokemons);
-        partyScreen.gameObject.SetActive(true);
+        if (partyScreen.gameObject.activeInHierarchy)
+            partyScreen.gameObject.SetActive(false);
+        else
+            partyScreen.gameObject.SetActive(true);
+
     }
+
+    #region Pokemon Switching Buttons Functions and IENumerators
+
+    public void SwitchPokemon1()
+    {
+        var selectedPokemon = pokemonPartyManager.pokemons[0];
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
+        {
+            Debug.Log("Cant switch to deaded pokemon");
+            return;
+        }
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>() == playerPokemonStatsCalculator)
+        {
+            Debug.Log("Cant switch to current pokemon");
+            return;
+        }
+        StartCoroutine(SwitchingPokemon1(selectedPokemon));
+    }
+
+    IEnumerator SwitchingPokemon1(GameObject newPokemon)
+    {
+        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+        playerPokemonStatsCalculator.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+
+        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+        newPokemon.SetActive(true);
+        newPokemon.transform.localScale = new Vector3(1, 1, 1);
+        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+        battleHUD.ActionSelector.SetActive(true);
+
+        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+
+        StartCoroutine(EnemyMove());
+    }
+
+    public void SwitchPokemon2()
+    {
+        var selectedPokemon = pokemonPartyManager.pokemons[1];
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
+        {
+            Debug.Log("Cant switch to deaded pokemon");
+            return;
+        }
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>() == playerPokemonStatsCalculator)
+        {
+            Debug.Log("Cant switch to current pokemon");
+            return;
+        }
+        StartCoroutine(SwitchingPokemon2(selectedPokemon));
+    }
+
+    IEnumerator SwitchingPokemon2(GameObject newPokemon)
+    {
+        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+        playerPokemonStatsCalculator.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+
+        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+        newPokemon.SetActive(true);
+        newPokemon.transform.localScale = new Vector3(1, 1, 1);
+        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+        battleHUD.ActionSelector.SetActive(true);
+
+        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+
+        StartCoroutine(EnemyMove());
+    }
+
+    public void SwitchPokemon3()
+    {
+        var selectedPokemon = pokemonPartyManager.pokemons[2];
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
+        {
+            Debug.Log("Cant switch to deaded pokemon");
+            return;
+        }
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>() == playerPokemonStatsCalculator)
+        {
+            Debug.Log("Cant switch to current pokemon");
+            return;
+        }
+        StartCoroutine(SwitchingPokemon3(selectedPokemon));
+    }
+
+    IEnumerator SwitchingPokemon3(GameObject newPokemon)
+    {
+        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+        playerPokemonStatsCalculator.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+
+        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+        newPokemon.SetActive(true);
+        newPokemon.transform.localScale = new Vector3(1, 1, 1);
+        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+        battleHUD.ActionSelector.SetActive(true);
+
+        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+
+        StartCoroutine(EnemyMove());
+    }
+
+    public void SwitchPokemon4()
+    {
+        var selectedPokemon = pokemonPartyManager.pokemons[3];
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
+        {
+            Debug.Log("Cant switch to deaded pokemon");
+            return;
+        }
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>() == playerPokemonStatsCalculator)
+        {
+            Debug.Log("Cant switch to current pokemon");
+            return;
+        }
+        StartCoroutine(SwitchingPokemon4(selectedPokemon));
+    }
+
+    IEnumerator SwitchingPokemon4(GameObject newPokemon)
+    {
+        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+        playerPokemonStatsCalculator.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+
+        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+        newPokemon.SetActive(true);
+        newPokemon.transform.localScale = new Vector3(1, 1, 1);
+        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+        battleHUD.ActionSelector.SetActive(true);
+
+        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+
+        StartCoroutine(EnemyMove());
+    }
+
+    public void SwitchPokemon5()
+    {
+        var selectedPokemon = pokemonPartyManager.pokemons[4];
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
+        {
+            Debug.Log("Cant switch to deaded pokemon");
+            return;
+        }
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>() == playerPokemonStatsCalculator)
+        {
+            Debug.Log("Cant switch to current pokemon");
+            return;
+        }
+        StartCoroutine(SwitchingPokemon5(selectedPokemon));
+    }
+
+    IEnumerator SwitchingPokemon5(GameObject newPokemon)
+    {
+        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+        playerPokemonStatsCalculator.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+
+        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+        newPokemon.SetActive(true);
+        newPokemon.transform.localScale = new Vector3(1, 1, 1);
+        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+        battleHUD.ActionSelector.SetActive(true);
+
+        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+
+        StartCoroutine(EnemyMove());
+    }
+
+    public void SwitchPokemon6()
+    {
+        var selectedPokemon = pokemonPartyManager.pokemons[5];
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
+        {
+            Debug.Log("Cant switch to deaded pokemon");
+            return;
+        }
+        if (selectedPokemon.GetComponent<PokemonStatsCalculator>() == playerPokemonStatsCalculator)
+        {
+            Debug.Log("Cant switch to current pokemon");
+            return;
+        }
+        StartCoroutine(SwitchingPokemon6(selectedPokemon));
+    }
+
+    IEnumerator SwitchingPokemon6(GameObject newPokemon)
+    {
+        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+        playerPokemonStatsCalculator.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+
+        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+        newPokemon.SetActive(true);
+        newPokemon.transform.localScale = new Vector3(1, 1, 1);
+        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+        battleHUD.ActionSelector.SetActive(true);
+
+        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+
+        StartCoroutine(EnemyMove());
+    }
+    #endregion
 
     IEnumerator ShowDamageDetails(DamageDetails damageDetails)
     {
