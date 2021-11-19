@@ -34,14 +34,9 @@ public class BattleManager : MonoBehaviour
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
     }
 
-    public void PerformMove1()
+    #region Perform Player Move Buttons and IENumerator
+    IEnumerator PerformPlayerMove(Move move)
     {
-        StartCoroutine(PerformPlayerMove1());
-    }
-
-    IEnumerator PerformPlayerMove1()
-    {
-        var move = playerPokemonStatsCalculator.Moves[0];
         if (move.Base.isPhysicalAttack)
         {
             playerPokemonManager.isAttacking = true;
@@ -54,70 +49,32 @@ public class BattleManager : MonoBehaviour
         }
         yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
     }
+
+    public void PerformMove1()
+    {
+        var move = playerPokemonStatsCalculator.Moves[0];
+        StartCoroutine(PerformPlayerMove(move));
+    }
+
 
     public void PerformMove2()
     {
-        StartCoroutine(PerformPlayerMove2());
-    }
-
-    IEnumerator PerformPlayerMove2()
-    {
         var move = playerPokemonStatsCalculator.Moves[1];
-        if (move.Base.isPhysicalAttack)
-        {
-            playerPokemonManager.isAttacking = true;
-            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
-        }
-        if (move.Base.isSpecialAttack)
-        {
-            playerPokemonManager.isAttacking = true;
-            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
-        }
-        yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
+        StartCoroutine(PerformPlayerMove(move));
     }
 
     public void PerformMove3()
     {
-        StartCoroutine(PerformPlayerMove3());
-    }
-
-    IEnumerator PerformPlayerMove3()
-    {
         var move = playerPokemonStatsCalculator.Moves[2];
-        if (move.Base.isPhysicalAttack)
-        {
-            playerPokemonManager.isAttacking = true;
-            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
-        }
-        if (move.Base.isSpecialAttack)
-        {
-            playerPokemonManager.isAttacking = true;
-            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
-        }
-        yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
+        StartCoroutine(PerformPlayerMove(move));
     }
 
     public void PerformMove4()
     {
-        StartCoroutine(PerformPlayerMove4());
-    }
-
-    IEnumerator PerformPlayerMove4()
-    {
         var move = playerPokemonStatsCalculator.Moves[3];
-        if (move.Base.isPhysicalAttack)
-        {
-            playerPokemonManager.isAttacking = true;
-            playerPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
-        }
-        if (move.Base.isSpecialAttack)
-        {
-            playerPokemonManager.isAttacking = true;
-            playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
-        }
-        yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
+        StartCoroutine(PerformPlayerMove(move));
     }
-
+    #endregion
     IEnumerator EnemyMove()
     {
         var move = wildPokemonStatsCalculator.GetRandomMove();
@@ -146,21 +103,7 @@ public class BattleManager : MonoBehaviour
             var nextPokemon = pokemonPartyManager.GetHealthyPokemon();
             if (nextPokemon != null)
             {
-                nextPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
-
-                playerPokemonAnimatorManager = nextPokemon.GetComponentInChildren<PokemonAnimatorManager>();
-                playerPokemonManager = nextPokemon.GetComponent<PokemonManager>();
-                playerPokemonAnimator = nextPokemon.GetComponentInChildren<Animator>();
-                playerPokemonStatsCalculator = nextPokemon.GetComponent<PokemonStatsCalculator>();
-
-                nextPokemon.SetActive(true);
-                nextPokemon.transform.localScale = new Vector3(1, 1, 1);
-                nextPokemon.transform.LookAt(Vector3.forward + nextPokemon.transform.position);
-
-                battleHUD.ActionSelector.SetActive(true);
-
-                battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
-                yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+                OpenPartyScreen();
             }
             else
             {
@@ -229,7 +172,55 @@ public class BattleManager : MonoBehaviour
 
     }
 
-    #region Pokemon Switching Buttons Functions and IENumerators
+    #region Pokemon Switching Buttons Functions and IENumerator
+
+    IEnumerator SwitchingPokemon(GameObject newPokemon)
+    {
+        if (playerPokemonStatsCalculator.currentHP > 0)
+        {
+            yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+            newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+            playerPokemonStatsCalculator.gameObject.SetActive(false);
+            yield return new WaitForSeconds(1);
+
+            playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+            playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+            playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+            playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+            newPokemon.SetActive(true);
+            newPokemon.transform.localScale = new Vector3(1, 1, 1);
+            newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+            battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+            yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+
+            StartCoroutine(EnemyMove());
+        }
+        else //same logic without enemymove
+        {
+            yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
+
+            newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
+            playerPokemonStatsCalculator.gameObject.SetActive(false);
+            yield return new WaitForSeconds(1);
+
+            playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
+            playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
+            playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
+            playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
+
+            newPokemon.SetActive(true);
+            newPokemon.transform.localScale = new Vector3(1, 1, 1);
+            newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
+
+            battleHUD.ActionSelector.SetActive(true);
+
+            battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+            yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
+        }
+    }
 
     public void SwitchPokemon1()
     {
@@ -244,32 +235,8 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Cant switch to current pokemon");
             return;
         }
-        StartCoroutine(SwitchingPokemon1(selectedPokemon));
-    }
-
-    IEnumerator SwitchingPokemon1(GameObject newPokemon)
-    {
-        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
-
-        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
-        playerPokemonStatsCalculator.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1);
-
-        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
-        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
-        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
-        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
-
-        newPokemon.SetActive(true);
-        newPokemon.transform.localScale = new Vector3(1, 1, 1);
-        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
-
-        battleHUD.ActionSelector.SetActive(true);
-
-        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
-        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
-
-        StartCoroutine(EnemyMove());
+        battleHUD.ActionSelector.SetActive(false);
+        StartCoroutine(SwitchingPokemon(selectedPokemon));
     }
 
     public void SwitchPokemon2()
@@ -285,32 +252,8 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Cant switch to current pokemon");
             return;
         }
-        StartCoroutine(SwitchingPokemon2(selectedPokemon));
-    }
-
-    IEnumerator SwitchingPokemon2(GameObject newPokemon)
-    {
-        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
-
-        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
-        playerPokemonStatsCalculator.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1);
-
-        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
-        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
-        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
-        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
-
-        newPokemon.SetActive(true);
-        newPokemon.transform.localScale = new Vector3(1, 1, 1);
-        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
-
-        battleHUD.ActionSelector.SetActive(true);
-
-        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
-        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
-
-        StartCoroutine(EnemyMove());
+        battleHUD.ActionSelector.SetActive(false);
+        StartCoroutine(SwitchingPokemon(selectedPokemon));
     }
 
     public void SwitchPokemon3()
@@ -326,32 +269,8 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Cant switch to current pokemon");
             return;
         }
-        StartCoroutine(SwitchingPokemon3(selectedPokemon));
-    }
-
-    IEnumerator SwitchingPokemon3(GameObject newPokemon)
-    {
-        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
-
-        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
-        playerPokemonStatsCalculator.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1);
-
-        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
-        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
-        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
-        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
-
-        newPokemon.SetActive(true);
-        newPokemon.transform.localScale = new Vector3(1, 1, 1);
-        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
-
-        battleHUD.ActionSelector.SetActive(true);
-
-        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
-        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
-
-        StartCoroutine(EnemyMove());
+        battleHUD.ActionSelector.SetActive(false);
+        StartCoroutine(SwitchingPokemon(selectedPokemon));
     }
 
     public void SwitchPokemon4()
@@ -367,32 +286,8 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Cant switch to current pokemon");
             return;
         }
-        StartCoroutine(SwitchingPokemon4(selectedPokemon));
-    }
-
-    IEnumerator SwitchingPokemon4(GameObject newPokemon)
-    {
-        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
-
-        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
-        playerPokemonStatsCalculator.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1);
-
-        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
-        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
-        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
-        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
-
-        newPokemon.SetActive(true);
-        newPokemon.transform.localScale = new Vector3(1, 1, 1);
-        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
-
-        battleHUD.ActionSelector.SetActive(true);
-
-        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
-        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
-
-        StartCoroutine(EnemyMove());
+        battleHUD.ActionSelector.SetActive(false);
+        StartCoroutine(SwitchingPokemon(selectedPokemon));
     }
 
     public void SwitchPokemon5()
@@ -408,32 +303,8 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Cant switch to current pokemon");
             return;
         }
-        StartCoroutine(SwitchingPokemon5(selectedPokemon));
-    }
-
-    IEnumerator SwitchingPokemon5(GameObject newPokemon)
-    {
-        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
-
-        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
-        playerPokemonStatsCalculator.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1);
-
-        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
-        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
-        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
-        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
-
-        newPokemon.SetActive(true);
-        newPokemon.transform.localScale = new Vector3(1, 1, 1);
-        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
-
-        battleHUD.ActionSelector.SetActive(true);
-
-        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
-        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
-
-        StartCoroutine(EnemyMove());
+        battleHUD.ActionSelector.SetActive(false);
+        StartCoroutine(SwitchingPokemon(selectedPokemon));
     }
 
     public void SwitchPokemon6()
@@ -449,32 +320,8 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Cant switch to current pokemon");
             return;
         }
-        StartCoroutine(SwitchingPokemon6(selectedPokemon));
-    }
-
-    IEnumerator SwitchingPokemon6(GameObject newPokemon)
-    {
-        yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
-
-        newPokemon.transform.position = playerPokemonStatsCalculator.transform.position;
-        playerPokemonStatsCalculator.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1);
-
-        playerPokemonAnimatorManager = newPokemon.GetComponentInChildren<PokemonAnimatorManager>();
-        playerPokemonManager = newPokemon.GetComponent<PokemonManager>();
-        playerPokemonAnimator = newPokemon.GetComponentInChildren<Animator>();
-        playerPokemonStatsCalculator = newPokemon.GetComponent<PokemonStatsCalculator>();
-
-        newPokemon.SetActive(true);
-        newPokemon.transform.localScale = new Vector3(1, 1, 1);
-        newPokemon.transform.LookAt(Vector3.forward + newPokemon.transform.position);
-
-        battleHUD.ActionSelector.SetActive(true);
-
-        battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
-        yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
-
-        StartCoroutine(EnemyMove());
+        battleHUD.ActionSelector.SetActive(false);
+        StartCoroutine(SwitchingPokemon(selectedPokemon));
     }
     #endregion
 
