@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum BattleState { Start, PlayerAction, PlayerMove, EnemyMove, Busy}
 
@@ -25,6 +26,8 @@ public class BattleManager : MonoBehaviour
     public PokemonManager wildPokemonManager;
     public Animator wildPokemonAnimator;
 
+    public Button fightButton;
+
     private void Awake()
     {
         collisionManager = FindObjectOfType<CollisionManager>();
@@ -48,6 +51,9 @@ public class BattleManager : MonoBehaviour
             playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
         yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
+        battleHUD.SetMovesUI(playerPokemonStatsCalculator.Moves);
+
+        StartCoroutine(EnemyMove());
     }
 
     public void PerformMove1()
@@ -77,46 +83,24 @@ public class BattleManager : MonoBehaviour
     #endregion
     IEnumerator EnemyMove()
     {
-        var move = wildPokemonStatsCalculator.GetRandomMove();
-        move.PP--;
-        if (move.Base.isSpecialAttack)
+        if(wildPokemonStatsCalculator.currentHP > 0)
         {
-            wildPokemonManager.isAttacking = true;
-            wildPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
-        }
-        if (move.Base.isPhysicalAttack)
-        {
-            wildPokemonManager.isAttacking = true;
-            wildPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
-        }
-        yield return battleDialogBox.TypeDialog($"{wildPokemonStatsCalculator.pokemonBase.Name} used {move.Base.Name}");
-
-        var damageDetails = playerPokemonStatsCalculator.TakeDamage(move.Base, wildPokemonStatsCalculator);
-        yield return battleHUD.UpdatePokemonHP(playerPokemonStatsCalculator,battleHUD.playerPokemonHPBar);
-        yield return ShowDamageDetails(damageDetails);
-
-
-        if (damageDetails.Fainted)
-        {
-            yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} Fainted");
-            playerPokemonManager.transform.gameObject.SetActive(false); // party pokemon gameobject disappear
-            var nextPokemon = pokemonPartyManager.GetHealthyPokemon();
-            if (nextPokemon != null)
+            var move = wildPokemonStatsCalculator.GetRandomMove();
+            if (move.Base.isSpecialAttack)
             {
-                OpenPartyScreen();
+                wildPokemonManager.isAttacking = true;
+                wildPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
             }
-            else
+            if (move.Base.isPhysicalAttack)
             {
-                playerManager.animator.SetBool("isInBattle", false);
-                wildPokemonAnimator.SetBool("isInBattle", false);
-                collisionManager.transform.gameObject.SetActive(true); // player trigger collider
-                collisionManager.playerCollider.enabled = true; // main player collider
+                wildPokemonManager.isAttacking = true;
+                wildPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
             }
-        }
-        else
-        {
+
+            yield return RunMove(wildPokemonStatsCalculator, playerPokemonStatsCalculator, move);
             yield return new WaitForSeconds(1);
             battleHUD.ActionSelector.SetActive(true);
+
         }
     }
 
@@ -125,40 +109,52 @@ public class BattleManager : MonoBehaviour
         yield return battleDialogBox.TypeDialog($"{sourceUnit.pokemonBase.Name} used {move.Base.Name}");
         move.PP--;
         var damageDetails = targetUnit.TakeDamage(move.Base, sourceUnit);
-        yield return battleHUD.UpdatePokemonHP(targetUnit,battleHUD.wildPokemonHPBar);
+        if(targetUnit.tag == "Pokemon")
+        {
+            yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.wildPokemonHPBar);
+        }
+        else if(targetUnit.tag == "PartyPokemon")
+        {
+            yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.playerPokemonHPBar);
+        }
         yield return ShowDamageDetails(damageDetails);
 
         if (damageDetails.Fainted)
         {
-            yield return battleDialogBox.TypeDialog($"{targetUnit.pokemonBase.Name} Fainted");
-            playerManager.animator.SetBool("isInBattle", false);
-            targetUnit.gameObject.tag = "FaintedPokemon";
-            targetUnit.GetComponentInChildren<Animator>().SetBool("isInBattle", false);
-            targetUnit.GetComponentInChildren<Animator>().SetBool("isFainted", true);
-            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
-            collisionManager.playerCollider.enabled = true; // main player collider
-            sourceUnit.gameObject.SetActive(false); // party pokemon gameobject disappear
-        }
-        else
-        {
-            StartCoroutine(EnemyMove());
-            battleHUD.SetMovesUI(sourceUnit.Moves);
+            yield return BattleOver(targetUnit);
         }
     }
 
-    private void BattleOver(PokemonStatsCalculator faintedUnit)
+    IEnumerator BattleOver(PokemonStatsCalculator faintedUnit)
     {
-        if(faintedUnit.tag == "PartyPokemon")
+        if (faintedUnit.tag == "PartyPokemon")
         {
             var nextPokemon = pokemonPartyManager.GetHealthyPokemon();
+            faintedUnit.gameObject.SetActive(false);
             if (nextPokemon != null)
             {
-
+                OpenPartyScreen();
+                fightButton.interactable = false;
             }
             else
             {
-
+                yield return battleDialogBox.TypeDialog($"{faintedUnit.pokemonBase.Name} Fainted");
+                playerManager.animator.SetBool("isInBattle", false);
+                wildPokemonAnimator.SetBool("isInBattle", false);
+                collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+                collisionManager.playerCollider.enabled = true; // main player collider
             }
+        }
+        else if (faintedUnit.tag == "Pokemon")
+        {
+            yield return battleDialogBox.TypeDialog($"{faintedUnit.pokemonBase.Name} Fainted");
+            playerManager.animator.SetBool("isInBattle", false);
+            playerPokemonStatsCalculator.gameObject.SetActive(false);
+            faintedUnit.gameObject.tag = "FaintedPokemon";
+            faintedUnit.GetComponentInChildren<Animator>().SetBool("isInBattle", false);
+            faintedUnit.GetComponentInChildren<Animator>().SetBool("isFainted", true);
+            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+            collisionManager.playerCollider.enabled = true; // main player collider
         }
     }
 

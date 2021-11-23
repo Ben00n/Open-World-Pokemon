@@ -87,6 +87,4 @@ public class AnimatorManager : MonoBehaviour
         animator.applyRootMotion = isInteracting;
         animator.CrossFade(targetAnim, 0.2f);
     }
-
-
 }

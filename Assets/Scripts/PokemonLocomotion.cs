@@ -62,6 +62,14 @@ public class PokemonLocomotion : MonoBehaviour
                 {
                     navmeshAgent.SetDestination(NormalArea.Normal.GetRandomPoint());
                 }
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Bug)
+                {
+                    navmeshAgent.SetDestination(BugArea.Bug.GetRandomPoint());
+                }
+                else if(pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Electric)
+                {
+                    navmeshAgent.SetDestination(ElectricArea.Electric.GetRandomPoint());
+                }
             }
             if (navmeshAgent.remainingDistance <= 0.1)
             {
