@@ -11,6 +11,10 @@ public class PokemonStatsCalculator : MonoBehaviour
     public PokemonBase pokemonBase;
 
     public List<Move> Moves { get; set; }
+    public Dictionary<Stat, int> Stats { get; private set; }
+    public Dictionary<Stat, int> StatBoosts { get; private set; }
+
+    public Queue<string> StatusChanges { get; private set; } = new Queue<string>();
 
     [SerializeField]
     public bool isWild;
@@ -28,32 +32,18 @@ public class PokemonStatsCalculator : MonoBehaviour
     public int currentSpDefense;
     public int currentSpeed;
 
+    public int CurrentAttack { get { return GetStat(Stat.Attack); } }
+    public int CurrentDefense { get { return GetStat(Stat.Defense); } }
+    public int CurrentSpAttack { get { return GetStat(Stat.SpAttack); } }
+    public int CurrentSpDefense { get { return GetStat(Stat.SpDefense); } }
+    public int CurrentSpeed { get { return GetStat(Stat.Speed); } }
+
     #region StatFormulas
-    private int GetPokemonHP()
+    public int GetPokemonHP()
     {
         return Mathf.FloorToInt(((2 * pokemonBase.MaxHp) + 31 + (252 / 4)) * Level / 100f) + Level + 10;
     }
 
-    private int GetPokemonAttack()
-    {
-        return Mathf.FloorToInt((0.01f*(2 * pokemonBase.Attack + 31 + (252 / 4)) * Level) + 5);
-    }
-    private int GetPokemonDefense()
-    {
-        return Mathf.FloorToInt((0.01f * (2 * pokemonBase.Defense + 31 + (252 / 4)) * Level) + 5);
-    }
-    private int GetPokemonSpAttack()
-    {
-        return Mathf.FloorToInt((0.01f * (2 * pokemonBase.SpAttack + 31 + (252 / 4)) * Level) + 5);
-    }
-    private int GetPokemonSpDefense()
-    {
-        return Mathf.FloorToInt((0.01f * (2 * pokemonBase.SpDefense + 31 + (252 / 4)) * Level) + 5);
-    }
-    private int GetPokemonSpeed()
-    {
-        return Mathf.FloorToInt((0.01f * (2 * pokemonBase.Speed + 31 + (252 / 4)) * Level) + 5);
-    }
     #endregion
 
     private void SetPokemonLevel()
@@ -93,17 +83,79 @@ public class PokemonStatsCalculator : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Update()
     {
-        maxHP = GetPokemonHP();
-        currentHP = GetPokemonHP();
-        currentAttack = GetPokemonAttack();
-        currentDefense = GetPokemonDefense();
-        currentSpAttack = GetPokemonSpAttack();
-        currentSpDefense = GetPokemonSpDefense();
-        currentSpeed = GetPokemonSpeed();
+        currentAttack = CurrentAttack;
+        currentDefense = CurrentDefense;
+        currentSpAttack = CurrentSpAttack;
+        currentSpDefense = CurrentSpDefense;
+        currentSpeed = CurrentSpeed;
     }
 
+    private void Start()
+    {
+        CalculateStats();
+
+        ResetStatBoost();
+    }
+
+    void CalculateStats()
+    {
+        Stats = new Dictionary<Stat, int>();
+        Stats.Add(Stat.Attack, Mathf.FloorToInt((0.01f * (2 * pokemonBase.Attack + 31 + (252 / 4)) * Level) + 5));
+        Stats.Add(Stat.Defense, Mathf.FloorToInt((0.01f * (2 * pokemonBase.Defense + 31 + (252 / 4)) * Level) + 5));
+        Stats.Add(Stat.SpAttack, Mathf.FloorToInt((0.01f * (2 * pokemonBase.SpAttack + 31 + (252 / 4)) * Level) + 5));
+        Stats.Add(Stat.SpDefense, Mathf.FloorToInt((0.01f * (2 * pokemonBase.SpDefense + 31 + (252 / 4)) * Level) + 5));
+        Stats.Add(Stat.Speed, Mathf.FloorToInt((0.01f * (2 * pokemonBase.Speed + 31 + (252 / 4)) * Level) + 5));
+
+        maxHP = Mathf.FloorToInt(((2 * pokemonBase.MaxHp) + 31 + (252 / 4)) * Level / 100f) + Level + 10;
+        currentHP = maxHP;
+    }
+
+    private void ResetStatBoost()
+    {
+        StatBoosts = new Dictionary<Stat, int>()
+        {
+            {Stat.Attack, 0},
+            {Stat.Defense, 0},
+            {Stat.SpAttack, 0},
+            {Stat.SpDefense, 0},
+            {Stat.Speed, 0},
+        };
+    }
+
+    int GetStat(Stat stat)
+    {
+        int statVal = Stats[stat];
+
+        int boost = StatBoosts[stat];
+        var boostValues = new float[] { 1f, 1.5f, 2f, 2.5f, 3f, 3.5f, 4f };
+
+        if (boost >= 0)
+            statVal = Mathf.FloorToInt(statVal * boostValues[boost]);
+        else
+            statVal = Mathf.FloorToInt(statVal / boostValues[-boost]);
+
+        return statVal;
+    }
+
+    public void ApplyBoosts(List<StatBoost> statBoosts)
+    {
+        foreach (var statBoost in statBoosts)
+        {
+            var stat = statBoost.stat;
+            var boost = statBoost.boost;
+
+            StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6);
+
+            if (boost > 0)
+                StatusChanges.Enqueue($"{pokemonBase.Name}'s {stat} rose!");
+            else
+                StatusChanges.Enqueue($"{pokemonBase.Name}'s {stat} fell!");
+
+            Debug.Log($"{stat} has been modified to {StatBoosts[stat]}");
+        }
+    }
 
     public DamageDetails TakeDamage(MoveBase moveBase, PokemonStatsCalculator attacker)
     {
@@ -122,15 +174,15 @@ public class PokemonStatsCalculator : MonoBehaviour
 
         float modifiers = Random.Range(0.85f, 1f) * type * critical;
         float a = (2 * attacker.Level + 10) / 250f;
-        if (moveBase.isSpecialAttack)
+        if (moveBase.Category == MoveCategory.Special)
         {
-            float d = a * moveBase.Power * ((float)attacker.currentSpAttack / currentSpDefense) + 2;
+            float d = a * moveBase.Power * ((float)attacker.CurrentSpAttack / CurrentSpDefense) + 2;
             int damage = Mathf.FloorToInt(d * modifiers);
             currentHP -= damage;
         }
-        else if (moveBase.isPhysicalAttack)
+        else if (moveBase.Category == MoveCategory.Physical)
         {
-            float d = a * moveBase.Power * ((float)attacker.currentAttack / currentAttack) + 2;
+            float d = a * moveBase.Power * ((float)attacker.CurrentAttack / CurrentDefense) + 2;
             int damage = Mathf.FloorToInt(d * modifiers);
             currentHP -= damage;
         }
@@ -153,6 +205,11 @@ public class PokemonStatsCalculator : MonoBehaviour
     {
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
+    }
+
+    public void OnBattleOver()
+    {
+        ResetStatBoost();
     }
 }
 

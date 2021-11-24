@@ -6,9 +6,6 @@ using UnityEngine;
 public class MoveBase : ScriptableObject
 {
     [SerializeField] string moveName;
-    [SerializeField] bool isSpecial;
-    [SerializeField] bool isPhysical;
-    [SerializeField] bool isStatus;
 
     [TextArea]
     [SerializeField] string description;
@@ -17,6 +14,9 @@ public class MoveBase : ScriptableObject
     [SerializeField] int power;
     [SerializeField] int accuracy;
     [SerializeField] int maxPP;
+    [SerializeField] MoveCategory category;
+    [SerializeField] MoveEffects effects;
+    [SerializeField] MoveTarget target;
 
     public string Name
     {
@@ -48,18 +48,46 @@ public class MoveBase : ScriptableObject
         get { return maxPP; }
     }
 
-    public bool isSpecialAttack
+    public MoveCategory Category
     {
-        get { return isSpecial; }
+        get { return category; }
     }
 
-    public bool isPhysicalAttack
+    public MoveEffects Effects
     {
-        get { return isPhysical; }
+        get { return effects; }
     }
 
-    public bool isStatusAttack
+    public MoveTarget Target
     {
-        get { return isStatus; }
+        get { return target; }
     }
+}
+
+[System.Serializable]
+public class MoveEffects
+{
+    [SerializeField] List<StatBoost> boosts;
+
+    public List<StatBoost> Boosts
+    {
+        get { return boosts; }
+    }
+}
+
+[System.Serializable]
+public class StatBoost
+{
+    public Stat stat;
+    public int boost;
+}
+
+public enum MoveCategory
+{
+    Physical,Special,Status
+}
+
+public enum MoveTarget
+{
+    Foe,Self
 }

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    BattleManager battleManager;
     public GameObject battleHUD;
     PlayerManager playerManager;
 
     private void Awake()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        battleManager = FindObjectOfType<BattleManager>();
     }
 
     private void Update()
@@ -19,7 +21,7 @@ public class UIManager : MonoBehaviour
 
     private void CheckIfIsInBattleAndEnableUIForBattle()
     {
-        if(playerManager.isInBattle)
+        if (playerManager.isInBattle)
         {
             battleHUD.SetActive(true);
         }

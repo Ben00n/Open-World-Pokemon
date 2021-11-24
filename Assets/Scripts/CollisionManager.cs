@@ -49,6 +49,8 @@ public class CollisionManager : MonoBehaviour
                 PrepareForBattle(battleManager.playerPokemonStatsCalculator);
 
                 battleDialogBox.SetDialog("Encountered a wild " + battleManager.wildPokemonStatsCalculator.pokemonBase.Name + "!");
+
+                battleManager.ChooseFirstTurn();
             }
         }
     }
