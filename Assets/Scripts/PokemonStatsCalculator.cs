@@ -13,8 +13,13 @@ public class PokemonStatsCalculator : MonoBehaviour
     public List<Move> Moves { get; set; }
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatBoosts { get; private set; }
+    public Condition Status { get; private set; }
+    public int StatusTime { get; set; }
+    public Condition VolatileStatus { get; private set; }
+    public int VolatileStatusTime { get; set; }
 
     public Queue<string> StatusChanges { get; private set; } = new Queue<string>();
+    public event System.Action OnStatusChanged;
 
     [SerializeField]
     public bool isWild;
@@ -171,34 +176,81 @@ public class PokemonStatsCalculator : MonoBehaviour
             Critical = critical,
             Fainted = false
         };
+        float attack = (moveBase.Category == MoveCategory.Special) ? attacker.CurrentSpAttack : attacker.CurrentAttack;
+        float defense = (moveBase.Category == MoveCategory.Special) ? CurrentSpDefense : CurrentDefense;
 
         float modifiers = Random.Range(0.85f, 1f) * type * critical;
         float a = (2 * attacker.Level + 10) / 250f;
-        if (moveBase.Category == MoveCategory.Special)
+        float d = a * moveBase.Power * ((float)attack / defense) + 2;
+        int damage = Mathf.FloorToInt(d * modifiers);
+
+        UpdateHP(damage);
+        return damageDetails;
+    }
+
+    public bool OnBeforeTurn()
+    {
+        bool canPerformMove = true;
+        if (Status?.OnBeforeMove != null)
         {
-            float d = a * moveBase.Power * ((float)attacker.CurrentSpAttack / CurrentSpDefense) + 2;
-            int damage = Mathf.FloorToInt(d * modifiers);
-            currentHP -= damage;
-        }
-        else if (moveBase.Category == MoveCategory.Physical)
-        {
-            float d = a * moveBase.Power * ((float)attacker.CurrentAttack / CurrentDefense) + 2;
-            int damage = Mathf.FloorToInt(d * modifiers);
-            currentHP -= damage;
+            if (!Status.OnBeforeMove(this))
+                canPerformMove = false;
         }
 
-        if (currentHP <= 0)
+        if (VolatileStatus?.OnBeforeMove != null)
         {
-            currentHP = 0;
+            if (!VolatileStatus.OnBeforeMove(this))
+                canPerformMove = false;
+        }
+
+        return canPerformMove;
+    }
+
+    public void OnAfterTurn()
+    {
+        Status?.OnAfterTurn?.Invoke(this);
+        VolatileStatus?.OnAfterTurn?.Invoke(this);
+    }
+
+    public void UpdateHP(int damage)
+    {
+        currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
+
+        if(currentHP <= 0)
             pokemonAnimatorManager.PlayTargetAnimation("Faint");
-            damageDetails.Fainted = true;
-        }
         else
-        {
             pokemonAnimatorManager.PlayTargetAnimation("Hit");
-            return damageDetails;
-        }
-        return damageDetails;
+
+    }
+
+    public void SetStatus(ConditionID conditionID)
+    {
+        if (Status != null) return;
+
+        Status = ConditionsDB.Conditions[conditionID];
+        Status?.OnStart?.Invoke(this);
+        StatusChanges.Enqueue($"{pokemonBase.Name} {Status.StartMessage}");
+        OnStatusChanged?.Invoke();
+    }
+
+    public void CureStatus()
+    {
+        Status = null;
+        OnStatusChanged?.Invoke();
+    }
+
+    public void SetVolatileStatus(ConditionID conditionID)
+    {
+        if (VolatileStatus != null) return;
+
+        VolatileStatus = ConditionsDB.Conditions[conditionID];
+        VolatileStatus?.OnStart?.Invoke(this);
+        StatusChanges.Enqueue($"{pokemonBase.Name} {VolatileStatus.StartMessage}");
+    }
+
+    public void CureVolatileStatus()
+    {
+        VolatileStatus = null;
     }
 
     public Move GetRandomMove()
@@ -209,6 +261,7 @@ public class PokemonStatsCalculator : MonoBehaviour
 
     public void OnBattleOver()
     {
+        VolatileStatus = null;
         ResetStatBoost();
     }
 }

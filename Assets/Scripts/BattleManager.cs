@@ -49,6 +49,16 @@ public class BattleManager : MonoBehaviour
     #region Perform Player Move Buttons and IENumerator
     IEnumerator PerformPlayerMove(Move move)
     {
+        bool canRunMove = playerPokemonStatsCalculator.OnBeforeTurn();
+        if (!canRunMove)
+        {
+            yield return ShowStatusChanges(playerPokemonStatsCalculator);
+            yield return battleHUD.UpdatePokemonHP(playerPokemonStatsCalculator, battleHUD.playerPokemonHPBar);
+            yield return new WaitForSeconds(1);
+            StartCoroutine(EnemyMove());
+            yield break;
+        }
+
         if (move.Base.Category == MoveCategory.Physical)
         {
             playerPokemonManager.isAttacking = true;
@@ -59,10 +69,10 @@ public class BattleManager : MonoBehaviour
             playerPokemonManager.isAttacking = true;
             playerPokemonAnimatorManager.PlayTargetAnimation("Special Attack");
         }
-        if(move.Base.Category == MoveCategory.Status)
+        if (move.Base.Category == MoveCategory.Status)
         {
             playerPokemonManager.isAttacking = true;
-            //PLAY RIGHT ANIMATION
+            playerPokemonAnimatorManager.PlayTargetAnimation("Status");
         }
 
         yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
@@ -95,11 +105,22 @@ public class BattleManager : MonoBehaviour
         var move = playerPokemonStatsCalculator.Moves[3];
         StartCoroutine(PerformPlayerMove(move));
     }
+
     #endregion
     IEnumerator EnemyMove()
     {
         if(wildPokemonStatsCalculator.currentHP > 0)
         {
+            bool canRunMove = wildPokemonStatsCalculator.OnBeforeTurn();
+            if (!canRunMove)
+            {
+                yield return ShowStatusChanges(wildPokemonStatsCalculator);
+                yield return battleHUD.UpdatePokemonHP(wildPokemonStatsCalculator, battleHUD.wildPokemonHPBar);
+                yield return new WaitForSeconds(1);
+                battleHUD.ActionSelector.SetActive(true);
+                yield break;
+            }
+
             var move = wildPokemonStatsCalculator.GetRandomMove();
             if (move.Base.Category == MoveCategory.Special)
             {
@@ -111,6 +132,11 @@ public class BattleManager : MonoBehaviour
                 wildPokemonManager.isAttacking = true;
                 wildPokemonAnimatorManager.PlayTargetAnimation("Physical Attack");
             }
+            if (move.Base.Category == MoveCategory.Status)
+            {
+                wildPokemonManager.isAttacking = true;
+                wildPokemonAnimatorManager.PlayTargetAnimation("Status");
+            }
 
             yield return RunMove(wildPokemonStatsCalculator, playerPokemonStatsCalculator, move);
             yield return new WaitForSeconds(1);
@@ -121,8 +147,10 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator RunMove(PokemonStatsCalculator sourceUnit, PokemonStatsCalculator targetUnit, Move move)
     {
-        yield return battleDialogBox.TypeDialog($"{sourceUnit.pokemonBase.Name} used {move.Base.Name}");
+        yield return ShowStatusChanges(sourceUnit);
+
         move.PP--;
+        yield return battleDialogBox.TypeDialog($"{sourceUnit.pokemonBase.Name} used {move.Base.Name}");
 
         if(move.Base.Category == MoveCategory.Status)
         {
@@ -146,17 +174,45 @@ public class BattleManager : MonoBehaviour
         {
             yield return BattleOver(targetUnit);
         }
+
+        //Statuses like burn or poison will hurt pokemon AFTER turn
+        sourceUnit.OnAfterTurn();
+        yield return ShowStatusChanges(sourceUnit);
+        if (targetUnit.tag == "PartyPokemon")
+        {
+            yield return battleHUD.UpdatePokemonHP(sourceUnit, battleHUD.wildPokemonHPBar);
+        }
+        if (targetUnit.tag == "Pokemon")
+        {
+            yield return battleHUD.UpdatePokemonHP(sourceUnit, battleHUD.playerPokemonHPBar);
+        }
+        if (sourceUnit.currentHP <= 0)
+        {
+            yield return BattleOver(sourceUnit);
+        }
     }
 
     IEnumerator RunMoveEffects(Move move, PokemonStatsCalculator source,PokemonStatsCalculator target)
     {
         var effects = move.Base.Effects;
+        // Stat boosting
         if (effects.Boosts != null)
         {
             if (move.Base.Target == MoveTarget.Self)
                 source.ApplyBoosts(effects.Boosts);
             else
                 target.ApplyBoosts(effects.Boosts);
+        }
+
+        //Status Condition
+        if (effects.Status != ConditionID.none)
+        {
+            target.SetStatus(effects.Status);
+        }
+        //Volatile Status Condition
+        if (effects.VolatileStatus != ConditionID.none)
+        {
+            target.SetVolatileStatus(effects.VolatileStatus);
         }
 
         yield return ShowStatusChanges(source);

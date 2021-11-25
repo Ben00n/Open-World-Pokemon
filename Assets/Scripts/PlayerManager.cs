@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        ConditionsDB.Init();
         inputManager = GetComponent<InputManager>();
         cameraManager = FindObjectOfType<CameraManager>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
