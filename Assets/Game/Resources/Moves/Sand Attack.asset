@@ -10,24 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 796cad7534bd731428ecd770f39610fb, type: 3}
-  m_Name: Flame Thrower
+  m_Name: Sand Attack
   m_EditorClassIdentifier: 
-  moveName: Flame Thrower
+  moveName: Sand Attack
   description: 
-  type: 2
-  power: 90
+  type: 9
+  power: 0
   accuracy: 100
   alwaysHits: 0
   maxPP: 15
-  category: 1
+  category: 2
   effects:
-    boosts: []
+    boosts:
+    - stat: 5
+      boost: -1
     status: 0
     volatileStatus: 0
-  secondaries:
-  - boosts: []
-    status: 2
-    volatileStatus: 0
-    chance: 10
-    target: 0
+  secondaries: []
   target: 0

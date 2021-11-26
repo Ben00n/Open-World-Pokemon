@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum BattleAction { Move, SwitchPokemon, UseItem, Run}
 public class BattleManager : MonoBehaviour
 {
     CollisionManager collisionManager;
@@ -35,14 +36,62 @@ public class BattleManager : MonoBehaviour
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
     }
 
-    public void ChooseFirstTurn()
+    IEnumerator RunTurns(BattleAction playerAction, Move move)
     {
-        if (playerPokemonStatsCalculator.CurrentSpeed >= wildPokemonStatsCalculator.CurrentSpeed)
+        if(playerAction == BattleAction.Move)
+        {
+            playerPokemonStatsCalculator.CurrentMove = move;
+            wildPokemonStatsCalculator.CurrentMove = wildPokemonStatsCalculator.GetRandomMove();
+
+            // Chcek who goes first
+            bool playerGoesFirst = playerPokemonStatsCalculator.pokemonBase.Speed >= wildPokemonStatsCalculator.pokemonBase.Speed;
+
+            var firstUnit = (playerGoesFirst) ? playerPokemonStatsCalculator : wildPokemonStatsCalculator;
+            var secondUnit = (playerGoesFirst) ? wildPokemonStatsCalculator : playerPokemonStatsCalculator;
+
+            //First Turn
+            yield return RunMove(firstUnit, secondUnit, firstUnit.CurrentMove);
+            yield return RunAfterTurn(firstUnit, secondUnit);
+            if (secondUnit.currentHP <= 0) yield break;
+
+            //Second Turn
+            yield return RunMove(secondUnit, firstUnit, secondUnit.CurrentMove);
+            RunAfterTurn(secondUnit, firstUnit);
+            if (firstUnit.currentHP <= 0) yield break;
             battleHUD.ActionSelector.SetActive(true);
+        }
         else
         {
-            battleHUD.ActionSelector.SetActive(false);
-            StartCoroutine(EnemyMove());
+            if(playerAction == BattleAction.SwitchPokemon)
+            {
+
+            }
+            //Enemy Turn
+            var enemyMove = wildPokemonStatsCalculator.GetRandomMove();
+            yield return RunMove(wildPokemonStatsCalculator,playerPokemonStatsCalculator,enemyMove);
+            RunAfterTurn(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
+            if (playerPokemonStatsCalculator.currentHP <= 0) yield break;
+        }
+    }
+
+    IEnumerator RunAfterTurn(PokemonStatsCalculator sourceUnit,PokemonStatsCalculator targetUnit)
+    {
+        if (sourceUnit.currentHP <= 0 || targetUnit.currentHP <= 0) yield break;
+
+        //Statuses like burn or poison will hurt pokemon AFTER turn
+        sourceUnit.OnAfterTurn();
+        yield return ShowStatusChanges(sourceUnit);
+        if (targetUnit.tag == "PartyPokemon")
+        {
+            yield return battleHUD.UpdatePokemonHP(sourceUnit, battleHUD.wildPokemonHPBar);
+        }
+        if (targetUnit.tag == "Pokemon")
+        {
+            yield return battleHUD.UpdatePokemonHP(sourceUnit, battleHUD.playerPokemonHPBar);
+        }
+        if (sourceUnit.currentHP <= 0)
+        {
+            yield return BattleOver(sourceUnit);
         }
     }
 
@@ -55,7 +104,7 @@ public class BattleManager : MonoBehaviour
             yield return ShowStatusChanges(playerPokemonStatsCalculator);
             yield return battleHUD.UpdatePokemonHP(playerPokemonStatsCalculator, battleHUD.playerPokemonHPBar);
             yield return new WaitForSeconds(1);
-            StartCoroutine(EnemyMove());
+            //StartCoroutine(EnemyMove());
             yield break;
         }
 
@@ -78,32 +127,32 @@ public class BattleManager : MonoBehaviour
         yield return RunMove(playerPokemonStatsCalculator, wildPokemonStatsCalculator, move);
         battleHUD.SetMovesUI(playerPokemonStatsCalculator.Moves);
 
-        StartCoroutine(EnemyMove());
+        //StartCoroutine(EnemyMove());
     }
 
     public void PerformMove1()
     {
         var move = playerPokemonStatsCalculator.Moves[0];
-        StartCoroutine(PerformPlayerMove(move));
+        StartCoroutine(RunTurns(BattleAction.Move, move));
     }
 
 
     public void PerformMove2()
     {
         var move = playerPokemonStatsCalculator.Moves[1];
-        StartCoroutine(PerformPlayerMove(move));
+        StartCoroutine(RunTurns(BattleAction.Move, move));
     }
 
     public void PerformMove3()
     {
         var move = playerPokemonStatsCalculator.Moves[2];
-        StartCoroutine(PerformPlayerMove(move));
+        StartCoroutine(RunTurns(BattleAction.Move, move));
     }
 
     public void PerformMove4()
     {
         var move = playerPokemonStatsCalculator.Moves[3];
-        StartCoroutine(PerformPlayerMove(move));
+        StartCoroutine(RunTurns(BattleAction.Move, move));
     }
 
     #endregion
@@ -152,53 +201,54 @@ public class BattleManager : MonoBehaviour
         move.PP--;
         yield return battleDialogBox.TypeDialog($"{sourceUnit.pokemonBase.Name} used {move.Base.Name}");
 
-        if(move.Base.Category == MoveCategory.Status)
+        if (CheckIfMoveHits(move, sourceUnit, targetUnit))
         {
-            yield return RunMoveEffects(move, sourceUnit, targetUnit);
+            if (move.Base.Category == MoveCategory.Status)
+            {
+                yield return RunMoveEffects(move.Base.Effects, sourceUnit, targetUnit,move.Base.Target);
+            }
+            else
+            {
+                var damageDetails = targetUnit.TakeDamage(move.Base, sourceUnit);
+                if (targetUnit.tag == "Pokemon")
+                {
+                    yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.wildPokemonHPBar);
+                }
+                else if (targetUnit.tag == "PartyPokemon")
+                {
+                    yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.playerPokemonHPBar);
+                }
+                yield return ShowDamageDetails(damageDetails);
+            }
+
+            if(move.Base.Secondaries != null && move.Base.Secondaries.Count > 0 && targetUnit.currentHP > 0)
+            {
+                foreach (var secondary in move.Base.Secondaries)
+                {
+                    var rnd = UnityEngine.Random.Range(1, 101);
+                    if (rnd <= secondary.Chance)
+                        yield return RunMoveEffects(secondary, sourceUnit, targetUnit, secondary.Target);
+                }
+            }
+
+
+            if (targetUnit.currentHP <= 0)
+            {
+                yield return BattleOver(targetUnit);
+            }
         }
         else
         {
-            var damageDetails = targetUnit.TakeDamage(move.Base, sourceUnit);
-            if (targetUnit.tag == "Pokemon")
-            {
-                yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.wildPokemonHPBar);
-            }
-            else if (targetUnit.tag == "PartyPokemon")
-            {
-                yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.playerPokemonHPBar);
-            }
-            yield return ShowDamageDetails(damageDetails);
-        }
-
-        if (targetUnit.currentHP <= 0)
-        {
-            yield return BattleOver(targetUnit);
-        }
-
-        //Statuses like burn or poison will hurt pokemon AFTER turn
-        sourceUnit.OnAfterTurn();
-        yield return ShowStatusChanges(sourceUnit);
-        if (targetUnit.tag == "PartyPokemon")
-        {
-            yield return battleHUD.UpdatePokemonHP(sourceUnit, battleHUD.wildPokemonHPBar);
-        }
-        if (targetUnit.tag == "Pokemon")
-        {
-            yield return battleHUD.UpdatePokemonHP(sourceUnit, battleHUD.playerPokemonHPBar);
-        }
-        if (sourceUnit.currentHP <= 0)
-        {
-            yield return BattleOver(sourceUnit);
+            yield return battleDialogBox.TypeDialog($"{sourceUnit.pokemonBase.Name}'s attack missed");
         }
     }
 
-    IEnumerator RunMoveEffects(Move move, PokemonStatsCalculator source,PokemonStatsCalculator target)
+    IEnumerator RunMoveEffects(MoveEffects effects, PokemonStatsCalculator source,PokemonStatsCalculator target, MoveTarget moveTarget)
     {
-        var effects = move.Base.Effects;
         // Stat boosting
         if (effects.Boosts != null)
         {
-            if (move.Base.Target == MoveTarget.Self)
+            if (moveTarget == MoveTarget.Self)
                 source.ApplyBoosts(effects.Boosts);
             else
                 target.ApplyBoosts(effects.Boosts);
@@ -255,6 +305,33 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    bool CheckIfMoveHits(Move move,PokemonStatsCalculator source, PokemonStatsCalculator target)
+    {
+        if (move.Base.AlwaysHits)
+            return true;
+        
+        float moveAccuracy = move.Base.Accuracy;
+
+        int accuracy = source.StatBoosts[Stat.Accuracy];
+        int evasion = target.StatBoosts[Stat.Evasion];
+
+        var boostValues = new float[] { 1f, 4f / 3f, 5f / 3f, 2f, 7f / 3f, 8f / 3f, 3f };
+
+        if (accuracy > 0)
+            moveAccuracy *= boostValues[accuracy];
+        else
+            moveAccuracy /= boostValues[-accuracy];
+
+        if (evasion > 0)
+            moveAccuracy /= boostValues[evasion];
+        else
+            moveAccuracy *= boostValues[-evasion];
+
+
+
+        return UnityEngine.Random.Range(1, 101) <= moveAccuracy;
+    }
+
     IEnumerator ShowStatusChanges(PokemonStatsCalculator pokemon)
     {
         while(pokemon.StatusChanges.Count > 0)
@@ -278,7 +355,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator SwitchingPokemon(GameObject newPokemon)
     {
-        if (playerPokemonStatsCalculator.currentHP > 0)
+        if(playerPokemonStatsCalculator.currentHP > 0)
         {
             yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
 
@@ -298,11 +375,12 @@ public class BattleManager : MonoBehaviour
             battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
             yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
 
-            pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            battleHUD.ActionSelector.SetActive(true);
 
-            StartCoroutine(EnemyMove());
+            pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            StartCoroutine(RunTurns(BattleAction.SwitchPokemon, null));
         }
-        else //same logic without enemymove
+        else
         {
             yield return battleDialogBox.TypeDialog($"Come back {playerPokemonStatsCalculator.pokemonBase.Name}");
 
@@ -322,10 +400,12 @@ public class BattleManager : MonoBehaviour
             battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
             yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
 
-            ChooseFirstTurn();
+            battleHUD.ActionSelector.SetActive(true);
 
             pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            battleHUD.ActionSelector.SetActive(true);
         }
+
     }
 
     public void SwitchPokemon1()

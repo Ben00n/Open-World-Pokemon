@@ -11,6 +11,7 @@ public class PokemonStatsCalculator : MonoBehaviour
     public PokemonBase pokemonBase;
 
     public List<Move> Moves { get; set; }
+    public Move CurrentMove {get; set;}
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatBoosts { get; private set; }
     public Condition Status { get; private set; }
@@ -126,6 +127,9 @@ public class PokemonStatsCalculator : MonoBehaviour
             {Stat.SpAttack, 0},
             {Stat.SpDefense, 0},
             {Stat.Speed, 0},
+            {Stat.Accuracy, 0},
+            {Stat.Evasion, 0},
+
         };
     }
 

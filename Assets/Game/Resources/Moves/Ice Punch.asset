@@ -13,11 +13,21 @@ MonoBehaviour:
   m_Name: Ice Punch
   m_EditorClassIdentifier: 
   moveName: Ice Punch
-  isSpecial: 0
-  isPhysical: 1
-  isStatus: 0
   description: 
   type: 6
   power: 75
   accuracy: 100
+  alwaysHits: 0
   maxPP: 15
+  category: 0
+  effects:
+    boosts: []
+    status: 0
+    volatileStatus: 0
+  secondaries:
+  - boosts: []
+    status: 5
+    volatileStatus: 0
+    chance: 10
+    target: 0
+  target: 0
