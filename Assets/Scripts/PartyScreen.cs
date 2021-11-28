@@ -9,7 +9,7 @@ public class PartyScreen : MonoBehaviour
 
     private void Awake()
     {
-        memberSlots = GetComponentsInChildren<PartyMemberUI>();
+        memberSlots = GetComponentsInChildren<PartyMemberUI>(true);
     }
 
     private void Start()
