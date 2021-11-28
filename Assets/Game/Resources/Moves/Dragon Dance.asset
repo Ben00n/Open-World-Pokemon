@@ -10,29 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 796cad7534bd731428ecd770f39610fb, type: 3}
-  m_Name: Superpower
+  m_Name: Dragon Dance
   m_EditorClassIdentifier: 
-  moveName: Superpower
+  moveName: Dragon Dance
   description: 
-  type: 7
-  power: 120
-  accuracy: 100
-  alwaysHits: 0
-  maxPP: 5
+  type: 15
+  power: 0
+  accuracy: 0
+  alwaysHits: 1
+  maxPP: 20
   priority: 0
-  category: 0
+  category: 2
   effects:
-    boosts: []
-    status: 0
-    volatileStatus: 0
-  secondaries:
-  - boosts:
+    boosts:
     - stat: 0
-      boost: -1
-    - stat: 1
-      boost: -1
+      boost: 1
+    - stat: 4
+      boost: 1
     status: 0
     volatileStatus: 0
-    chance: 100
-    target: 1
-  target: 0
+  secondaries: []
+  target: 1

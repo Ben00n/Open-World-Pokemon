@@ -75,6 +75,11 @@ public class BattleManager : MonoBehaviour
             {
 
             }
+
+            else if(playerAction == BattleAction.Run)
+            {
+
+            }
             //Enemy Turn
             var enemyMove = wildPokemonStatsCalculator.GetRandomMove();
             yield return RunMove(wildPokemonStatsCalculator,playerPokemonStatsCalculator,enemyMove);
@@ -375,7 +380,7 @@ public class BattleManager : MonoBehaviour
             else
             {
                 yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has failed to escape.");
-                StartCoroutine(RunTurns(BattleAction.SwitchPokemon, null));
+                StartCoroutine(RunTurns(BattleAction.Run, null));
             }
         }
     }
