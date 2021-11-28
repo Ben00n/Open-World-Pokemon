@@ -70,9 +70,13 @@ public class PokemonLocomotion : MonoBehaviour
                 {
                     navmeshAgent.SetDestination(ElectricArea.Electric.GetRandomPoint());
                 }
-                else if(pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Fairy)
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Fairy)
                 {
                     navmeshAgent.SetDestination(FairyArea.Fairy.GetRandomPoint());
+                }
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Dark)
+                {
+                    navmeshAgent.SetDestination(DarkArea.Dark.GetRandomPoint());
                 }
             }
             if (navmeshAgent.remainingDistance <= 0.1)

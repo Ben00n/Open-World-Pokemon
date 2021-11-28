@@ -2413,6 +2413,8 @@ MonoBehaviour:
   - {fileID: 6949514137272782772, guid: 767947c5c5f9b4244ba60a15b1764704, type: 3}
   - {fileID: 2906627080347005291, guid: bbf7ca2eb01634d41979464c159d0e63, type: 3}
   - {fileID: 811253811621681324, guid: d763306613a811f4b8872df77c9824af, type: 3}
+  - {fileID: 8950000328687865538, guid: 5abb59939fa92e046bc8fcb4828ac36e, type: 3}
+  - {fileID: 8746060253703206092, guid: 3ff210370e17b584f9429fd4b84888ff, type: 3}
   xPos: 0
   zPos: 0
   pulledPokemon: 0
@@ -2806,6 +2808,7 @@ Transform:
   - {fileID: 2046436448}
   - {fileID: 856367117}
   - {fileID: 1720308270}
+  - {fileID: 1822778504}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5027,6 +5030,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778478333}
   m_CullTransparentMesh: 0
+--- !u!1 &1822778503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1822778504}
+  - component: {fileID: 1822778505}
+  m_Layer: 0
+  m_Name: Dark Spawn Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1822778504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822778503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.43, y: 0, z: 20.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1047783909}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1822778505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822778503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7442d4e4a7105a5408729765eea6764d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Range: 5
 --- !u!1 &1833645092
 GameObject:
   m_ObjectHideFlags: 0
