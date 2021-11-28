@@ -27,6 +27,8 @@ public class BattleManager : MonoBehaviour
 
     public Button fightButton;
 
+    public int escapeAttempts;
+
     private void Awake()
     {
         collisionManager = FindObjectOfType<CollisionManager>();
@@ -338,7 +340,50 @@ public class BattleManager : MonoBehaviour
             partyScreen.gameObject.SetActive(false);
         else
             partyScreen.gameObject.SetActive(true);
+    }
 
+    IEnumerator TryToEscape()
+    {
+        escapeAttempts++;
+        int playerSpeed = playerPokemonStatsCalculator.CurrentSpeed;
+        int wildSpeed = wildPokemonStatsCalculator.CurrentSpeed;
+
+        if(wildSpeed < playerSpeed)
+        {
+            yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} got away safely.");
+            playerManager.animator.SetBool("isInBattle", false);
+            wildPokemonStatsCalculator.GetComponentInChildren<Animator>().SetBool("isInBattle", false);
+            playerPokemonStatsCalculator.gameObject.SetActive(false);
+            collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+            collisionManager.playerCollider.enabled = true; // main player collider
+            pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+        }
+        else
+        {
+            float f = (playerSpeed * 128) / wildSpeed + 30 * escapeAttempts;
+            f = f % 256;
+            if(UnityEngine.Random.Range(0,256) < f)
+            {
+                yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} got away safely.");
+                playerManager.animator.SetBool("isInBattle", false);
+                wildPokemonStatsCalculator.GetComponentInChildren<Animator>().SetBool("isInBattle", false);
+                playerPokemonStatsCalculator.gameObject.SetActive(false);
+                collisionManager.transform.gameObject.SetActive(true); // player trigger collider
+                collisionManager.playerCollider.enabled = true; // main player collider
+                pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            }
+            else
+            {
+                yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has failed to escape.");
+                StartCoroutine(RunTurns(BattleAction.SwitchPokemon, null));
+            }
+        }
+    }
+
+    public void RunFromBattle()
+    {
+        StartCoroutine(TryToEscape());
+        battleHUD.ActionSelector.SetActive(false);
     }
 
     #region Pokemon Switching Buttons Functions and IENumerator

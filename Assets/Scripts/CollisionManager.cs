@@ -47,7 +47,7 @@ public class CollisionManager : MonoBehaviour
                 battleHUD.SetData(battleManager.wildPokemonStatsCalculator,battleManager.playerPokemonStatsCalculator);
 
                 PrepareForBattle(battleManager.playerPokemonStatsCalculator);
-
+                battleManager.escapeAttempts = 0;
                 battleDialogBox.SetDialog("Encountered a wild " + battleManager.wildPokemonStatsCalculator.pokemonBase.Name + "!");
             }
         }
