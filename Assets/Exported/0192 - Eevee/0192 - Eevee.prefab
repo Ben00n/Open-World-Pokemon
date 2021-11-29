@@ -1125,12 +1125,12 @@ MonoBehaviour:
   isWild: 1
   myLevel: 0
   maxHP: 0
+  currentHP: 0
   currentAttack: 0
   currentDefense: 0
   currentSpAttack: 0
   currentSpDefense: 0
   currentSpeed: 0
-  shrinking: 0
 --- !u!114 &4860978433066222635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,6 +1145,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockOnTransform: {fileID: 4246045971622227309}
   isInBattle: 0
+  isAttacking: 0
+  isFainted: 0
+  shrinking: 0
 --- !u!114 &66721256258418683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2169,7 +2172,7 @@ Animator:
   m_GameObject: {fileID: 8832413740913814453}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d49288b8036d47a43b1d8bdacec4632f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9d7052c915bd8ab4a9d056f4e01e60f9, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

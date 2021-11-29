@@ -1099,7 +1099,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6088014965875403935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.854, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5203849068760931797}
@@ -1402,12 +1402,12 @@ MonoBehaviour:
   isWild: 1
   myLevel: 0
   maxHP: 0
+  currentHP: 0
   currentAttack: 0
   currentDefense: 0
   currentSpAttack: 0
   currentSpDefense: 0
   currentSpeed: 0
-  shrinking: 0
 --- !u!114 &4908604419378324052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1436,6 +1436,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockOnTransform: {fileID: 5515803453762804884}
   isInBattle: 0
+  isAttacking: 0
+  isFainted: 0
+  shrinking: 0
 --- !u!114 &4066411586244137156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,7 +1559,7 @@ Animator:
   m_GameObject: {fileID: 7489505225595924266}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 13ef116a8269ee44685728977d94e706, type: 2}
+  m_Controller: {fileID: 9100000, guid: 93a5b5d9edc724349bfe46ea7845c326, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
