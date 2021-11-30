@@ -291,6 +291,7 @@ public class BattleManager : MonoBehaviour
         else if (faintedUnit.tag == "Pokemon")
         {
             yield return battleDialogBox.TypeDialog($"{faintedUnit.pokemonBase.Name} Fainted");
+            yield return HandleFaintedExperience(faintedUnit); //NEED TO ADD IT AGAIN IN POISION DEATH THING
             playerManager.animator.SetBool("isInBattle", false);
             playerPokemonStatsCalculator.gameObject.SetActive(false);
             faintedUnit.gameObject.tag = "FaintedPokemon";
@@ -300,6 +301,16 @@ public class BattleManager : MonoBehaviour
             collisionManager.playerCollider.enabled = true; // main player collider
             pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
         }
+    }
+
+    IEnumerator HandleFaintedExperience(PokemonStatsCalculator faintedUnit)
+    {
+        int expYield = faintedUnit.pokemonBase.ExpYield;
+        int enemyLevel = faintedUnit.Level;
+
+        int expGain = Mathf.FloorToInt((expYield * enemyLevel) / 7);
+        playerPokemonStatsCalculator.Exp += expGain;
+        yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has gained {expGain} exp");
     }
 
     bool CheckIfMoveHits(Move move,PokemonStatsCalculator source, PokemonStatsCalculator target)
