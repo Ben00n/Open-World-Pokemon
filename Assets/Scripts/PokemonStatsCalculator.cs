@@ -39,6 +39,15 @@ public class PokemonStatsCalculator : MonoBehaviour
     public int currentSpDefense;
     public int currentSpeed;
 
+    public bool CheckForLevelUp()
+    {
+        if (Exp > pokemonBase.GetExpForLevel(Level + 1))
+        {
+            ++Level;
+            return true;
+        }
+        return false;
+    }
     public int Exp { get; set; }
     public int CurrentAttack { get { return GetStat(Stat.Attack); } }
     public int CurrentDefense { get { return GetStat(Stat.Defense); } }
@@ -109,7 +118,7 @@ public class PokemonStatsCalculator : MonoBehaviour
         ResetStatBoost();
     }
 
-    void CalculateStats()
+    public void CalculateStats()
     {
         Stats = new Dictionary<Stat, int>();
         Stats.Add(Stat.Attack, Mathf.FloorToInt((0.01f * (2 * pokemonBase.Attack + 31 + (252 / 4)) * Level) + 5));

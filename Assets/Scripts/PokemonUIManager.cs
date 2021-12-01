@@ -21,13 +21,13 @@ public class PokemonUIManager : MonoBehaviour
     {
         projected = Instantiate(levelText, transform.position, Quaternion.identity, transform);
         projected.transform.localPosition += Offset;
-        projected.GetComponent<TextMesh>().text = pokemonStatsCalculator.Level.ToString();
     }
 
 
     private void Update()
     {
         CheckDistanceFromPlayer();
+        projected.GetComponent<TextMesh>().text = pokemonStatsCalculator.Level.ToString();
     }
 
     private void CheckDistanceFromPlayer()

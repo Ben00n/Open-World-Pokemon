@@ -305,12 +305,23 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator HandleFaintedExperience(PokemonStatsCalculator faintedUnit)
     {
+        //Exp Gain
         int expYield = faintedUnit.pokemonBase.ExpYield;
         int enemyLevel = faintedUnit.Level;
 
         int expGain = Mathf.FloorToInt((expYield * enemyLevel) / 7);
         playerPokemonStatsCalculator.Exp += expGain;
         yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has gained {expGain} exp");
+        yield return battleHUD.SetExpSmooth();
+
+        //Check Level Up
+        while (playerPokemonStatsCalculator.CheckForLevelUp())
+        {
+            battleHUD.SetLevel();
+            playerPokemonStatsCalculator.CalculateStats();
+            yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has grew to level {playerPokemonStatsCalculator.Level}!");
+            yield return battleHUD.SetExpSmooth(true);
+        }
     }
 
     bool CheckIfMoveHits(Move move,PokemonStatsCalculator source, PokemonStatsCalculator target)

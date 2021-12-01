@@ -15,7 +15,7 @@ public class PokemonBase : ScriptableObject
     [SerializeField] PokemonType type1;
     [SerializeField] PokemonType type2;
 
-    [Header("Base Stats")] 
+    [Header("Base Stats")]
     [SerializeField] int maxHp;
     [SerializeField] int attack;
     [SerializeField] int defense;
@@ -23,7 +23,10 @@ public class PokemonBase : ScriptableObject
     [SerializeField] int spDefense;
     [SerializeField] int speed;
 
+    [Header("EXP")]
     [SerializeField] int expYield;
+
+    [Header("Growth")]
     [SerializeField] GrowthRate growthRate;
 
     [SerializeField] public List<LearnableMove> learnableMoves;
