@@ -78,6 +78,10 @@ public class PokemonLocomotion : MonoBehaviour
                 {
                     navmeshAgent.SetDestination(DarkArea.Dark.GetRandomPoint());
                 }
+                else if(pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Fighting)
+                {
+                    navmeshAgent.SetDestination(FightingArea.Fighting.GetRandomPoint());
+                }
             }
             if (navmeshAgent.remainingDistance <= 0.1)
             {
