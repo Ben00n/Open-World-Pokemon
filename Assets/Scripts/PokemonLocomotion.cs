@@ -86,6 +86,10 @@ public class PokemonLocomotion : MonoBehaviour
                 {
                     navmeshAgent.SetDestination(GroundArea.Ground.GetRandomPoint());
                 }
+                else if (pokemonStatsCalculator.pokemonBase.GetType1 == PokemonType.Psychic)
+                {
+                    navmeshAgent.SetDestination(PsychicArea.Psychic.GetRandomPoint());
+                }
             }
             if (navmeshAgent.remainingDistance <= 0.1)
             {

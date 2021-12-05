@@ -1286,6 +1286,36 @@ Transform:
   m_Father: {fileID: 5891338928288851880}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2298203023485499081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6879936114488439463}
+  m_Layer: 0
+  m_Name: LockOnTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6879936114488439463
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2298203023485499081}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.554, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1577137218139528089}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2323168389392343986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1695,6 +1725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8814559615601072708}
   - component: {fileID: 7768656709716551025}
+  - component: {fileID: 2522486531529984384}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -1711,7 +1742,7 @@ Transform:
   m_GameObject: {fileID: 3860060105765690586}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.009, y: 0.009, z: 0.009}
   m_Children:
   - {fileID: 1364919677287609268}
   - {fileID: 6976561525177947764}
@@ -1736,8 +1767,8 @@ Animator:
   m_GameObject: {fileID: 3860060105765690586}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c7faac2edd02b404089a5ae35dc3f72d, type: 2}
-  m_CullingMode: 0
+  m_Controller: {fileID: 9100000, guid: a1c7b43fb04a9444788a571e29bdc055, type: 2}
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1745,6 +1776,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2522486531529984384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3860060105765690586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68a8dc7982de8840bb267f78dfe7f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &3864407826366105081
 GameObject:
   m_ObjectHideFlags: 0
@@ -3087,9 +3131,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1577137218139528089}
+  - component: {fileID: 4152753151557913637}
+  - component: {fileID: 8908044769896201333}
+  - component: {fileID: 2341312062503199277}
+  - component: {fileID: 1109601956308669173}
+  - component: {fileID: 3226096520046015517}
+  - component: {fileID: 6570526765526176755}
+  - component: {fileID: 6808502596982144277}
   m_Layer: 0
   m_Name: 0143 - Hypno
-  m_TagString: Untagged
+  m_TagString: Pokemon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3106,9 +3157,130 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8814559615601072708}
+  - {fileID: 6879936114488439463}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &4152753151557913637
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827004897162330997}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.7
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!54 &8908044769896201333
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827004897162330997}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!114 &2341312062503199277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827004897162330997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f63a8da053e0f45a5d24221b238a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemonBase: {fileID: 11400000, guid: 1937d5ed15970b543abb4bb42b3552d4, type: 2}
+  isWild: 1
+  myLevel: 0
+  maxHP: 0
+  currentHP: 0
+  currentAttack: 0
+  currentDefense: 0
+  currentSpAttack: 0
+  currentSpDefense: 0
+  currentSpeed: 0
+--- !u!114 &1109601956308669173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827004897162330997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421446377f8bd964b97cde5db9541f61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemonRigidBody: {fileID: 0}
+  radius: 0
+--- !u!114 &3226096520046015517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827004897162330997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba66d30fde0bfbf4d85e0f12304036f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockOnTransform: {fileID: 6879936114488439463}
+  isInBattle: 0
+  isAttacking: 0
+  isFainted: 0
+  shrinking: 0
+--- !u!114 &6570526765526176755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827004897162330997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d676089f3f4f9e54f816110bd777971c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 1, z: 0}
+  levelText: {fileID: 6422014324796578692, guid: 9151ecd73de8bfe468bf10ef72a63e07,
+    type: 3}
+--- !u!195 &6808502596982144277
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827004897162330997}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 1
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 600
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.5
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7890035770440519078
 GameObject:
   m_ObjectHideFlags: 0

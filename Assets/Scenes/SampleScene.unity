@@ -2755,6 +2755,11 @@ MonoBehaviour:
   - {fileID: 5836379458951206487, guid: 819857a384e26b74b97d9e876a57971d, type: 3}
   - {fileID: 1444543499603913537, guid: a83ceecf878788249ae3a2a425f86b7d, type: 3}
   - {fileID: 8332550679576759329, guid: ceac17ab5f818684cadd5b3c65615c48, type: 3}
+  - {fileID: 7496729803999512992, guid: 1194812d510cdd941b7e122a1e5cb31b, type: 3}
+  - {fileID: 7827004897162330997, guid: 1457e6c1073b4d0409218fa68bd6ddc7, type: 3}
+  - {fileID: 2377864915826228643, guid: 5369df8a64face441a217cfdfeb760ad, type: 3}
+  - {fileID: 606547895645469738, guid: 9e43c25956f53cd41bc6bb5b3f1dac54, type: 3}
+  - {fileID: 4765107009694648150, guid: 4f337478a75227146a8a04188c56f86a, type: 3}
   xPos: 0
   zPos: 0
   pulledPokemon: 0
@@ -3152,6 +3157,7 @@ Transform:
   - {fileID: 56741109}
   - {fileID: 1400700757}
   - {fileID: 1872997559}
+  - {fileID: 2099648729}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7137,6 +7143,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2060781611}
   m_CullTransparentMesh: 0
+--- !u!1 &2099648728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2099648729}
+  - component: {fileID: 2099648730}
+  m_Layer: 0
+  m_Name: Psychic Spawn Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2099648729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099648728}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.39, y: 0, z: 41.83}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1047783909}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2099648730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099648728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342ce0a12e583ed4eac12576d7eb55ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Range: 5
 --- !u!1 &2141928769
 GameObject:
   m_ObjectHideFlags: 0
