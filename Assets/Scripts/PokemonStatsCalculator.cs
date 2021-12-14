@@ -48,6 +48,20 @@ public class PokemonStatsCalculator : MonoBehaviour
         }
         return false;
     }
+
+    public LearnableMove GetLearnableMoveAtCurrLevel()
+    {
+        return pokemonBase.LearnableMoves.Where(x => x.Level == Level).FirstOrDefault();
+    }
+
+    public void LearnMove(LearnableMove moveToLearn)
+    {
+        if (Moves.Count > 4)
+            return;
+
+        Moves.Add(new Move(moveToLearn.Base));
+    }
+
     public int Exp { get; set; }
     public int CurrentAttack { get { return GetStat(Stat.Attack); } }
     public int CurrentDefense { get { return GetStat(Stat.Defense); } }

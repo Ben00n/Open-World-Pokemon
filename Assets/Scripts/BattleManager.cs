@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class BattleManager : MonoBehaviour
     BattleHUD battleHUD;
     PokemonPartyManager pokemonPartyManager;
     [SerializeField] PartyScreen partyScreen;
+    [SerializeField] MoveDecideUI moveDecideUI;
 
     [Header("Player Pokemon Components")]
     public PokemonStatsCalculator playerPokemonStatsCalculator;
@@ -28,6 +30,7 @@ public class BattleManager : MonoBehaviour
     public Button fightButton;
 
     public int escapeAttempts;
+    MoveBase moveToLearn;
 
     private void Awake()
     {
@@ -320,9 +323,74 @@ public class BattleManager : MonoBehaviour
             battleHUD.SetLevel();
             playerPokemonStatsCalculator.CalculateStats();
             yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has grew to level {playerPokemonStatsCalculator.Level}!");
+
+            //Try to learn a new move
+            var newMove = playerPokemonStatsCalculator.GetLearnableMoveAtCurrLevel();
+            if(newMove != null)
+            {
+                if(playerPokemonStatsCalculator.Moves.Count < 4)
+                {
+                    playerPokemonStatsCalculator.LearnMove(newMove);
+                    yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has learned {newMove.Base.Name}");
+                    battleHUD.SetMovesUI(playerPokemonStatsCalculator.Moves);
+                }
+                else
+                {
+                    yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} is trying to learn {newMove.Base.Name}");
+                    yield return battleDialogBox.TypeDialog($"But it can not learn more than 4 moves!");
+                    yield return ChooseMoveToForget(playerPokemonStatsCalculator, newMove.Base);
+                    yield return new WaitUntil(() => !moveDecideUI.gameObject.activeInHierarchy);
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+
             yield return battleHUD.SetExpSmooth(true);
         }
+        yield return new WaitForSeconds(1f);
     }
+
+    IEnumerator ChooseMoveToForget(PokemonStatsCalculator pokemon, MoveBase newMove)
+    {
+        yield return battleDialogBox.TypeDialog($"Choose a move you want to forget");
+        moveDecideUI.gameObject.SetActive(true);
+        moveDecideUI.SetMoveData(pokemon.Moves.Select(x => x.Base).ToList(), newMove);
+        moveToLearn = newMove;
+    }
+
+    #region ChangeMovesOnLevelUp
+    public void ChangeMoveNew()
+    {
+        StartCoroutine(battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} did not learn {moveToLearn.Name}"));
+    }
+    public void ChangeMove1()
+    {
+        var selectedMove = playerPokemonStatsCalculator.Moves[0].Base;
+        StartCoroutine(battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} forgot {selectedMove.Name} and learned {moveToLearn.Name}!"));
+        playerPokemonStatsCalculator.Moves[0] = new Move(moveToLearn);
+        moveToLearn = null;
+    }
+    public void ChangeMove2()
+    {
+        var selectedMove = playerPokemonStatsCalculator.Moves[1].Base;
+        StartCoroutine(battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} forgot {selectedMove.Name} and learned {moveToLearn.Name}!"));
+        playerPokemonStatsCalculator.Moves[1] = new Move(moveToLearn);
+        moveToLearn = null;
+    }
+    public void ChangeMove3()
+    {
+        var selectedMove = playerPokemonStatsCalculator.Moves[2].Base;
+        StartCoroutine(battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} forgot {selectedMove.Name} and learned {moveToLearn.Name}!"));
+        playerPokemonStatsCalculator.Moves[2] = new Move(moveToLearn);
+        moveToLearn = null;
+    }
+    public void ChangeMove4()
+    {
+        var selectedMove = playerPokemonStatsCalculator.Moves[3].Base;
+        StartCoroutine(battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} forgot {selectedMove.Name} and learned {moveToLearn.Name}!"));
+        playerPokemonStatsCalculator.Moves[3] = new Move(moveToLearn);
+        moveToLearn = null;
+    }
+    #endregion
 
     bool CheckIfMoveHits(Move move,PokemonStatsCalculator source, PokemonStatsCalculator target)
     {
@@ -578,7 +646,9 @@ public class BattleManager : MonoBehaviour
 
         if(damageDetails.TypeEffectiveness > 1f)
             yield return battleDialogBox.TypeDialog("It's super effective");
-        else if(damageDetails.TypeEffectiveness < 1f)
+        else if(damageDetails.TypeEffectiveness < 1f && damageDetails.TypeEffectiveness > 0f)
             yield return battleDialogBox.TypeDialog("It's not very effective");
+        else if(damageDetails.TypeEffectiveness == 0f)
+            yield return battleDialogBox.TypeDialog("It had no effect at all");
     }
 }
