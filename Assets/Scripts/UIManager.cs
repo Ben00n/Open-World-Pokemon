@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    BattleManager battleManager;
+    PartyUIManager partyUI;
+    PokemonPartyManager pokemonPartyManager;
     public GameObject battleHUD;
+    public GameObject partyList;
     PlayerManager playerManager;
 
     private void Awake()
     {
+        pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
+        partyUI = FindObjectOfType<PartyUIManager>();
         playerManager = FindObjectOfType<PlayerManager>();
-        battleManager = FindObjectOfType<BattleManager>();
     }
 
     private void Update()
@@ -23,10 +26,12 @@ public class UIManager : MonoBehaviour
     {
         if (playerManager.isInBattle)
         {
+            partyList.SetActive(false);
             battleHUD.SetActive(true);
         }
         else
         {
+            partyList.SetActive(true);
             battleHUD.SetActive(false);
         }
     }

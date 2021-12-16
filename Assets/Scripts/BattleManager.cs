@@ -12,7 +12,8 @@ public class BattleManager : MonoBehaviour
     BattleDialogBox battleDialogBox;
     BattleHUD battleHUD;
     PokemonPartyManager pokemonPartyManager;
-    [SerializeField] PartyScreen partyScreen;
+    [SerializeField] PartyScreen partyScreen; // used for switching
+    [SerializeField] PartyUIManager partyUI; //used for MAIN party
     [SerializeField] MoveDecideUI moveDecideUI;
 
     [Header("Player Pokemon Components")]
@@ -303,6 +304,7 @@ public class BattleManager : MonoBehaviour
             collisionManager.transform.gameObject.SetActive(true); // player trigger collider
             collisionManager.playerCollider.enabled = true; // main player collider
             pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+
         }
     }
 

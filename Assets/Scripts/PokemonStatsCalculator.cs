@@ -247,7 +247,7 @@ public class PokemonStatsCalculator : MonoBehaviour
     {
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
 
-        if(currentHP <= 0)
+        if (currentHP <= 0)
             pokemonAnimatorManager.PlayTargetAnimation("Faint");
         else
             pokemonAnimatorManager.PlayTargetAnimation("Hit");
