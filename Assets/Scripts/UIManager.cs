@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    PartyUIManager partyUI;
     PokemonPartyManager pokemonPartyManager;
     public GameObject battleHUD;
     public GameObject partyList;
@@ -13,7 +12,6 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
-        partyUI = FindObjectOfType<PartyUIManager>();
         playerManager = FindObjectOfType<PlayerManager>();
     }
 

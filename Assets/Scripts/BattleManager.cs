@@ -13,7 +13,6 @@ public class BattleManager : MonoBehaviour
     BattleHUD battleHUD;
     PokemonPartyManager pokemonPartyManager;
     [SerializeField] PartyScreen partyScreen; // used for switching
-    [SerializeField] PartyUIManager partyUI; //used for MAIN party
     [SerializeField] MoveDecideUI moveDecideUI;
 
     [Header("Player Pokemon Components")]

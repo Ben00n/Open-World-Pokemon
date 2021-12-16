@@ -1396,7 +1396,6 @@ GameObject:
   - component: {fileID: 216170129}
   - component: {fileID: 216170131}
   - component: {fileID: 216170130}
-  - component: {fileID: 216170132}
   m_Layer: 5
   m_Name: EXPBar
   m_TagString: Untagged
@@ -1462,19 +1461,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216170128}
   m_CullTransparentMesh: 0
---- !u!114 &216170132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 216170128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fd5e00b250ae114c84b0c8b7ec266d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expBar: {fileID: 996267042}
 --- !u!1 &244616845
 GameObject:
   m_ObjectHideFlags: 0
@@ -3959,7 +3945,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyScreen: {fileID: 450443828}
-  partyUI: {fileID: 0}
   moveDecideUI: {fileID: 1842831426}
   playerPokemonStatsCalculator: {fileID: 0}
   playerPokemonAnimatorManager: {fileID: 0}
@@ -11250,7 +11235,6 @@ GameObject:
   - component: {fileID: 2139003699}
   - component: {fileID: 2139003701}
   - component: {fileID: 2139003700}
-  - component: {fileID: 2139003703}
   - component: {fileID: 2139003702}
   m_Layer: 5
   m_Name: PartyList
@@ -11340,19 +11324,6 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &2139003703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139003698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef665134015a5a84b853ea6bb589021c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  memberSlots: []
 --- !u!1 &2144585502
 GameObject:
   m_ObjectHideFlags: 0
@@ -11572,7 +11543,7 @@ PrefabInstance:
         type: 3}
       propertyPath: partyScreen
       value: 
-      objectReference: {fileID: 450443828}
+      objectReference: {fileID: 0}
     - target: {fileID: 1338632843318880497, guid: 4e4b6c640c7f3454788f8f6ba43e3c41,
         type: 3}
       propertyPath: m_LocalPosition.x
