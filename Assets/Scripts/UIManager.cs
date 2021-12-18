@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    PokemonPartyManager pokemonPartyManager;
     public GameObject battleHUD;
     public GameObject partyList;
     PlayerManager playerManager;
 
     private void Awake()
     {
-        pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         playerManager = FindObjectOfType<PlayerManager>();
     }
 
