@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class PokemonStatsCalculator : MonoBehaviour
 {
+    BattleManager battleManager;
     PokemonPartyManager pokemonPartyManager;
     PokemonAnimatorManager pokemonAnimatorManager;
     PokemonManager pokemonManager;
@@ -96,6 +97,7 @@ public class PokemonStatsCalculator : MonoBehaviour
 
     private void Awake()
     {
+        battleManager = FindObjectOfType<BattleManager>();
         pokemonAnimatorManager = GetComponentInChildren<PokemonAnimatorManager>();
         pokemonManager = GetComponent<PokemonManager>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
@@ -287,9 +289,15 @@ public class PokemonStatsCalculator : MonoBehaviour
     public Move GetRandomMove()
     {
         var movesWithPP = Moves.Where(x => x.PP > 0).ToList();
-
         int r = Random.Range(0, movesWithPP.Count);
         return movesWithPP[r];
+    }
+
+    public Move GetStatusMove()
+    {
+        var move = Moves.Where(x => x.Base.Category == MoveCategory.Status).ToList();
+        int r = Random.Range(0, move.Count);
+        return move[r];
     }
 
     public void OnBattleOver()
