@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
     public Transform lockOnTransform;
 
     [Header("CurrentPokeBall")]
-    public ConsumableItem currentConsumable;
+    public Throwable currentThrowable;
 
     public Animator animator;
     InputManager inputManager;

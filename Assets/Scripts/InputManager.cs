@@ -127,13 +127,13 @@ public class InputManager : MonoBehaviour
         {
             R_InputFlag = true;
             R_Input = false;
-            playerManager.currentConsumable.AttemptToConsumeItem(animatorManager, rightHandHolderSlot,cameraManager);
+            playerManager.currentThrowable.AttemptToConsumeItem(animatorManager, rightHandHolderSlot,cameraManager);
             R_InputFlag = false;
         }
     }
 
     private void SuccessfullyThrow() // called in throw animation as an event
     {
-        playerManager.currentConsumable.SuccessfullyConsumeItem(animatorManager, rightHandHolderSlot, cameraManager);
+        playerManager.currentThrowable.SuccessfullyConsumeItem(animatorManager, rightHandHolderSlot, cameraManager);
     }
 }

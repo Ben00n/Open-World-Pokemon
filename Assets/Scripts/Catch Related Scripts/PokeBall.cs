@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/PokeBalls")]
-public class PokeBall : ConsumableItem
+public class PokeBall : Throwable
 {
     [Header("Pokeball Type")]
     public bool normalPokeBall;
 
     public float catchRate;
 
-    [Header("PokeBall Physics")]
-    public float pokeBallForwardVelocity;
-    public float pokeBallUpwardVelocity;
-    public float pokeBallMass;
-    public bool isEffectedByGravity;
     Rigidbody rigidBody;
 
     public override void AttemptToConsumeItem(AnimatorManager AnimatorManager,RightHandHolderSlot rightHandHolderSlot, CameraManager cameraManager)
@@ -34,10 +29,10 @@ public class PokeBall : ConsumableItem
         GameObject pokeBall = Instantiate(itemModel, rightHandHolderSlot.transform.position,cameraManager.cameraPivot.rotation);
         rigidBody = pokeBall.GetComponent<Rigidbody>();
 
-        rigidBody.AddForce(pokeBall.transform.forward * pokeBallForwardVelocity);
-        rigidBody.AddForce(pokeBall.transform.up * pokeBallUpwardVelocity);
+        rigidBody.AddForce(pokeBall.transform.forward * ForwardVelocity);
+        rigidBody.AddForce(pokeBall.transform.up * UpwardVelocity);
         rigidBody.useGravity = isEffectedByGravity;
-        rigidBody.mass = pokeBallMass;
+        rigidBody.mass = Mass;
         pokeBall.transform.parent = null;
     }
 }

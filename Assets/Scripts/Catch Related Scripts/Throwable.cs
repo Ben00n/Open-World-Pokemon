@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsumableItem : Item
+public class Throwable : HotbarItem
 {
     [Header("Item Quantity")]
     public int maxItemAmount;
@@ -12,8 +12,15 @@ public class ConsumableItem : Item
     public GameObject itemModel;
 
     [Header("Animations")]
-    public string consumeAnimation;
+    public string throwAnimation;
 
+    [Header("Physics")]
+    public float ForwardVelocity;
+    public float UpwardVelocity;
+    public float Mass;
+    public bool isEffectedByGravity;
+
+    public override string ColouredName => throw new System.NotImplementedException();
 
     public virtual void AttemptToConsumeItem(AnimatorManager animatorManager,RightHandHolderSlot rightHandHolderSlot,CameraManager cameraManager)
     {
@@ -27,8 +34,13 @@ public class ConsumableItem : Item
         }
     }
 
+    public override string GetInfoDisplayText()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public virtual void SuccessfullyConsumeItem(AnimatorManager animatorManager, RightHandHolderSlot rightHandHolderSlot, CameraManager cameraManager)
     {
-        Debug.Log("you successfully consumed item");
+        Debug.Log("you successfully throw item");
     }
 }
