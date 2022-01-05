@@ -1,7 +1,10 @@
-﻿using UnityEngine.EventSystems;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InventoryItemDragHandler : ItemDragHandler
 {
+    [SerializeField] private ItemDestroyer itemDestroyer = null;
+
     public override void OnPointerUp(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Left)
@@ -10,7 +13,8 @@ public class InventoryItemDragHandler : ItemDragHandler
 
             if(eventData.hovered.Count == 0)
             {
-                //destory item or drop item
+                InventorySlot thisSlot = ItemSlotUI as InventorySlot;
+                itemDestroyer.Activate(thisSlot.ItemSlot, thisSlot.SlotIndex);
             }
         }
     }
