@@ -41,6 +41,7 @@ public class PlayerManager : MonoBehaviour
     private void LateUpdate()
     {
         inputManager.R_Input = false;
+        inputManager.I_Input = false;
 
         cameraManager.HandleAllCameraMovement();
     }

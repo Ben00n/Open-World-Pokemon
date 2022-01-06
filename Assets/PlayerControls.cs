@@ -150,6 +150,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f141bf3-8591-4693-96dd-dd7b8bdcc567"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -185,6 +193,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""ThrowPokeBall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""507b1918-0c2b-487f-885a-e51877592bb2"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -201,6 +220,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerActions_Shift = m_PlayerActions.FindAction("Shift", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
         m_PlayerActions_ThrowPokeBall = m_PlayerActions.FindAction("ThrowPokeBall", throwIfNotFound: true);
+        m_PlayerActions_OpenInventory = m_PlayerActions.FindAction("OpenInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -302,6 +322,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActions_Shift;
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_ThrowPokeBall;
+    private readonly InputAction m_PlayerActions_OpenInventory;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -309,6 +330,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Shift => m_Wrapper.m_PlayerActions_Shift;
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @ThrowPokeBall => m_Wrapper.m_PlayerActions_ThrowPokeBall;
+        public InputAction @OpenInventory => m_Wrapper.m_PlayerActions_OpenInventory;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -327,6 +349,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @ThrowPokeBall.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnThrowPokeBall;
                 @ThrowPokeBall.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnThrowPokeBall;
                 @ThrowPokeBall.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnThrowPokeBall;
+                @OpenInventory.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnOpenInventory;
+                @OpenInventory.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnOpenInventory;
+                @OpenInventory.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnOpenInventory;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -340,6 +365,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @ThrowPokeBall.started += instance.OnThrowPokeBall;
                 @ThrowPokeBall.performed += instance.OnThrowPokeBall;
                 @ThrowPokeBall.canceled += instance.OnThrowPokeBall;
+                @OpenInventory.started += instance.OnOpenInventory;
+                @OpenInventory.performed += instance.OnOpenInventory;
+                @OpenInventory.canceled += instance.OnOpenInventory;
             }
         }
     }
@@ -355,5 +383,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnShift(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
         void OnThrowPokeBall(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
     }
 }

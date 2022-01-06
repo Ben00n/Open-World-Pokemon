@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
     PlayerLocomotion playerLocomotion;
     AnimatorManager animatorManager;
     CameraManager cameraManager;
+    UIManager uiManager;
 
     public Vector2 movementInput;
     public Vector2 cameraInput;
@@ -21,6 +22,8 @@ public class InputManager : MonoBehaviour
 
     public bool R_InputFlag;
     public bool R_Input;
+
+    public bool I_Input;
 
     public float cameraInputX;
     public float cameraInputY;
@@ -37,6 +40,7 @@ public class InputManager : MonoBehaviour
         cameraManager = FindObjectOfType<CameraManager>();
         animatorManager = GetComponent<AnimatorManager>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     private void OnEnable()
@@ -51,6 +55,7 @@ public class InputManager : MonoBehaviour
             playerControls.PlayerMovement.CameraLooking.canceled += i => isLooking = false;
             playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
             playerControls.PlayerActions.ThrowPokeBall.performed += i => R_Input = true;
+            playerControls.PlayerActions.OpenInventory.performed += i => I_Input = true;
 
             playerControls.PlayerActions.Shift.performed += i => shift_Input = true;
             playerControls.PlayerActions.Shift.canceled += i => shift_Input = false;
@@ -70,6 +75,7 @@ public class InputManager : MonoBehaviour
         HandleSprintingInput();
         HandleLockOnInput();
         HandlePokeBallInput();
+        HandleInventoryInput();
         //handle jump etc
     }
 
@@ -129,6 +135,14 @@ public class InputManager : MonoBehaviour
             R_Input = false;
             playerManager.currentThrowable.AttemptToConsumeItem(animatorManager, rightHandHolderSlot,cameraManager);
             R_InputFlag = false;
+        }
+    }
+
+    private void HandleInventoryInput()
+    {
+        if (I_Input)
+        {
+            uiManager.HandleInventory();
         }
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject playerInventory;
     public GameObject battleHUD;
     public GameObject partyList;
     PlayerManager playerManager;
@@ -30,5 +31,13 @@ public class UIManager : MonoBehaviour
             partyList.SetActive(true);
             battleHUD.SetActive(false);
         }
+    }
+
+    public void HandleInventory()
+    {
+        if (playerInventory.activeInHierarchy)
+            playerInventory.SetActive(false);
+        else
+            playerInventory.SetActive(true);
     }
 }
