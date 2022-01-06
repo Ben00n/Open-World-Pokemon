@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Throwable : HotbarItem
+public class Throwable : Item
 {
     [Header("Item Quantity")]
     public int maxItemAmount;

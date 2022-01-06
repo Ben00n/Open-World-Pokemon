@@ -4,4 +4,4 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[Serializable] public class UnityHotbarItemEvent : UnityEvent<HotbarItem> { }
+[Serializable] public class UnityHotbarItemEvent : UnityEvent<Item> { }

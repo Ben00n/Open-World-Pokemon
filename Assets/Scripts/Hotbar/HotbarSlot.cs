@@ -9,15 +9,15 @@ public class HotbarSlot : ItemSlotUI, IDropHandler
     [SerializeField] private Inventory inventory = null;
     [SerializeField] private TextMeshProUGUI itemQuantityText = null;
 
-    private HotbarItem slotItem = null;
+    private Item slotItem = null;
 
-    public override HotbarItem SlotItem
+    public override Item SlotItem
     {
         get { return slotItem; }
         set { slotItem = value; UpdateSlotUI(); }
     }
 
-    public bool AddItem(HotbarItem itemToAdd)
+    public bool AddItem(Item itemToAdd)
     {
         if (SlotItem != null) { return false; }
 
@@ -46,7 +46,7 @@ public class HotbarSlot : ItemSlotUI, IDropHandler
         HotbarSlot hotbarSlot = itemDragHandler.ItemSlotUI as HotbarSlot;
         if(hotbarSlot != null)
         {
-            HotbarItem oldItem = SlotItem;
+            Item oldItem = SlotItem;
             SlotItem = hotbarSlot.SlotItem;
             hotbarSlot.SlotItem = oldItem;
             return;
@@ -72,9 +72,9 @@ public class HotbarSlot : ItemSlotUI, IDropHandler
     {
         if(SlotItem is InventoryItem inventoryItem)
         {
-            if(inventory.ItemContainer.HasItem(inventoryItem))
+            if(inventory.HasItem(inventoryItem))
             {
-                int quantityCount = inventory.ItemContainer.GetTotalQuantity(inventoryItem);
+                int quantityCount = inventory.GetTotalQuantity(inventoryItem);
                 itemQuantityText.text = quantityCount > 1 ? quantityCount.ToString() : "";
             }
             else

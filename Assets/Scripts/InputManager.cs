@@ -25,6 +25,8 @@ public class InputManager : MonoBehaviour
 
     public bool I_Input;
 
+    public bool F_Input;
+
     public float cameraInputX;
     public float cameraInputY;
 
@@ -56,6 +58,7 @@ public class InputManager : MonoBehaviour
             playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
             playerControls.PlayerActions.ThrowPokeBall.performed += i => R_Input = true;
             playerControls.PlayerActions.OpenInventory.performed += i => I_Input = true;
+            playerControls.PlayerActions.Interaction.performed += i => F_Input = true;
 
             playerControls.PlayerActions.Shift.performed += i => shift_Input = true;
             playerControls.PlayerActions.Shift.canceled += i => shift_Input = false;
@@ -143,6 +146,13 @@ public class InputManager : MonoBehaviour
         if (I_Input)
         {
             uiManager.HandleInventory();
+        }
+    }
+
+    private void HandleInteractionInput()
+    {
+        if(F_Input)
+        {
         }
     }
 

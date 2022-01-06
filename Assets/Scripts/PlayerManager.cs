@@ -42,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     {
         inputManager.R_Input = false;
         inputManager.I_Input = false;
+        inputManager.F_Input = false;
 
         cameraManager.HandleAllCameraMovement();
     }

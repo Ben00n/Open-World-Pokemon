@@ -4,4 +4,4 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Hotbar Item Event", menuName = "Game Events/Hotbar Item Event")]
-public class HotbarItemEvent : BaseGameEvent<HotbarItem> { }
+public class HotbarItemEvent : BaseGameEvent<Item> { }

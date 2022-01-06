@@ -3,4 +3,4 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HotbarItemListener : BaseGameEventListener<HotbarItem, HotbarItemEvent, UnityHotbarItemEvent> { }
+public class HotbarItemListener : BaseGameEventListener<Item, HotbarItemEvent, UnityHotbarItemEvent> { }
