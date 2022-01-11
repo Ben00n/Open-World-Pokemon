@@ -15,7 +15,7 @@ public class NpcUI : MonoBehaviour
 
     public void SetNpc(Npc npc)
     {
-        npcNameText.text = npc.Name;
+        npcNameText.text = npc.Name + ":";
         npcGreetingText.text = npc.GreetingText;
 
         foreach(Transform child in occupationButtonHolder)
