@@ -13,10 +13,24 @@ public class NpcUI : MonoBehaviour
 
     [SerializeField] private GameObject occupationButtonPrefab = null;
 
+    [SerializeField] int lettersPerSecond;
+
+    public IEnumerator TypeDialog(string line)
+    {
+        npcGreetingText.text = "";
+        foreach (var letter in line.ToCharArray())
+        {
+            npcGreetingText.text += letter;
+            yield return new WaitForSeconds(1f / lettersPerSecond);
+        }
+        yield return new WaitForSeconds(1f);
+    }
+
     public void SetNpc(Npc npc)
     {
         npcNameText.text = npc.Name + ":";
         npcGreetingText.text = npc.GreetingText;
+        StartCoroutine(TypeDialog(npcGreetingText.text));
 
         foreach(Transform child in occupationButtonHolder)
         {
@@ -29,6 +43,5 @@ public class NpcUI : MonoBehaviour
 
             buttonInstance.GetComponent<OccupationButton>().Initialise(npc.Occupations[i], npc.OtherInteractor);
         }
-
     }
 }
