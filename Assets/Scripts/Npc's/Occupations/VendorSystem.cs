@@ -84,7 +84,7 @@ public class VendorSystem : MonoBehaviour
 
     public void ConfirmButton()
     {
-        if (scenarioData.BuyingItemContainer.Money > currentAmount * currentItem.BuyPrice)
+        if (scenarioData.BuyingItemContainer.Money >= currentAmount * currentItem.BuyPrice)
         {
             scenarioData.BuyingItemContainer.Money -= currentAmount * currentItem.BuyPrice;
 
