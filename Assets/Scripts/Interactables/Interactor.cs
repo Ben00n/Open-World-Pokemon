@@ -24,6 +24,7 @@ public class Interactor : MonoBehaviour
         if(inputManager.F_Input)
         {
             currentInteractable.Interact(transform.root.gameObject);
+            currentInteractable = null;
         }
     }
 

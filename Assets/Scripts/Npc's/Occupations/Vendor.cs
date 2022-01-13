@@ -18,7 +18,7 @@ public class Vendor : MonoBehaviour, IOccupation
 
         if (otherItemContainer == null) { return; }
 
-        VendorData vendorData = new VendorData(itemContainer);
+        VendorData vendorData = new VendorData(itemContainer,otherItemContainer);
 
         onStartVendorScenario.Raise(vendorData);
     }

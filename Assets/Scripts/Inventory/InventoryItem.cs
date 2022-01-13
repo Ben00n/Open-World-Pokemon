@@ -6,7 +6,7 @@ public abstract class InventoryItem : Item
 {
     [Header("Item Data")]
     [SerializeField] private Rarity rarity = null;
-    [SerializeField] [Min(0)] private int sellPrice = 1;
+    [SerializeField] [Min(0)] private int buyPrice = 1;
     [SerializeField] [Min(1)] private int maxStack = 1;
 
     public override string ColouredName
@@ -18,9 +18,8 @@ public abstract class InventoryItem : Item
             return $"<color=#{hexColour}>{Name}</color>";
         }
     }
-    public int SellPrice => sellPrice;
+    public int BuyPrice => buyPrice;
     public int MaxStack => maxStack;
-
     public Rarity Rarity => rarity;
 
 }

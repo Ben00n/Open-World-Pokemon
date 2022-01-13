@@ -6,8 +6,11 @@ using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour, IItemContainer
 {
+    [SerializeField] private int money = 5000;
     [SerializeField] private UnityEvent onInventoryItemsUpdated = null;
     [SerializeField] private ItemSlot[] itemSlots = new ItemSlot[0];
+
+    public int Money { get { return money; } set { money = value; } }
 
     public ItemSlot GetSlotByIndex(int index) => itemSlots[index];
 
@@ -101,9 +104,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         if (slotIndex < 0 || slotIndex > itemSlots.Length - 1) { return; }
 
         itemSlots[slotIndex] = new ItemSlot();
-
         onInventoryItemsUpdated.Invoke();
-
     }
 
     public List<InventoryItem> GetAllUniqueItems()

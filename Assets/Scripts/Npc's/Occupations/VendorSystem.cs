@@ -13,6 +13,11 @@ public class VendorSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemNameText = null;
     [SerializeField] private Image itemIcon = null;
     [SerializeField] private TextMeshProUGUI itemDataText = null;
+    [SerializeField] private TextMeshProUGUI itemPrice = null;
+    [SerializeField] private TextMeshProUGUI amountText = null;
+
+    protected int currentAmount = 1;
+    private InventoryItem currentItem = null;
 
     private VendorData scenarioData = null;
 
@@ -33,9 +38,33 @@ public class VendorSystem : MonoBehaviour
 
     public void SetItem(InventoryItem item)
     {
+        this.currentItem = item;
+        currentAmount = 1;
         itemNameText.text = item.Name;
         itemDataText.text = item.GetInfoDisplayText();
         itemIcon.sprite = item.Icon;
+        itemPrice.text = item.BuyPrice.ToString();
+        amountText.text = currentAmount.ToString();
+    }
+
+    public void IncrementAmount()
+    {
+        if (currentAmount == 99)
+            return;
+
+        currentAmount++;
+        amountText.text = currentAmount.ToString();
+        itemPrice.text = (currentAmount * currentItem.BuyPrice).ToString();
+    }
+
+    public void DecrementAmount()
+    {
+        if (currentAmount == 1)
+            return;
+
+        currentAmount--;
+        amountText.text = currentAmount.ToString();
+        itemPrice.text = (currentAmount * currentItem.BuyPrice).ToString();
     }
 
     private void ClearItemButtons()
@@ -44,5 +73,19 @@ public class VendorSystem : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    public void ConfirmButton()
+    {
+        if (scenarioData.BuyingItemContainer.Money > currentAmount * currentItem.BuyPrice)
+        {
+            scenarioData.BuyingItemContainer.Money -= currentAmount * currentItem.BuyPrice;
+
+            scenarioData.BuyingItemContainer.AddItem(new ItemSlot(currentItem, currentAmount));
+        }
+        else
+        {
+            Debug.Log("You do not have enough money!");
+        }    
     }
 }
