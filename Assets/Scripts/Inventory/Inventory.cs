@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour, IItemContainer
 {
-    [SerializeField] private int money = 5000;
+    [SerializeField] public int money = 5000;
     [SerializeField] private UnityEvent onInventoryItemsUpdated = null;
     [SerializeField] private ItemSlot[] itemSlots = new ItemSlot[0];
 

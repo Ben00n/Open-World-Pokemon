@@ -15,6 +15,7 @@ public class VendorSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemDataText = null;
     [SerializeField] private TextMeshProUGUI itemPrice = null;
     [SerializeField] private TextMeshProUGUI amountText = null;
+    [SerializeField] private TextMeshProUGUI myMoneyAmount = null;
 
     protected int currentAmount = 1;
     private InventoryItem currentItem = null;
@@ -34,6 +35,7 @@ public class VendorSystem : MonoBehaviour
             buttonInstance.GetComponent<VendorItemButton>().Initialise(this,items[i], scenarioData.SellingItemContainer.GetTotalQuantity(items[i]));
         }
         SetItem(scenarioData.SellingItemContainer.GetSlotByIndex(0).item);
+        SetMoneyAmount();
     }
 
     public void SetItem(InventoryItem item)
@@ -45,6 +47,11 @@ public class VendorSystem : MonoBehaviour
         itemIcon.sprite = item.Icon;
         itemPrice.text = item.BuyPrice.ToString();
         amountText.text = currentAmount.ToString();
+    }
+
+    public void SetMoneyAmount()
+    {
+        myMoneyAmount.text = scenarioData.BuyingItemContainer.Money.ToString();
     }
 
     public void IncrementAmount()
@@ -82,6 +89,7 @@ public class VendorSystem : MonoBehaviour
             scenarioData.BuyingItemContainer.Money -= currentAmount * currentItem.BuyPrice;
 
             scenarioData.BuyingItemContainer.AddItem(new ItemSlot(currentItem, currentAmount));
+            SetMoneyAmount();
         }
         else
         {

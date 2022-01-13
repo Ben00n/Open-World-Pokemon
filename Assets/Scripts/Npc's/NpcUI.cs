@@ -23,7 +23,6 @@ public class NpcUI : MonoBehaviour
             npcGreetingText.text += letter;
             yield return new WaitForSeconds(1f / lettersPerSecond);
         }
-        yield return new WaitForSeconds(1f);
     }
 
     public void SetNpc(Npc npc)
