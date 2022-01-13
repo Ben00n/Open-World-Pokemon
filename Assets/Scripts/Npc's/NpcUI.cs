@@ -27,7 +27,7 @@ public class NpcUI : MonoBehaviour
         {
             GameObject buttonInstance = Instantiate(occupationButtonPrefab, occupationButtonHolder);
 
-            buttonInstance.GetComponent<OccupationButton>().Initialise(npc.Occupations[i]);
+            buttonInstance.GetComponent<OccupationButton>().Initialise(npc.Occupations[i], npc.OtherInteractor);
         }
 
     }

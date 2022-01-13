@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IOccupation
 {
     string Name { get; }
-    void Trigger();
+    void Trigger(GameObject other);
 }

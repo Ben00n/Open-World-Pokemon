@@ -10,9 +10,8 @@ public class Npc : MonoBehaviour, IInteractable
     private IOccupation[] occupations = new IOccupation[0];
 
     public string Name => name;
-
     public string GreetingText => greetingText;
-
+    public GameObject OtherInteractor { get; private set; } = null;
     public IOccupation[] Occupations => occupations;
 
     private void Start()
@@ -20,5 +19,9 @@ public class Npc : MonoBehaviour, IInteractable
         occupations = GetComponents<IOccupation>();
     }
 
-    public void Interact(GameObject other) => onStartInteraction.Raise(this);
+    public void Interact(GameObject other)
+    {
+        OtherInteractor = other;
+        onStartInteraction.Raise(this);
+    }
 }
