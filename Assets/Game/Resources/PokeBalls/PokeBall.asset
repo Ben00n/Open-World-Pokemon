@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82144f9588bbed7418e42db072dbd902, type: 3}
-  m_Name: PokeBall
+  m_Script: {fileID: 11500000, guid: 306b617ce309a2b41ad022b03fcc9898, type: 3}
+  m_Name: Pokeball
   m_EditorClassIdentifier: 
-  name: New Hotbar Item Name
-  icon: {fileID: 0}
-  maxItemAmount: 99
-  currentItemAmount: 22
+  name: Pokeball
+  icon: {fileID: 21300000, guid: 3cfb1d3c6969d6a46bff60595def3c07, type: 3}
+  rarity: {fileID: 11400000, guid: 03014a27d5c47d04ea06c886526f19b1, type: 2}
+  buyPrice: 100
+  maxStack: 99
+  useText: Used to catch pokemons at a low catch rate.
   itemModel: {fileID: 7692756372827589166, guid: b6d66d35456a4924d9d18a74699ec8d2,
     type: 3}
-  throwAnimation: 
-  ForwardVelocity: 500
-  UpwardVelocity: 220
-  Mass: 25
+  consumeAnimation: Throw
+  ForwardVelocity: 300
+  UpwardVelocity: 250
+  Mass: 20
   isEffectedByGravity: 1
-  normalPokeBall: 1
-  catchRate: 1

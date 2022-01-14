@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
-public class Throwable : Item
+[CreateAssetMenu(menuName = "Items/Throwables")]
+public class Throwable : ConsumableItem
 {
-    [Header("Item Quantity")]
-    public int maxItemAmount;
-    public int currentItemAmount;
-
     [Header("Item Model")]
     public GameObject itemModel;
 
     [Header("Animations")]
-    public string throwAnimation;
+    public string consumeAnimation;
 
     [Header("Physics")]
     public float ForwardVelocity;
@@ -20,27 +18,22 @@ public class Throwable : Item
     public float Mass;
     public bool isEffectedByGravity;
 
-    public override string ColouredName => throw new System.NotImplementedException();
+    Rigidbody rigidBody;
 
-    public virtual void AttemptToConsumeItem(AnimatorManager animatorManager,RightHandHolderSlot rightHandHolderSlot,CameraManager cameraManager)
+    public void AttemptToConsumeItem(AnimatorManager animatorManager,RightHandHolderSlot rightHandHolderSlot,CameraManager cameraManager)
     {
-        if (currentItemAmount > 0)
-        {
-            animatorManager.PlayTargetAnimation("Throw", true);
-        }
-        else
-        {
-            Debug.Log("failed no quantity");
-        }
+        animatorManager.PlayTargetAnimation(consumeAnimation, true);
     }
 
-    public override string GetInfoDisplayText()
+    public void SuccessfullyConsumeItem(AnimatorManager animatorManager, RightHandHolderSlot rightHandHolderSlot, CameraManager cameraManager)
     {
-        throw new System.NotImplementedException();
-    }
+        GameObject pokeBall = Instantiate(itemModel, rightHandHolderSlot.transform.position, cameraManager.cameraPivot.rotation);
+        rigidBody = pokeBall.GetComponent<Rigidbody>();
 
-    public virtual void SuccessfullyConsumeItem(AnimatorManager animatorManager, RightHandHolderSlot rightHandHolderSlot, CameraManager cameraManager)
-    {
-        Debug.Log("you successfully throw item");
+        rigidBody.AddForce(pokeBall.transform.forward * ForwardVelocity);
+        rigidBody.AddForce(pokeBall.transform.up * UpwardVelocity);
+        rigidBody.useGravity = isEffectedByGravity;
+        rigidBody.mass = Mass;
+        pokeBall.transform.parent = null;
     }
 }
