@@ -19,3 +19,7 @@ Pokemons are able to learn new moves upon leveling up.
 [WASD] to move.
 
 Battle System; self explanatory.
+
+[I] Open Inventory
+
+[F] Interact
