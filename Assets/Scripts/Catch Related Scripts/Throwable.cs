@@ -20,12 +20,12 @@ public class Throwable : ConsumableItem
 
     Rigidbody rigidBody;
 
-    public void AttemptToConsumeItem(AnimatorManager animatorManager,RightHandHolderSlot rightHandHolderSlot,CameraManager cameraManager)
+    public void AttemptToConsumeItem(AnimatorManager animatorManager)
     {
         animatorManager.PlayTargetAnimation(consumeAnimation, true);
     }
 
-    public void SuccessfullyConsumeItem(AnimatorManager animatorManager, RightHandHolderSlot rightHandHolderSlot, CameraManager cameraManager)
+    public void SuccessfullyConsumeItem(RightHandHolderSlot rightHandHolderSlot, CameraManager cameraManager)
     {
         GameObject pokeBall = Instantiate(itemModel, rightHandHolderSlot.transform.position, cameraManager.cameraPivot.rotation);
         rigidBody = pokeBall.GetComponent<Rigidbody>();

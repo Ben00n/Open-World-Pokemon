@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Lock On Transform")]
     public Transform lockOnTransform;
 
-    [Header("CurrentPokeBall")]
+    [Header("Hotbar Items")]
     public Throwable currentThrowable;
 
     public Animator animator;

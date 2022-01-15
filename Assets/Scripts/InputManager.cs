@@ -136,7 +136,7 @@ public class InputManager : MonoBehaviour
         {
             R_InputFlag = true;
             R_Input = false;
-            playerManager.currentThrowable.AttemptToConsumeItem(animatorManager, rightHandHolderSlot,cameraManager);
+            playerManager.currentThrowable.AttemptToConsumeItem(animatorManager);
             R_InputFlag = false;
         }
     }
@@ -149,15 +149,8 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void HandleInteractionInput()
-    {
-        if(F_Input)
-        {
-        }
-    }
-
     private void SuccessfullyThrow() // called in throw animation as an event
     {
-        playerManager.currentThrowable.SuccessfullyConsumeItem(animatorManager, rightHandHolderSlot, cameraManager);
+        playerManager.currentThrowable.SuccessfullyConsumeItem(rightHandHolderSlot, cameraManager);
     }
 }
