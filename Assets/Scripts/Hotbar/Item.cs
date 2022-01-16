@@ -12,5 +12,4 @@ public abstract class Item : ScriptableObject
     public abstract string ColouredName { get; }
     public Sprite Icon => icon;
     public abstract string GetInfoDisplayText();
-
 }

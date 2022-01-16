@@ -29,7 +29,9 @@ public class HotbarSlot : ItemSlotUI, IDropHandler
     public void UseSlot(int index)
     {
         if (index != SlotIndex) { return; }
-        //use item
+        Debug.Log("used slot");
+        if (SlotItem is IUseable useable) { useable.Use(); }
+
     }
 
     public override void OnDrop(PointerEventData eventData)

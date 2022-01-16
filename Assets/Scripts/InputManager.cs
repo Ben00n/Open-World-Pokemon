@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private IntEvent onNumberKeyPressed = null;
+
     public RightHandHolderSlot rightHandHolderSlot;
     PlayerControls playerControls;
     PlayerManager playerManager;
@@ -149,8 +151,38 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void SuccessfullyThrow() // called in throw animation as an event
+    public void SuccessfullyThrow() // called in throw animation as an event
     {
         playerManager.currentThrowable.SuccessfullyConsumeItem(rightHandHolderSlot, cameraManager);
+    }
+
+    public void HandleAbilityRaisedEvent()
+    {
+        animatorManager.PlayTargetAnimation("Throw", true);
+    }
+
+    private static readonly KeyCode[] numberKeys = new KeyCode[]
+{
+            KeyCode.Alpha1,
+            KeyCode.Alpha2,
+            KeyCode.Alpha3,
+            KeyCode.Alpha4,
+            KeyCode.Alpha5,
+            KeyCode.Alpha6,
+            KeyCode.Alpha7,
+            KeyCode.Alpha8,
+            KeyCode.Alpha9,
+            KeyCode.Alpha0,
+};
+
+    private void Update()
+    {
+        for (int i = 0; i < numberKeys.Length; i++)
+        {
+            if (Input.GetKeyDown(numberKeys[i]))
+            {
+                onNumberKeyPressed.Raise(i);
+            }
+        }
     }
 }
