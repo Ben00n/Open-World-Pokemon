@@ -49,12 +49,12 @@ public class PokemonBase : ScriptableObject
         get { return name; }
     }
 
-    public GameObject getPrefab
+    public GameObject GetPrefab
     {
         get { return prefab; }
     }
 
-    public Sprite getSprite
+    public Sprite GetSprite
     {
         get { return sprite; }
     }

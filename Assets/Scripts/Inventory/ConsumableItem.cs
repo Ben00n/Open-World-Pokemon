@@ -7,9 +7,12 @@ using UnityEngine;
 public class ConsumableItem : InventoryItem, IUseable
 {
     [SerializeField] private UseableEvent onUseablePressed = null;
+    [SerializeField] private ItemType itemType;
 
     [Header("Consumable Data")]
     [SerializeField] private string useText = "Does something?";
+
+    ItemType IUseable.itemType => itemType;
 
     public override string GetInfoDisplayText()
     {
@@ -20,9 +23,10 @@ public class ConsumableItem : InventoryItem, IUseable
 
         return builder.ToString();
     }
+
     public void Use()
     {
         onUseablePressed.Raise(this);
-        Debug.Log("test");
+        Debug.Log("event raised");
     }
 }

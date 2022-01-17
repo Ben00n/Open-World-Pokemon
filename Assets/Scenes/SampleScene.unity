@@ -12621,18 +12621,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1236193998186925911}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &985943485 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1236193997742803239, guid: 4e4b6c640c7f3454788f8f6ba43e3c41,
-    type: 3}
-  m_PrefabInstance: {fileID: 1236193998186925911}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985943481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45bb961e3ebfc3b4d84972736c9cfc17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &985943489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12648,18 +12636,7 @@ MonoBehaviour:
   gameEvent: {fileID: 11400000, guid: 738bc592e2b91804983d113f65cdeca0, type: 2}
   unityEventResponse:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 985943485}
-        m_MethodName: HandleAbilityRaisedEvent
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &995651251
 GameObject:
   m_ObjectHideFlags: 0
@@ -28779,6 +28756,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 523548937538045896, guid: 544b6335453cd2043a1f5f7c263e8cfc,
+        type: 3}
+      propertyPath: m_Name
+      value: HotbarSlot
+      objectReference: {fileID: 0}
     - target: {fileID: 652050685225385683, guid: 544b6335453cd2043a1f5f7c263e8cfc,
         type: 3}
       propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.size
