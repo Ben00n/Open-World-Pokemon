@@ -47,14 +47,12 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("ondrop");
         if (eventData.pointerDrag != null)
         {
             PartyMemberUI partyMemberUI = eventData.pointerDrag.GetComponent<PartyMemberUI>();
             if(partyMemberUI != null)
             {
                 pokemonIndex = partyMemberUI.index;
-                Debug.Log("holding " + partyMemberUI.index + "index is " + pokemonIndex);
                 pokemonPartyManager.SwapPokemon(pokemonIndex, partyMember.GetPokemonIndex());
             }
         }
