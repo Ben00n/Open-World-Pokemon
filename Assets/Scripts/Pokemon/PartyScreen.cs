@@ -24,7 +24,7 @@ public class PartyScreen : MonoBehaviour
             if (i < pokemons.Count)
             {
                 memberSlots[i].gameObject.SetActive(true);
-                memberSlots[i].SetData(pokemons[i].GetComponent<PokemonStatsCalculator>());
+                memberSlots[i].SetData(pokemons[i].GetComponent<PokemonStatsCalculator>(), i);
             }
             else
                 memberSlots[i].gameObject.SetActive(false);

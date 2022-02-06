@@ -12,4 +12,11 @@ public class PokemonPartyManager : MonoBehaviour
     {
         return pokemons.Where(x => x.GetComponent<PokemonStatsCalculator>().currentHP > 0).FirstOrDefault();
     }
+
+    public void SwapPokemon(int pokemonIndexA, int pokemonIndexB)
+    {
+        GameObject pokemon = pokemons[pokemonIndexA];
+        pokemons[pokemonIndexA] = pokemons[pokemonIndexB];
+        pokemons[pokemonIndexB] = pokemon;
+    }
 }

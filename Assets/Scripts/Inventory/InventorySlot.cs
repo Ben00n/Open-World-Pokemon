@@ -15,7 +15,7 @@ public class InventorySlot : ItemSlotUI, IDropHandler
         set { }
     }
 
-    public ItemSlot ItemSlot => inventory.GetSlotByIndex(SlotIndex);
+    public ItemSlot ItemSlot => inventory.GetSlotByIndex(SlotIndex); //whenever referenced from here already gets the relevant item
 
     public override void OnDrop(PointerEventData eventData)
     {

@@ -10,7 +10,7 @@ public class Hotbar : MonoBehaviour
     {
         foreach(HotbarSlot hotbarSlot in hotbarSlots)
         {
-            if (hotbarSlot.AddItem(itemToAdd)) { return; }
+            if (hotbarSlot.AddItem(itemToAdd)) { Debug.Log("smthn eadded"); return; }
         }
     }
 }

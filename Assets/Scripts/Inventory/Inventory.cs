@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 {
     [SerializeField] public int money = 5000;
     [SerializeField] private UnityEvent onInventoryItemsUpdated = null;
-    [SerializeField] private ItemSlot[] itemSlots = new ItemSlot[0];
+    [SerializeField] private ItemSlot[] itemSlots = new ItemSlot[20];
 
     public int Money { get { return money; } set { money = value; } }
 
