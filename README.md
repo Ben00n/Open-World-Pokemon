@@ -1,6 +1,9 @@
 # Open-World-Pokemon
 An indie 3D open world pokemon game.
 
+Showcase vid First build 06/02/2022
+https://www.youtube.com/watch?v=F2bXZmpo7pE
+
 # The game has all pokemon battle functionality in it.
 
 ~~~
