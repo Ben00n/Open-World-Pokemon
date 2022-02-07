@@ -14,6 +14,7 @@ public class OccupationButton : MonoBehaviour
     {
         this.occupation = occupation;
         this.other = other;
+        this.occupationNameText.text = occupation.Name;
     }
 
     public void TriggerOccupation() => occupation.Trigger(other);

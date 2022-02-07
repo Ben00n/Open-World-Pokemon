@@ -6,7 +6,7 @@ public class Vendor : MonoBehaviour, IOccupation
 {
     [SerializeField] private VendorDataEvent onStartVendorScenario = null;
     
-    public string Name => "Let's Trade";
+    public string Name => "Trade";
 
     private IItemContainer itemContainer = null;
 

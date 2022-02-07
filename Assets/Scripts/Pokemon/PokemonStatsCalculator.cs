@@ -178,6 +178,11 @@ public class PokemonStatsCalculator : MonoBehaviour
         return statVal;
     }
 
+    public void Heal()
+    {
+        currentHP = maxHP;
+    }
+
     public void ApplyBoosts(List<StatBoost> statBoosts)
     {
         foreach (var statBoost in statBoosts)
