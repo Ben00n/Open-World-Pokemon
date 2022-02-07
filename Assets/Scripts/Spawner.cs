@@ -23,6 +23,8 @@ public class Spawner : MonoBehaviour
             xPos = Random.Range(0, 100);
             zPos = Random.Range(0, 100);
             pokemonList[pulledPokemon].GetComponent<PokemonStatsCalculator>().isWild = true;
+            pokemonList[pulledPokemon].GetComponent<PokemonStatsCalculator>().Level = 0;
+            pokemonList[pulledPokemon].SetActive(true);
             pokemonList[pulledPokemon].tag = "Pokemon";
             Instantiate(pokemonList[pulledPokemon], new Vector3(xPos, 0, zPos), Quaternion.identity);
             yield return new WaitForSeconds(0.1f);

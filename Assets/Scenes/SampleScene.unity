@@ -4123,7 +4123,7 @@ Transform:
   m_Children:
   - {fileID: 1136574711}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &360996671
 GameObject:
@@ -5833,6 +5833,59 @@ RectTransform:
   m_AnchoredPosition: {x: -245, y: 173}
   m_SizeDelta: {x: 124.12714, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &499869262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 499869264}
+  - component: {fileID: 499869263}
+  m_Layer: 0
+  m_Name: Spawner (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &499869263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499869262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5072543c87f8327429ca17fa00d59b78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pokemonList:
+  - {fileID: 2906627080347005291, guid: bbf7ca2eb01634d41979464c159d0e63, type: 3}
+  - {fileID: 2906627080347005291, guid: bbf7ca2eb01634d41979464c159d0e63, type: 3}
+  - {fileID: 2906627080347005291, guid: bbf7ca2eb01634d41979464c159d0e63, type: 3}
+  - {fileID: 220311845857445252, guid: 0576657014512d34ba8ce95d704c35fb, type: 3}
+  - {fileID: 220311845857445252, guid: 0576657014512d34ba8ce95d704c35fb, type: 3}
+  xPos: 0
+  zPos: 0
+  pulledPokemon: 0
+  pokemonCount: 0
+--- !u!4 &499869264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499869262}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50, y: 0, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &518508046
 GameObject:
   m_ObjectHideFlags: 0
@@ -11960,6 +12013,7 @@ MonoBehaviour:
   - {fileID: 811253811621681324, guid: d763306613a811f4b8872df77c9824af, type: 3}
   - {fileID: 2377864915826228643, guid: 5369df8a64face441a217cfdfeb760ad, type: 3}
   - {fileID: 4219714717577669724, guid: 94543a5b3b4591f448b59f5839614ada, type: 3}
+  - {fileID: 1303538291944636536, guid: 866a16ee539a6a442b296da8fd2c00d3, type: 3}
   xPos: 0
   zPos: 0
   pulledPokemon: 0
@@ -16401,6 +16455,39 @@ RectTransform:
   m_AnchoredPosition: {x: 98.28, y: -472.46}
   m_SizeDelta: {x: 140.12521, y: 49.078766}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1251402963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8121143743864040742, guid: c9262e1832f950f438151283c974b656,
+    type: 3}
+  m_PrefabInstance: {fileID: 8968198359955130738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1251402969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251402963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69e163d9170e6e4db6e7bff08f2a008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1251402970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251402963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ba23201e8754b41b4856b494dabcba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onStartInteraction: {fileID: 11400000, guid: c9ffdb949339e8f489c41f4025d6dc4b, type: 2}
+  name: Nurse Joy
+  greetingText: Hello adventurer! Would you like to heal your pokemons?
 --- !u!1 &1254139586
 GameObject:
   m_ObjectHideFlags: 0
@@ -29133,7 +29220,7 @@ PrefabInstance:
     - target: {fileID: 8793846696476775831, guid: 544b6335453cd2043a1f5f7c263e8cfc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8793846696476775831, guid: 544b6335453cd2043a1f5f7c263e8cfc,
         type: 3}
@@ -29262,6 +29349,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1236193997742803234, guid: 4e4b6c640c7f3454788f8f6ba43e3c41,
+        type: 3}
+      propertyPath: pokemons.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236193997742803234, guid: 4e4b6c640c7f3454788f8f6ba43e3c41,
+        type: 3}
+      propertyPath: pokemons.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1236193997742803238, guid: 4e4b6c640c7f3454788f8f6ba43e3c41,
         type: 3}
       propertyPath: currentThrowable

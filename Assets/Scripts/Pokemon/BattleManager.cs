@@ -295,6 +295,7 @@ public class BattleManager : MonoBehaviour
         {
             yield return battleDialogBox.TypeDialog($"{faintedUnit.pokemonBase.Name} Fainted");
             yield return HandleFaintedExperience(faintedUnit); //NEED TO ADD IT AGAIN IN POISION DEATH THING
+            yield return pokemonPartyManager.CheckForEvolutions();
             playerManager.animator.SetBool("isInBattle", false);
             playerPokemonStatsCalculator.gameObject.SetActive(false);
             faintedUnit.gameObject.tag = "FaintedPokemon";

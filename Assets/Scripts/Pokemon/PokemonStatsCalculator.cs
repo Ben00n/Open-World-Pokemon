@@ -64,6 +64,22 @@ public class PokemonStatsCalculator : MonoBehaviour
         Moves.Add(new Move(moveToLearn.Base));
     }
 
+    public Evolution CheckForEvolution()
+    {
+        return pokemonBase.Evolutions.FirstOrDefault(e => e.RequiredLevel == Level);
+    }
+
+    public void Evolve(Evolution evolution)
+    {
+        GameObject newPokemon = evolution.EvolvesInto;
+        newPokemon.GetComponent<PokemonStatsCalculator>().Level = evolution.RequiredLevel;
+        newPokemon.GetComponent<PokemonStatsCalculator>().CalculateStats();
+        newPokemon.GetComponent<PokemonStatsCalculator>().isWild = false;
+        newPokemon.tag = "PartyPokemon";
+        pokemonPartyManager.pokemons.Add(Instantiate(newPokemon.gameObject));
+        pokemonPartyManager.pokemons.Remove(this.gameObject);
+    }
+
     public int Exp { get; set; }
     public int CurrentAttack { get { return GetStat(Stat.Attack); } }
     public int CurrentDefense { get { return GetStat(Stat.Defense); } }
@@ -81,9 +97,12 @@ public class PokemonStatsCalculator : MonoBehaviour
 
     private void SetPokemonLevel()
     {
-        Level = Random.Range(1, 50);
+        if(Level == 0)
+        {
+            Level = Random.Range(15, 15);
+        }
     }
-    private void SetPokemonMoves()
+    public void SetPokemonMoves()
     {
         Moves = new List<Move>();
         foreach (var move in pokemonBase.LearnableMoves)
@@ -111,7 +130,8 @@ public class PokemonStatsCalculator : MonoBehaviour
         {
             foreach (var pokemon in pokemonPartyManager.pokemons)
             {
-                Level = pokemon.GetComponent<PokemonStatsCalculator>().myLevel;
+                //Level = pokemon.GetComponent<PokemonStatsCalculator>().myLevel;
+                SetPokemonMoves();
             }
  
         }
