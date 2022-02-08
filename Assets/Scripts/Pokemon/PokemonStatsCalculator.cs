@@ -67,18 +67,21 @@ public class PokemonStatsCalculator : MonoBehaviour
 
     public Evolution CheckForEvolution()
     {
-        return pokemonBase.Evolutions.FirstOrDefault(e => e.RequiredLevel == Level);
+        return pokemonBase.Evolutions.FirstOrDefault(e => e.RequiredLevel <= Level);
     }
 
     public void Evolve(Evolution evolution)
     {
-        GameObject newPokemon = evolution.EvolvesInto;
-        newPokemon.GetComponent<PokemonStatsCalculator>().Level = evolution.RequiredLevel;
+        GameObject newPokemon = Instantiate(evolution.EvolvesInto);
+        newPokemon.GetComponent<PokemonStatsCalculator>().Level = Level;
         newPokemon.GetComponent<PokemonStatsCalculator>().CalculateStats();
         newPokemon.GetComponent<PokemonStatsCalculator>().isWild = false;
         newPokemon.tag = "PartyPokemon";
         pokemonPartyManager.pokemons.Remove(this.gameObject);
-        pokemonPartyManager.pokemons.Add(Instantiate(newPokemon.gameObject)); 
+        pokemonPartyManager.pokemons.Add((newPokemon.gameObject));
+        //newPokemon.GetComponent<PokemonStatsCalculator>().SetPokemonMoves();
+        SetPokemonMovesAfterEvo(newPokemon.GetComponent<PokemonStatsCalculator>());
+        newPokemon.SetActive(false);
     }
 
     public int Exp { get; set; }
@@ -106,17 +109,33 @@ public class PokemonStatsCalculator : MonoBehaviour
 
     public void SetPokemonMoves()
     {
-        Moves = new List<Move>();
-        foreach (var move in pokemonBase.LearnableMoves)
+        if(Moves == null)//needed to avoid double implementation of moves (solution for overwritten by evo system)
         {
-            if (move.Level <= myLevel)
-                Moves.Add(new Move(move.Base));
+            Moves = new List<Move>();
+            foreach (var move in pokemonBase.LearnableMoves)
+            {
+                if (move.Level <= myLevel)
+                {
+                    Moves.Add(new Move(move.Base));
+                }
 
-            if (Moves.Count >= 4)
-                break;
+                if (Moves.Count >= 4)
+                    break;
+            }
         }
     }
 
+    public void SetPokemonMovesAfterEvo(PokemonStatsCalculator other)
+    {
+        other.Moves = new List<Move>();
+
+        foreach (var move in Moves)
+        {
+            other.Moves.Add(new Move(move.Base));
+        }
+    }
+
+    //called whenever a pokemon is INSTANTIATED
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -127,10 +146,6 @@ public class PokemonStatsCalculator : MonoBehaviour
         if (Level == 0 && isWild)
         {
             SetPokemonLevel();
-        }
-        else
-        {
- 
         }
     }
 
@@ -143,6 +158,7 @@ public class PokemonStatsCalculator : MonoBehaviour
         currentSpeed = CurrentSpeed;
     }
 
+    //called whenever the game is ran AND whenever the gameobject is FIRST toggled
     private void Start()
     {
         SetPokemonMoves();

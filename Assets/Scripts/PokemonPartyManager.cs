@@ -26,8 +26,9 @@ public class PokemonPartyManager : MonoBehaviour
             var evo = pokemon.GetComponent<PokemonStatsCalculator>().CheckForEvolution();
             if (evo != null)
             {
-                yield return dialogBox.TypeDialog($"{pokemon.GetComponent<PokemonStatsCalculator>().pokemonBase.Name} evolved into {evo.EvolvesInto.GetComponent<PokemonStatsCalculator>().pokemonBase.Name}");
+                yield return dialogBox.TypeDialog($"{pokemon.GetComponent<PokemonStatsCalculator>().pokemonBase.Name} evolved into {evo.EvolvesInto.GetComponent<PokemonStatsCalculator>().pokemonBase.Name}!");
                 pokemon.GetComponent<PokemonStatsCalculator>().Evolve(evo);
+                break;
             }
         }
     }
