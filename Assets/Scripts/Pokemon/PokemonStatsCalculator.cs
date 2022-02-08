@@ -8,6 +8,7 @@ using UnityEngine;
 public class PokemonStatsCalculator : MonoBehaviour
 {
     BattleManager battleManager;
+    BattleHUD battleHUD;
     PokemonPartyManager pokemonPartyManager;
     PokemonAnimatorManager pokemonAnimatorManager;
     PokemonManager pokemonManager;
@@ -76,8 +77,8 @@ public class PokemonStatsCalculator : MonoBehaviour
         newPokemon.GetComponent<PokemonStatsCalculator>().CalculateStats();
         newPokemon.GetComponent<PokemonStatsCalculator>().isWild = false;
         newPokemon.tag = "PartyPokemon";
-        pokemonPartyManager.pokemons.Add(Instantiate(newPokemon.gameObject));
         pokemonPartyManager.pokemons.Remove(this.gameObject);
+        pokemonPartyManager.pokemons.Add(Instantiate(newPokemon.gameObject)); 
     }
 
     public int Exp { get; set; }
@@ -102,6 +103,7 @@ public class PokemonStatsCalculator : MonoBehaviour
             Level = Random.Range(15, 15);
         }
     }
+
     public void SetPokemonMoves()
     {
         Moves = new List<Move>();
@@ -118,21 +120,16 @@ public class PokemonStatsCalculator : MonoBehaviour
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
+        battleHUD = FindObjectOfType<BattleHUD>();
         pokemonAnimatorManager = GetComponentInChildren<PokemonAnimatorManager>();
         pokemonManager = GetComponent<PokemonManager>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         if (Level == 0 && isWild)
         {
             SetPokemonLevel();
-            SetPokemonMoves();
         }
         else
         {
-            foreach (var pokemon in pokemonPartyManager.pokemons)
-            {
-                //Level = pokemon.GetComponent<PokemonStatsCalculator>().myLevel;
-                SetPokemonMoves();
-            }
  
         }
     }
@@ -148,8 +145,8 @@ public class PokemonStatsCalculator : MonoBehaviour
 
     private void Start()
     {
+        SetPokemonMoves();
         CalculateStats();
-
         Exp = pokemonBase.GetExpForLevel(Level);
 
         ResetStatBoost();
@@ -201,6 +198,12 @@ public class PokemonStatsCalculator : MonoBehaviour
     public void Heal()
     {
         currentHP = maxHP;
+        foreach (Move move in Moves)
+        {
+            move.PP = move.Base.maximumPP;
+        }
+        CureStatus();
+        CureVolatileStatus();
     }
 
     public void ApplyBoosts(List<StatBoost> statBoosts)

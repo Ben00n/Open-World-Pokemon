@@ -53,7 +53,16 @@ public class PokeBallCollider : MonoBehaviour
                 pokemonManager.shrinking = true;
 
                 StartCoroutine(HidePokemon(pokemonStatsCalculator.transform.gameObject));
-                pokemonPartyManager.pokemons.Add(collision.gameObject);
+                if(pokemonPartyManager.pokemons.Count < 6)
+                {
+                    pokemonPartyManager.pokemons.Add(collision.gameObject);
+                }
+                else
+                {
+                    Debug.Log("added to pc");
+                    //add to pc
+                }
+
 
 
                 Destroy(pokeBallParticles);

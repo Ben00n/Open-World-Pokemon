@@ -56,7 +56,7 @@ public class CollisionManager : MonoBehaviour
     public void PrepareForBattle(PokemonStatsCalculator pokemon)
     {
         var healthyPokemon = pokemonPartyManager.GetHealthyPokemon();
-        healthyPokemon.SetActive(true);
+        healthyPokemon.gameObject.SetActive(true);
         healthyPokemon.transform.localScale = new Vector3(1, 1, 1);
         healthyPokemon.transform.position = transform.position;
         healthyPokemon.transform.LookAt(Vector3.forward + healthyPokemon.transform.position);
