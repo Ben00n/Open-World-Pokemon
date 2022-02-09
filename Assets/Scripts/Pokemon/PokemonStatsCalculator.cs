@@ -80,7 +80,7 @@ public class PokemonStatsCalculator : MonoBehaviour
         pokemonPartyManager.pokemons.Remove(this.gameObject);
         pokemonPartyManager.pokemons.Add((newPokemon.gameObject));
         //newPokemon.GetComponent<PokemonStatsCalculator>().SetPokemonMoves();
-        SetPokemonMovesAfterEvo(newPokemon.GetComponent<PokemonStatsCalculator>());
+        SetPokemonMovesAndExpAfterEvo(newPokemon.GetComponent<PokemonStatsCalculator>());
         newPokemon.SetActive(false);
     }
 
@@ -103,7 +103,7 @@ public class PokemonStatsCalculator : MonoBehaviour
     {
         if(Level == 0)
         {
-            Level = Random.Range(15, 15);
+            Level = Random.Range(35, 35);
         }
     }
 
@@ -125,7 +125,7 @@ public class PokemonStatsCalculator : MonoBehaviour
         }
     }
 
-    public void SetPokemonMovesAfterEvo(PokemonStatsCalculator other)
+    public void SetPokemonMovesAndExpAfterEvo(PokemonStatsCalculator other)
     {
         other.Moves = new List<Move>();
 
@@ -133,6 +133,8 @@ public class PokemonStatsCalculator : MonoBehaviour
         {
             other.Moves.Add(new Move(move.Base));
         }
+
+        other.Exp = Exp;
     }
 
     //called whenever a pokemon is INSTANTIATED
