@@ -49,6 +49,11 @@ public class CollisionManager : MonoBehaviour
                 PrepareForBattle(battleManager.playerPokemonStatsCalculator);
                 battleManager.escapeAttempts = 0;
                 battleDialogBox.SetDialog("Encountered a wild " + battleManager.wildPokemonStatsCalculator.pokemonBase.Name + "!");
+                battleManager.Field = new Field();
+
+                // Test weather effect on start of battle with this
+                //battleManager.Field.SetWeather(ConditionID.rain);
+                //battleDialogBox.SetDialog(battleManager.Field.Weather.StartMessage);
             }
         }
     }

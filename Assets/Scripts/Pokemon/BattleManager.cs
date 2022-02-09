@@ -27,6 +27,8 @@ public class BattleManager : MonoBehaviour
     public PokemonManager wildPokemonManager;
     public Animator wildPokemonAnimator;
 
+    public Field Field { get; set; }
+
     public Button fightButton;
 
     public int escapeAttempts;
@@ -70,7 +72,6 @@ public class BattleManager : MonoBehaviour
             yield return RunMove(secondUnit, firstUnit, secondUnit.CurrentMove);
             yield return RunAfterTurn(secondUnit, firstUnit);
             if (firstUnit.currentHP <= 0) yield break;
-            battleHUD.ActionSelector.SetActive(true);
         }
         else
         {
@@ -88,8 +89,44 @@ public class BattleManager : MonoBehaviour
             yield return RunMove(wildPokemonStatsCalculator,playerPokemonStatsCalculator,enemyMove);
             yield return RunAfterTurn(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
             if (playerPokemonStatsCalculator.currentHP <= 0) yield break;
-            battleHUD.ActionSelector.SetActive(true);
         }
+
+        if(Field.Weather != null)
+        {
+            yield return battleDialogBox.TypeDialog(Field.Weather.EffectMessage);
+
+            // On Player Pokemon
+            Field.Weather.OnWeather?.Invoke(playerPokemonStatsCalculator);
+
+            yield return ShowStatusChanges(playerPokemonStatsCalculator);
+            yield return battleHUD.UpdatePokemonHP(playerPokemonStatsCalculator, battleHUD.playerPokemonHPBar);
+            if(playerPokemonStatsCalculator.currentHP <= 0)
+            {
+                yield return BattleOver(playerPokemonStatsCalculator);
+                yield break;
+            }
+            // On Enemy Pokemon
+            Field.Weather.OnWeather?.Invoke(wildPokemonStatsCalculator);
+            yield return ShowStatusChanges(wildPokemonStatsCalculator);
+            yield return battleHUD.UpdatePokemonHP(wildPokemonStatsCalculator, battleHUD.wildPokemonHPBar);
+            if(wildPokemonStatsCalculator.currentHP <= 0)
+            {
+                yield return BattleOver(wildPokemonStatsCalculator);
+                yield break;
+            }
+
+            if (Field.WeatherDuration != null)
+            {
+                Field.WeatherDuration--;
+                if(Field.WeatherDuration == 0)
+                {
+                    Field.Weather = null;
+                    Field.WeatherDuration = null;
+                    yield return battleDialogBox.TypeDialog("The weather has been changed back to normal");
+                }
+            }
+        }
+        battleHUD.ActionSelector.SetActive(true);
     }
 
     IEnumerator RunAfterTurn(PokemonStatsCalculator sourceUnit,PokemonStatsCalculator targetUnit)
@@ -203,34 +240,50 @@ public class BattleManager : MonoBehaviour
 
         if (CheckIfMoveHits(move, sourceUnit, targetUnit))
         {
-            if (move.Base.Category == MoveCategory.Status)
+            int hitTimes = move.Base.GetHitTimes();
+            float typeEffectiveness = 1f;
+            int hit = 1;
+
+            for(int i = 1; i<=hitTimes; ++i)
             {
-                yield return RunMoveEffects(move.Base.Effects, sourceUnit, targetUnit,move.Base.Target);
-            }
-            else
-            {
-                var damageDetails = targetUnit.TakeDamage(move.Base, sourceUnit);
-                if (targetUnit.tag == "Pokemon")
+                if (move.Base.Category == MoveCategory.Status)
                 {
-                    yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.wildPokemonHPBar);
+                    yield return RunMoveEffects(move.Base.Effects, sourceUnit, targetUnit, move.Base.Target);
                 }
-                else if (targetUnit.tag == "PartyPokemon")
+                else
                 {
-                    yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.playerPokemonHPBar);
+                    var damageDetails = targetUnit.TakeDamage(move, sourceUnit, Field.Weather);
+                    if (targetUnit.tag == "Pokemon")
+                    {
+                        yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.wildPokemonHPBar);
+                    }
+                    else if (targetUnit.tag == "PartyPokemon")
+                    {
+                        yield return battleHUD.UpdatePokemonHP(targetUnit, battleHUD.playerPokemonHPBar);
+                    }
+                    yield return ShowDamageDetails(damageDetails);
+                    typeEffectiveness = damageDetails.TypeEffectiveness;
                 }
-                yield return ShowDamageDetails(damageDetails);
+
+                if (move.Base.Secondaries != null && move.Base.Secondaries.Count > 0 && targetUnit.currentHP > 0)
+                {
+                    foreach (var secondary in move.Base.Secondaries)
+                    {
+                        var rnd = UnityEngine.Random.Range(1, 101);
+                        if (rnd <= secondary.Chance)
+                            yield return RunMoveEffects(secondary, sourceUnit, targetUnit, secondary.Target);
+                    }
+                }
+
+                hit = i;
+                if (targetUnit.currentHP <= 0)
+                    break;
             }
 
-            if(move.Base.Secondaries != null && move.Base.Secondaries.Count > 0 && targetUnit.currentHP > 0)
-            {
-                foreach (var secondary in move.Base.Secondaries)
-                {
-                    var rnd = UnityEngine.Random.Range(1, 101);
-                    if (rnd <= secondary.Chance)
-                        yield return RunMoveEffects(secondary, sourceUnit, targetUnit, secondary.Target);
-                }
-            }
+            yield return ShowEffectiveness(typeEffectiveness);
 
+            if (hitTimes > 1)
+                yield return battleDialogBox.TypeDialog($"Hit {hit} times!");
 
             if (targetUnit.currentHP <= 0)
             {
@@ -267,6 +320,14 @@ public class BattleManager : MonoBehaviour
 
         yield return ShowStatusChanges(source);
         yield return ShowStatusChanges(target);
+
+        //Weather Condition
+        if (effects.Weather != ConditionID.none)
+        {
+            Field.SetWeather(effects.Weather);
+            Field.WeatherDuration = 5;
+            yield return battleDialogBox.TypeDialog(Field.Weather.StartMessage);
+        }
     }
 
     IEnumerator BattleOver(PokemonStatsCalculator faintedUnit)
@@ -317,7 +378,6 @@ public class BattleManager : MonoBehaviour
         int expGain = Mathf.FloorToInt((expYield * enemyLevel) / 7);
         playerPokemonStatsCalculator.Exp += expGain;
         yield return battleDialogBox.TypeDialog($"{playerPokemonStatsCalculator.pokemonBase.Name} has gained {expGain} exp");
-        yield return battleHUD.SetExpSmooth();
 
         //Check Level Up
         while (playerPokemonStatsCalculator.CheckForLevelUp())
@@ -346,7 +406,6 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            yield return battleHUD.SetExpSmooth(true);
         }
         yield return new WaitForSeconds(1f);
     }
@@ -645,12 +704,15 @@ public class BattleManager : MonoBehaviour
     {
         if (damageDetails.Critical > 1f)
             yield return battleDialogBox.TypeDialog("A critical hit!");
+    }
 
-        if(damageDetails.TypeEffectiveness > 1f)
+    IEnumerator ShowEffectiveness(float typeEffectiveness)
+    {
+        if (typeEffectiveness > 1f)
             yield return battleDialogBox.TypeDialog("It's super effective");
-        else if(damageDetails.TypeEffectiveness < 1f && damageDetails.TypeEffectiveness > 0f)
+        else if (typeEffectiveness < 1f && typeEffectiveness > 0f)
             yield return battleDialogBox.TypeDialog("It's not very effective");
-        else if(damageDetails.TypeEffectiveness == 0f)
+        else if (typeEffectiveness == 0f)
             yield return battleDialogBox.TypeDialog("It had no effect at all");
     }
 }

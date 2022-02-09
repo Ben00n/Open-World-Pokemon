@@ -143,11 +143,69 @@ public class ConditionsDB
             }
         },
 
+        //Weather Conditions
+        {
+            ConditionID.sunny,
+            new Condition()
+            {
+                Name = "Harsh Sunlight",
+                StartMessage = "The weather has changed to Harsh Sunlight",
+                EffectMessage = "The sunlight is harsh",
+                OnDamageModify = (PokemonStatsCalculator source, PokemonStatsCalculator target, Move move) =>
+                {
+                    if (move.Base.Type == PokemonType.Fire)
+                        return 1.5f;
+                    else if (move.Base.Type == PokemonType.Water)
+                        return 0.5f;
+
+                    return 1f;
+                }
+            }
+        },
+
+        {
+            ConditionID.rain,
+            new Condition()
+            {
+                Name = "Heavy Rain",
+                StartMessage = "It started raining heavily",
+                EffectMessage = "It's raining heavily",
+                OnDamageModify = (PokemonStatsCalculator source, PokemonStatsCalculator target, Move move) =>
+                {
+                    if (move.Base.Type == PokemonType.Water)
+                        return 1.5f;
+                    else if (move.Base.Type == PokemonType.Fire)
+                        return 0.5f;
+
+                    return 1f;
+                }
+            }
+        },
+
+        {
+            ConditionID.sandstorm,
+            new Condition()
+            {
+                Name = "Sandstorm",
+                StartMessage = "A sandstorm starts to rage",
+                EffectMessage = "The sandstorm is raging!",
+                OnWeather = (PokemonStatsCalculator pokemon) =>
+                {
+                    pokemon.UpdateHP(Mathf.RoundToInt((float)pokemon.maxHP / 16f));
+                    pokemon.StatusChanges.Enqueue($"{pokemon.pokemonBase.Name} has been buffeted by the sandstorm!");
+                }
+            }
+        },
+
+
+
+
     };
 }
 
 public enum ConditionID
 {
     none,psn,brn,slp,par,frz,
-    confusion
+    confusion,
+    sunny, rain, sandstorm
 }

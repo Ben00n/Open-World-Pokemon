@@ -79,7 +79,6 @@ public class PokemonStatsCalculator : MonoBehaviour
         newPokemon.tag = "PartyPokemon";
         pokemonPartyManager.pokemons.Remove(this.gameObject);
         pokemonPartyManager.pokemons.Add((newPokemon.gameObject));
-        //newPokemon.GetComponent<PokemonStatsCalculator>().SetPokemonMoves();
         SetPokemonMovesAndExpAfterEvo(newPokemon.GetComponent<PokemonStatsCalculator>());
         newPokemon.SetActive(false);
     }
@@ -103,7 +102,7 @@ public class PokemonStatsCalculator : MonoBehaviour
     {
         if(Level == 0)
         {
-            Level = Random.Range(35, 35);
+            Level = Random.Range(15, 15);
         }
     }
 
@@ -135,9 +134,10 @@ public class PokemonStatsCalculator : MonoBehaviour
         }
 
         other.Exp = Exp;
+
     }
 
-    //called whenever a pokemon is INSTANTIATED
+    //called whenever a pokemon is INSTANTIATED (can use this to avoid start method)
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -149,6 +149,7 @@ public class PokemonStatsCalculator : MonoBehaviour
         {
             SetPokemonLevel();
         }
+        Exp = pokemonBase.GetExpForLevel(Level);
     }
 
     private void Update()
@@ -165,7 +166,6 @@ public class PokemonStatsCalculator : MonoBehaviour
     {
         SetPokemonMoves();
         CalculateStats();
-        Exp = pokemonBase.GetExpForLevel(Level);
 
         ResetStatBoost();
     }
@@ -242,26 +242,28 @@ public class PokemonStatsCalculator : MonoBehaviour
         }
     }
 
-    public DamageDetails TakeDamage(MoveBase moveBase, PokemonStatsCalculator attacker)
+    public DamageDetails TakeDamage(Move move, PokemonStatsCalculator attacker, Condition weather)
     {
         float critical = 1f;
         if (Random.value * 100f <= 6.25f)
             critical = 2f;
 
-        float type = TypeChart.GetEffectiveness(moveBase.Type, this.pokemonBase.GetType1) * TypeChart.GetEffectiveness(moveBase.Type, this.pokemonBase.GetType2);
+        float typeEffectiveness = TypeChart.GetEffectiveness(move.Base.Type, this.pokemonBase.GetType1) * TypeChart.GetEffectiveness(move.Base.Type, this.pokemonBase.GetType2);
+
+        float weatherMod = weather?.OnDamageModify?.Invoke(this, attacker, move) ?? 1f;
 
         var damageDetails = new DamageDetails()
         {
-            TypeEffectiveness = type,
+            TypeEffectiveness = typeEffectiveness,
             Critical = critical,
             Fainted = false
         };
-        float attack = (moveBase.Category == MoveCategory.Special) ? attacker.CurrentSpAttack : attacker.CurrentAttack;
-        float defense = (moveBase.Category == MoveCategory.Special) ? CurrentSpDefense : CurrentDefense;
+        float attack = (move.Base.Category == MoveCategory.Special) ? attacker.CurrentSpAttack : attacker.CurrentAttack;
+        float defense = (move.Base.Category == MoveCategory.Special) ? CurrentSpDefense : CurrentDefense;
 
-        float modifiers = Random.Range(0.85f, 1f) * type * critical;
+        float modifiers = Random.Range(0.85f, 1f) * typeEffectiveness * critical * weatherMod;
         float a = (2 * attacker.Level + 10) / 250f;
-        float d = a * moveBase.Power * ((float)attack / defense) + 2;
+        float d = a * move.Base.Power * ((float)attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
 
         UpdateHP(damage);

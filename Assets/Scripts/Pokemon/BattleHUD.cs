@@ -21,7 +21,6 @@ public class BattleHUD : MonoBehaviour
     [SerializeField] Text playerPokemonLevelText;
     [SerializeField] Text playerPokemonStatusText;
     [SerializeField] public HPBar playerPokemonHPBar;
-    [SerializeField] GameObject expBar;
 
     [Header("Moves")]
     [SerializeField] List<Text> moveTexts;
@@ -66,8 +65,6 @@ public class BattleHUD : MonoBehaviour
 
     public void SetData(PokemonStatsCalculator wildPokemon, PokemonStatsCalculator playerPokemon)
     {
-        SetExp();
-
         statusColors = new Dictionary<ConditionID, Color>()
         {
             { ConditionID.psn, psnColor },
@@ -120,32 +117,32 @@ public class BattleHUD : MonoBehaviour
         playerPokemonLevelText.text = "Lvl " + battleManager.playerPokemonStatsCalculator.Level;
     }
 
-    public void SetExp()
-    {
-        if (expBar == null) return;
+    //public void SetExp()
+    //{
+    //    if (expBar == null) return;
 
-        float normalizedExp = GetNormalizedExp();
-        expBar.transform.localScale = new Vector3(normalizedExp, 1, 1);
-    }
-    public IEnumerator SetExpSmooth(bool reset=false)
-    {
-        if (expBar == null) yield break;
+    //    float normalizedExp = GetNormalizedExp();
+    //    expBar.transform.localScale = new Vector3(normalizedExp, 1, 1);
+    //}
+    //public IEnumerator SetExpSmooth(bool reset=false)
+    //{
+    //    if (expBar == null) yield break;
 
-        if(reset)
-            expBar.transform.localScale = new Vector3(0, 1, 1);
+    //    if(reset)
+    //        expBar.transform.localScale = new Vector3(0, 1, 1);
 
-        float normalizedExp = GetNormalizedExp();
-        yield return expBar.transform.DOScaleX(normalizedExp, 1.5f).WaitForCompletion();
-    }
+    //    float normalizedExp = GetNormalizedExp();
+    //    yield return expBar.transform.DOScaleX(normalizedExp, 1.5f).WaitForCompletion();
+    //}
 
-    float GetNormalizedExp()
-    {
-        int currLevelExp = battleManager.playerPokemonStatsCalculator.pokemonBase.GetExpForLevel(battleManager.playerPokemonStatsCalculator.Level);
-        int nextLevelExp = battleManager.playerPokemonStatsCalculator.pokemonBase.GetExpForLevel(battleManager.playerPokemonStatsCalculator.Level + 1);
+    //float GetNormalizedExp()
+    //{
+    //    int currLevelExp = battleManager.playerPokemonStatsCalculator.pokemonBase.GetExpForLevel(battleManager.playerPokemonStatsCalculator.Level);
+    //    int nextLevelExp = battleManager.playerPokemonStatsCalculator.pokemonBase.GetExpForLevel(battleManager.playerPokemonStatsCalculator.Level + 1);
 
-        float normalizedExp = (float) (battleManager.playerPokemonStatsCalculator.Exp - currLevelExp) / (nextLevelExp - currLevelExp);
-        return Mathf.Clamp01(normalizedExp);
-    }
+    //    float normalizedExp = (float) (battleManager.playerPokemonStatsCalculator.Exp - currLevelExp) / (nextLevelExp - currLevelExp);
+    //    return Mathf.Clamp01(normalizedExp);
+    //}
 
     public IEnumerator UpdatePokemonHP(PokemonStatsCalculator pokemon,HPBar hpBar)
     {
