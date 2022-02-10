@@ -34,7 +34,7 @@ public class BattleHUD : MonoBehaviour
     [SerializeField] Color parColor;
     [SerializeField] Color frzColor;
 
-    Dictionary<ConditionID, Color> statusColors;
+    public Dictionary<ConditionID, Color> statusColors;
 
     private void Awake()
     {

@@ -102,7 +102,7 @@ public class PokemonStatsCalculator : MonoBehaviour
     {
         if(Level == 0)
         {
-            Level = Random.Range(15, 15);
+            Level = Random.Range(35, 35);
         }
     }
 

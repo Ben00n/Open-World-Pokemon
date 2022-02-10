@@ -6,12 +6,20 @@ using UnityEngine.UI;
 
 public class PartyMemberUI : MonoBehaviour
 {
+    BattleHUD battleHUD;
+
     [SerializeField] Text nameText;
     [SerializeField] Text levelText;
+    [SerializeField] Text statusText;
     [SerializeField] HPBar hpBar;
     [SerializeField] ExpBar expBar;
     [SerializeField] Image icon;
     [SerializeField] public int index;
+
+    private void Awake()
+    {
+        battleHUD = FindObjectOfType<BattleHUD>();
+    }
 
     public void SetData(PokemonStatsCalculator pokemon,int index)
     {
@@ -19,11 +27,25 @@ public class PartyMemberUI : MonoBehaviour
         levelText.text = "Lvl " + pokemon.Level;
         hpBar.SetHP((float)pokemon.currentHP / pokemon.maxHP);
         expBar?.SetEXP(GetNormalizedExp(pokemon));
+        SetStatusText(pokemon);
         icon.sprite = pokemon.pokemonBase.GetSprite;
         this.index = index;
     }
 
-    float GetNormalizedExp(PokemonStatsCalculator thisPokemon)
+    private void SetStatusText(PokemonStatsCalculator pokemon)
+    {
+        if (pokemon.Status == null)
+        {
+            statusText.text = "";
+        }
+        else
+        {
+            statusText.text = pokemon.Status.Id.ToString().ToUpper();
+            statusText.color = battleHUD.statusColors[pokemon.Status.Id];
+        }
+    }
+
+        float GetNormalizedExp(PokemonStatsCalculator thisPokemon)
     {
         int currLevelExp = thisPokemon.pokemonBase.GetExpForLevel(thisPokemon.Level);
         int nextLevelExp = thisPokemon.pokemonBase.GetExpForLevel(thisPokemon.Level + 1);

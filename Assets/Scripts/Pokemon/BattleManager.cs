@@ -30,6 +30,7 @@ public class BattleManager : MonoBehaviour
     public Field Field { get; set; }
 
     public Button fightButton;
+    public Button runButton;
 
     public int escapeAttempts;
     MoveBase moveToLearn;
@@ -493,9 +494,17 @@ public class BattleManager : MonoBehaviour
     {
         partyScreen.SetPartyData(pokemonPartyManager.pokemons);
         if (partyScreen.gameObject.activeInHierarchy)
+        {
+            fightButton.interactable = true;
+            runButton.interactable = true;
             partyScreen.gameObject.SetActive(false);
+        }
         else
+        {
+            fightButton.interactable = false;
+            runButton.interactable = false;
             partyScreen.gameObject.SetActive(true);
+        }
     }
 
     IEnumerator TryToEscape()
