@@ -13,7 +13,7 @@ public class VendorItemButton : MonoBehaviour
     private VendorSystem vendorSystem = null;
     private InventoryItem item = null;
 
-    public void Initialise(VendorSystem vendorSystem, InventoryItem item, int quantity)
+    public void Initialise(VendorSystem vendorSystem, InventoryItem item)
     {
         this.vendorSystem = vendorSystem;
         this.item = item;

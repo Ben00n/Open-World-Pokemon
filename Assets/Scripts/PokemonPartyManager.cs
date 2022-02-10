@@ -6,7 +6,12 @@ using UnityEngine;
 [System.Serializable]
 public class PokemonPartyManager : MonoBehaviour
 {
-    public List<GameObject> pokemons;
+    [Header("Party Pokemons")]
+    [SerializeField] public List<GameObject> partyPokemons;
+
+    [Header("PC Pokemons")]
+    [SerializeField] public List<GameObject> pcPokemons;
+
     BattleDialogBox dialogBox;
 
     private void Awake()
@@ -16,12 +21,12 @@ public class PokemonPartyManager : MonoBehaviour
 
     public GameObject GetHealthyPokemon()
     {
-        return pokemons.Where(x => x.GetComponent<PokemonStatsCalculator>().currentHP > 0).FirstOrDefault();
+        return partyPokemons.Where(x => x.GetComponent<PokemonStatsCalculator>().currentHP > 0).FirstOrDefault();
     }
 
     public IEnumerator CheckForEvolutions()
     {
-        foreach (var pokemon in pokemons)
+        foreach (var pokemon in partyPokemons)
         {
             var evo = pokemon.GetComponent<PokemonStatsCalculator>().CheckForEvolution();
             if (evo != null)
@@ -35,8 +40,8 @@ public class PokemonPartyManager : MonoBehaviour
 
     public void SwapPokemon(int pokemonIndexA, int pokemonIndexB)
     {
-        GameObject pokemon = pokemons[pokemonIndexA];
-        pokemons[pokemonIndexA] = pokemons[pokemonIndexB];
-        pokemons[pokemonIndexB] = pokemon;
+        GameObject pokemon = partyPokemons[pokemonIndexA];
+        partyPokemons[pokemonIndexA] = partyPokemons[pokemonIndexB];
+        partyPokemons[pokemonIndexB] = pokemon;
     }
 }

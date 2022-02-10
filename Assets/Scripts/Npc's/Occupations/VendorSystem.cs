@@ -32,7 +32,7 @@ public class VendorSystem : MonoBehaviour
         for (int i = 0; i < items.Count; i++)
         {
             GameObject buttonInstance = Instantiate(buttonPrefab, buttonHolderTransform);
-            buttonInstance.GetComponent<VendorItemButton>().Initialise(this,items[i], scenarioData.SellingItemContainer.GetTotalQuantity(items[i]));
+            buttonInstance.GetComponent<VendorItemButton>().Initialise(this,items[i]);
         }
         SetItem(scenarioData.SellingItemContainer.GetSlotByIndex(0).item);
         SetMoneyAmount();

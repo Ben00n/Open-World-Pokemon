@@ -77,8 +77,8 @@ public class PokemonStatsCalculator : MonoBehaviour
         newPokemon.GetComponent<PokemonStatsCalculator>().CalculateStats();
         newPokemon.GetComponent<PokemonStatsCalculator>().isWild = false;
         newPokemon.tag = "PartyPokemon";
-        pokemonPartyManager.pokemons.Remove(this.gameObject);
-        pokemonPartyManager.pokemons.Add((newPokemon.gameObject));
+        pokemonPartyManager.partyPokemons.Remove(this.gameObject);
+        pokemonPartyManager.partyPokemons.Add((newPokemon.gameObject));
         SetPokemonMovesAndExpAfterEvo(newPokemon.GetComponent<PokemonStatsCalculator>());
         newPokemon.SetActive(false);
     }
@@ -248,6 +248,8 @@ public class PokemonStatsCalculator : MonoBehaviour
         if (Random.value * 100f <= 6.25f)
             critical = 2f;
 
+        float stab = attacker.pokemonBase.GetType1 == move.Base.Type || attacker.pokemonBase.GetType2 == move.Base.Type ? 1.5f : 1f;
+
         float typeEffectiveness = TypeChart.GetEffectiveness(move.Base.Type, this.pokemonBase.GetType1) * TypeChart.GetEffectiveness(move.Base.Type, this.pokemonBase.GetType2);
 
         float weatherMod = weather?.OnDamageModify?.Invoke(this, attacker, move) ?? 1f;
@@ -261,7 +263,7 @@ public class PokemonStatsCalculator : MonoBehaviour
         float attack = (move.Base.Category == MoveCategory.Special) ? attacker.CurrentSpAttack : attacker.CurrentAttack;
         float defense = (move.Base.Category == MoveCategory.Special) ? CurrentSpDefense : CurrentDefense;
 
-        float modifiers = Random.Range(0.85f, 1f) * typeEffectiveness * critical * weatherMod;
+        float modifiers = Random.Range(0.85f, 1f) * typeEffectiveness * critical * weatherMod * stab;
         float a = (2 * attacker.Level + 10) / 250f;
         float d = a * move.Base.Power * ((float)attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);

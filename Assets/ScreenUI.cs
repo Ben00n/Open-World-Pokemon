@@ -29,6 +29,6 @@ public class ScreenUI : MonoBehaviour
 
     private void Update()
     {
-        SetPartyData(pokemonPartyManager.pokemons);
+        SetPartyData(pokemonPartyManager.partyPokemons);
     }
 }

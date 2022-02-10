@@ -9,7 +9,7 @@ public class Healer : MonoBehaviour, IOccupation
     public void Heal(GameObject player)
     {
         var playerParty = player.GetComponent<PokemonPartyManager>();
-        playerParty.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().Heal());
+        playerParty.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().Heal());
     }
 
     public void Trigger(GameObject other)

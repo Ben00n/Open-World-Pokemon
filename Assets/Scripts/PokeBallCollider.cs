@@ -53,13 +53,14 @@ public class PokeBallCollider : MonoBehaviour
                 pokemonManager.shrinking = true;
 
                 StartCoroutine(HidePokemon(pokemonStatsCalculator.transform.gameObject));
-                if(pokemonPartyManager.pokemons.Count < 6)
+                if(pokemonPartyManager.partyPokemons.Count < 6)
                 {
-                    pokemonPartyManager.pokemons.Add(collision.gameObject);
+                    pokemonPartyManager.partyPokemons.Add(collision.gameObject);
                 }
                 else
                 {
                     Debug.Log("added to pc");
+                    pokemonPartyManager.pcPokemons.Add(collision.gameObject);
                     //add to pc
                 }
 
@@ -97,7 +98,7 @@ public class PokeBallCollider : MonoBehaviour
     IEnumerator HidePokemon(GameObject pokemon)
     {
         yield return new WaitForSeconds(1f);
-        foreach (var poke in pokemonPartyManager.pokemons)
+        foreach (var poke in pokemonPartyManager.partyPokemons)
         {
             poke.GetComponent<PokemonStatsCalculator>().isWild = false;
             poke.GetComponent<PokemonManager>().shrinking = false;

@@ -341,7 +341,7 @@ public class BattleManager : MonoBehaviour
             {
                 OpenPartyScreen();
                 fightButton.interactable = false;
-                pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+                pokemonPartyManager.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
             }
             else
             {
@@ -350,7 +350,7 @@ public class BattleManager : MonoBehaviour
                 wildPokemonAnimator.SetBool("isInBattle", false);
                 collisionManager.transform.gameObject.SetActive(true); // player trigger collider
                 collisionManager.playerCollider.enabled = true; // main player collider
-                pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+                pokemonPartyManager.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
             }
         }
         else if (faintedUnit.tag == "Pokemon")
@@ -365,7 +365,7 @@ public class BattleManager : MonoBehaviour
             faintedUnit.GetComponentInChildren<Animator>().SetBool("isFainted", true);
             collisionManager.transform.gameObject.SetActive(true); // player trigger collider
             collisionManager.playerCollider.enabled = true; // main player collider
-            pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            pokemonPartyManager.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
 
         }
     }
@@ -492,7 +492,7 @@ public class BattleManager : MonoBehaviour
 
     public void OpenPartyScreen()
     {
-        partyScreen.SetPartyData(pokemonPartyManager.pokemons);
+        partyScreen.SetPartyData(pokemonPartyManager.partyPokemons);
         if (partyScreen.gameObject.activeInHierarchy)
         {
             fightButton.interactable = true;
@@ -521,7 +521,7 @@ public class BattleManager : MonoBehaviour
             playerPokemonStatsCalculator.gameObject.SetActive(false);
             collisionManager.transform.gameObject.SetActive(true); // player trigger collider
             collisionManager.playerCollider.enabled = true; // main player collider
-            pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            pokemonPartyManager.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
         }
         else
         {
@@ -535,7 +535,7 @@ public class BattleManager : MonoBehaviour
                 playerPokemonStatsCalculator.gameObject.SetActive(false);
                 collisionManager.transform.gameObject.SetActive(true); // player trigger collider
                 collisionManager.playerCollider.enabled = true; // main player collider
-                pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+                pokemonPartyManager.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
             }
             else
             {
@@ -575,7 +575,7 @@ public class BattleManager : MonoBehaviour
             battleHUD.SetData(wildPokemonStatsCalculator, playerPokemonStatsCalculator);
             yield return battleDialogBox.TypeDialog($"Go {playerPokemonStatsCalculator.pokemonBase.Name}!");
 
-            pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            pokemonPartyManager.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
             StartCoroutine(RunTurns(BattleAction.SwitchPokemon, null));
         }
         else
@@ -600,7 +600,7 @@ public class BattleManager : MonoBehaviour
 
             battleHUD.ActionSelector.SetActive(true);
 
-            pokemonPartyManager.pokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
+            pokemonPartyManager.partyPokemons.ForEach(p => p.GetComponent<PokemonStatsCalculator>().OnBattleOver());
             battleHUD.ActionSelector.SetActive(true);
         }
 
@@ -608,7 +608,7 @@ public class BattleManager : MonoBehaviour
 
     public void SwitchPokemon1()
     {
-        var selectedPokemon = pokemonPartyManager.pokemons[0];
+        var selectedPokemon = pokemonPartyManager.partyPokemons[0];
         if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
         {
             Debug.Log("Cant switch to deaded pokemon");
@@ -625,7 +625,7 @@ public class BattleManager : MonoBehaviour
 
     public void SwitchPokemon2()
     {
-        var selectedPokemon = pokemonPartyManager.pokemons[1];
+        var selectedPokemon = pokemonPartyManager.partyPokemons[1];
         if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
         {
             Debug.Log("Cant switch to deaded pokemon");
@@ -642,7 +642,7 @@ public class BattleManager : MonoBehaviour
 
     public void SwitchPokemon3()
     {
-        var selectedPokemon = pokemonPartyManager.pokemons[2];
+        var selectedPokemon = pokemonPartyManager.partyPokemons[2];
         if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
         {
             Debug.Log("Cant switch to deaded pokemon");
@@ -659,7 +659,7 @@ public class BattleManager : MonoBehaviour
 
     public void SwitchPokemon4()
     {
-        var selectedPokemon = pokemonPartyManager.pokemons[3];
+        var selectedPokemon = pokemonPartyManager.partyPokemons[3];
         if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
         {
             Debug.Log("Cant switch to deaded pokemon");
@@ -676,7 +676,7 @@ public class BattleManager : MonoBehaviour
 
     public void SwitchPokemon5()
     {
-        var selectedPokemon = pokemonPartyManager.pokemons[4];
+        var selectedPokemon = pokemonPartyManager.partyPokemons[4];
         if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
         {
             Debug.Log("Cant switch to deaded pokemon");
@@ -693,7 +693,7 @@ public class BattleManager : MonoBehaviour
 
     public void SwitchPokemon6()
     {
-        var selectedPokemon = pokemonPartyManager.pokemons[5];
+        var selectedPokemon = pokemonPartyManager.partyPokemons[5];
         if (selectedPokemon.GetComponent<PokemonStatsCalculator>().currentHP <= 0)
         {
             Debug.Log("Cant switch to deaded pokemon");
