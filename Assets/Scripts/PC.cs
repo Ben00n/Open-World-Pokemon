@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PC : MonoBehaviour, IInteractable
 {
-    private PCData pcData;
-
+    [SerializeField] private PcDataEvent onStartPcScenario = null;
     public void Interact(GameObject other)
     {
+        Debug.Log("Interacted with PC");
         var pcPokemonList = other.GetComponent<PokemonPartyManager>().pcPokemons;
-        pcData = new PCData(pcPokemonList, 1);
+        PCData pcData = new PCData(pcPokemonList, 1);
+
+        onStartPcScenario.Raise(pcData);
     }
 }
