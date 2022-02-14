@@ -53,7 +53,7 @@ public class PokemonDragger : MonoBehaviour, IPointerDownHandler, IBeginDragHand
             if(partyMemberUI != null)
             {
                 pokemonIndex = partyMemberUI.index;
-                pokemonPartyManager.SwapPokemon(pokemonIndex, partyMember.GetPokemonIndex());
+                pokemonPartyManager.SwapPartyPokemon(pokemonIndex, partyMember.GetPokemonIndex());
             }
         }
 

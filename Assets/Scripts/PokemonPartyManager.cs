@@ -38,10 +38,17 @@ public class PokemonPartyManager : MonoBehaviour
         }
     }
 
-    public void SwapPokemon(int pokemonIndexA, int pokemonIndexB)
+    public void SwapPartyPokemon(int pokemonIndexA, int pokemonIndexB)
     {
         GameObject pokemon = partyPokemons[pokemonIndexA];
         partyPokemons[pokemonIndexA] = partyPokemons[pokemonIndexB];
         partyPokemons[pokemonIndexB] = pokemon;
+    }
+
+    public void SwapPcPokemons(int pokemonIndexA, int pokemonIndexB)
+    {
+        GameObject pokemon = pcPokemons[pokemonIndexA];
+        pcPokemons[pokemonIndexA] = pcPokemons[pokemonIndexB];
+        pcPokemons[pokemonIndexB] = pokemon;
     }
 }

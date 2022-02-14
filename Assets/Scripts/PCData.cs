@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PCData
 {
-    public PCData(List<GameObject> pokemonList, int page)
+    public PCData(List<GameObject> pokemonList)
     {
         PokemonList = pokemonList;
-        Page = page;
     }
 
     public List<GameObject> PokemonList { get; } = null;
-    public int Page { get; } = 1;
 }

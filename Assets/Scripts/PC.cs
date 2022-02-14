@@ -9,7 +9,7 @@ public class PC : MonoBehaviour, IInteractable
     {
         Debug.Log("Interacted with PC");
         var pcPokemonList = other.GetComponent<PokemonPartyManager>().pcPokemons;
-        PCData pcData = new PCData(pcPokemonList, 1);
+        PCData pcData = new PCData(pcPokemonList);
 
         onStartPcScenario.Raise(pcData);
     }

@@ -5,13 +5,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,IDropHandler
 {
     private PokemonPartyManager pokemonPartyManager;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private Vector3 startLocalPosition;
+    public int index;
+    PCPokemonButton pcPokemonButton;
 
     [SerializeField] private TextMeshProUGUI pokemonNameText = null;
     [SerializeField] private Image pokemonIconImage = null;
@@ -19,27 +21,30 @@ public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void Awake()
     {
+        pcPokemonButton = GetComponent<PCPokemonButton>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
-    }
-
-    private void Start()
-    {
         startLocalPosition = rectTransform.localPosition;
     }
 
     private PCSystem pcSystem = null;
     private PokemonStatsCalculator pokemon = null;
 
-    public void Initialise(PCSystem pcSystem, PokemonStatsCalculator pokemon)
+    public void Initialise(PCSystem pcSystem, PokemonStatsCalculator pokemon,int index)
     {
         this.pcSystem = pcSystem;
         this.pokemon = pokemon;
+        this.index = index;
         pokemonNameText.text = pokemon.pokemonBase.Name;
         pokemonIconImage.sprite = pokemon.pokemonBase.GetSprite;
         pokemonLevel.text = "Lvl " + pokemon.Level.ToString();
+    }
+
+    public int GetPokemonIndex()
+    {
+        return index;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -57,5 +62,18 @@ public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         canvasGroup.blocksRaycasts = true;
         rectTransform.anchoredPosition = startLocalPosition;
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (eventData.pointerDrag != null)
+        {
+            PCPokemonButton currentDrag = eventData.pointerDrag.GetComponent<PCPokemonButton>();
+            if (currentDrag != null)
+            {
+                pokemonPartyManager.SwapPcPokemons(index, currentDrag.GetPokemonIndex());
+                pcSystem.SetPcData(pcSystem.pcData);
+            }
+        }
     }
 }
