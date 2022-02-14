@@ -22,13 +22,7 @@ public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
-
-        Transform testCanvasTransform = transform;
-        do
-        {
-            testCanvasTransform = testCanvasTransform.parent;
-            canvas = testCanvasTransform.GetComponent<Canvas>();
-        } while (canvas == null);
+        canvas = GetComponentInParent<Canvas>();
     }
 
     private void Start()
@@ -62,6 +56,6 @@ public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = true;
-        rectTransform.localPosition = startLocalPosition;
+        rectTransform.anchoredPosition = startLocalPosition;
     }
 }
