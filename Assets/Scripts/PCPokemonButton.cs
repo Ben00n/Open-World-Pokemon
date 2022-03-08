@@ -15,6 +15,9 @@ public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public int index;
     PCPokemonButton pcPokemonButton;
 
+    private PCSystem pcSystem = null;
+    private PokemonStatsCalculator pokemon = null;
+
     [SerializeField] private TextMeshProUGUI pokemonNameText = null;
     [SerializeField] private Image pokemonIconImage = null;
     [SerializeField] private TextMeshProUGUI pokemonLevel = null;
@@ -28,9 +31,6 @@ public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         canvas = GetComponentInParent<Canvas>();
         startLocalPosition = rectTransform.localPosition;
     }
-
-    private PCSystem pcSystem = null;
-    private PokemonStatsCalculator pokemon = null;
 
     public void Initialise(PCSystem pcSystem, PokemonStatsCalculator pokemon,int index)
     {
