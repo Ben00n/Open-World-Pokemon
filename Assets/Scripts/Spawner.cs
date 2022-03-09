@@ -17,11 +17,11 @@ public class Spawner : MonoBehaviour
 
     IEnumerator PokemonDrop()
     {
-        while (pokemonCount < 10)
+        while (pokemonCount < 30)
         {
             pulledPokemon = Random.Range(0, pokemonList.Count);
-            xPos = Random.Range(0, 100);
-            zPos = Random.Range(0, 100);
+            xPos = Random.Range(0, 80);
+            zPos = Random.Range(0, 80);
             pokemonList[pulledPokemon].GetComponent<PokemonStatsCalculator>().isWild = true;
             pokemonList[pulledPokemon].GetComponent<PokemonStatsCalculator>().Level = 0;
             pokemonList[pulledPokemon].SetActive(true);

@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e25ce2f15ef01dc45916675d163d0dd2, type: 3}
+  m_Name: TextureToolParams
+  m_EditorClassIdentifier: 
+  general:
+    mode: 0
+    resolution: 1024
+    extension: 0
+    useHighPrecisionTexture: 1
+    directory: Assets/GriffinGeneratedTextures/
+  livePreview:
+    enable: 1
+    terrain: {fileID: 0}
+    color: {r: 1, g: 0.009225973, b: 0, a: 1}
+    mode: 0
+  heightMap:
+    terrain: {fileID: 0}
+    useRealGeometry: 0
+  heightMapFromMesh:
+    srcMesh: {fileID: -6663025004409719354, guid: 166ad1429e7714c4bb10daae302afd6a,
+      type: 2}
+    offset: {x: 0, y: -2.0875142, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+    scale: {x: 0.3999992, y: 0.3999992, z: 0.3999992}
+    projectionDepth: 4.1750283
+  normalMap:
+    terrain: {fileID: 0}
+    mode: 2
+    space: 1
+  steepness:
+    terrain: {fileID: 0}
+    mode: 0
+  noise:
+    type: 3
+    origin: {x: 12.39, y: 11}
+    frequency: -2.39
+    laccunarity: 1.6
+    persistent: 0.61
+    octaves: 3
+    seed: 15.5
+  colorMap:
+    terrain: {fileID: 0}
+  blend:
+    layers:
+    - dataSource: 0
+      texture: {fileID: 2800000, guid: fadff9f716ed21a4eb1020e7cd42736a, type: 3}
+      number: 1
+      vector: {x: 1, y: 1, z: 1, w: 1}
+      blendOps: 0
+      lerpFactor: 0.5
+      lerpMask: {fileID: 0}
+      saturate: 1
+    - dataSource: 0
+      texture: {fileID: 2800000, guid: e8b70ed43f793074c976cc4affd3e037, type: 3}
+      number: 1
+      vector: {x: 1, y: 1, z: 1, w: 1}
+      blendOps: 2
+      lerpFactor: 0.36
+      lerpMask: {fileID: 0}
+      saturate: 1
+  treeDistribution:
+    terrain: {fileID: 0}
+    treePrototypeIndices: 0500000004000000
+    grassPrototypeIndices: 050000000400000003000000
+    size: 0.001
+    opacity: 1
+    brushMask: {fileID: 2800000, guid: fdc8e3982758f2b489dc4bc6ffc4af16, type: 3}
+    rotationMin: -601.6
+    rotationMax: 45.2
+  filters: []

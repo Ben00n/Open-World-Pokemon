@@ -1,0 +1,78 @@
+﻿#node-border
+{
+	border-radius: 0px;
+	overflow: visible;
+}
+
+#selection-border
+{
+	border-radius: 0px;
+}
+
+#input
+{
+	width: 32px;
+	position: absolute;
+	left: -10px;
+	top: 0px;
+	right: auto;
+	bottom: 0px;
+}
+
+#output
+{
+	width: 32px;	
+	position: absolute;
+	left: auto;
+	top: 0px;
+	right: -10px;
+	bottom: 0px;
+}
+
+Label.connectorText
+{
+	visibility: hidden;
+	margin: 0px;
+}
+
+#title-button-container
+{
+	display: none;
+}
+
+#title
+{
+	height: 24px;
+}
+
+#title-label
+{
+	margin: 6px;
+	flex-grow: 1;
+	font-size: 10px; 
+	-unity-font-style: bold;
+	-unity-text-align: middle-center;
+}
+
+.node
+{
+	max-width: 106px;
+}
+
+#connector.rgba
+{
+	border-color: red;
+}
+
+#metadata
+{
+	position: absolute;
+	height: 12px;
+	width: 100%;
+	bottom: -12px;
+}
+
+#metaLabel
+{
+	-unity-text-align: middle-center;
+}

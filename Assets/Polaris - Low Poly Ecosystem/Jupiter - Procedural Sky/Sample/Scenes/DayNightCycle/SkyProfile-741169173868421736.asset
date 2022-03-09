@@ -1,0 +1,269 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-194747788320905733
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jupiter/SkyShadow
+  m_Shader: {fileID: 4800000, guid: 561c1777fd66e5d488ef1b85ed82bbaa, type: 3}
+  m_ShaderKeywords: DETAIL_OVERLAY_ROTATION MOON OVERHEAD_CLOUD STARS STARS_LAYER_0
+    STARS_LAYER_1 STARS_LAYER_2 SUN
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _OverheadCloudAltitude: 1000
+    - _OverheadCloudAnimationSpeed: 50
+    - _OverheadCloudFlowDirectionX: 1
+    - _OverheadCloudFlowDirectionZ: 1
+    - _OverheadCloudRemapMax: 4
+    - _OverheadCloudRemapMin: 0.54
+    - _OverheadCloudShadowClipMask: 0
+    - _OverheadCloudSize: 10
+    - _OverheadCloudStep: 2
+    m_Colors:
+    - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.22709298}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5278d11d9502245b5cc174a196561b, type: 3}
+  m_Name: SkyProfile-741169173868421736
+  m_EditorClassIdentifier: 
+  skyColor: {r: 0.1238506, g: 0.14360116, b: 0.34576786, a: 1}
+  horizonColor: {r: 0.1238506, g: 0.14360116, b: 0.34576786, a: 1}
+  groundColor: {r: 0.1238506, g: 0.14360116, b: 0.34576786, a: 1}
+  horizonThickness: 1
+  horizonExponent: 3.096379
+  horizonStep: 1000
+  fogSyncOption: 2
+  fogColor: {r: 0.8490566, g: 0.69017035, b: 0.6287825, a: 1}
+  enableStars: 1
+  starsStartPosition: 0
+  starsEndPosition: 1
+  starsOpacity: 0.29772222
+  starsLayerCount: 3
+  starsColor0: {r: 0.96470594, g: 0.9450981, b: 0.76470596, a: 1}
+  starsColor1: {r: 1, g: 0.5294118, b: 0.93725497, a: 1}
+  starsColor2: {r: 0, g: 0.92549026, b: 1, a: 1}
+  starsDensity0: 0.4
+  starsDensity1: 0.34
+  starsDensity2: 0.45
+  starsSize0: 0.42
+  starsSize1: 0.53
+  starsSize2: 0.46
+  starsGlow0: 0.01
+  starsGlow1: 0.01
+  starsGlow2: 0.01
+  starsTwinkle0: 5
+  starsTwinkle1: 6
+  starsTwinkle2: 2
+  useBakedStars: 0
+  starsCubemap: {fileID: 0}
+  starsTwinkleMap: {fileID: 0}
+  enableSun: 1
+  sunTexture: {fileID: 0}
+  sunColor: {r: 0.98326683, g: 0.9556562, b: 0.9100987, a: 0}
+  sunSize: 0.07
+  sunSoftEdge: 0.5
+  sunGlow: 0.45
+  useBakedSun: 0
+  sunCubemap: {fileID: 0}
+  sunLightColor: {r: 1, g: 0.99511117, b: 0.8632076, a: 1}
+  sunLightIntensity: 1
+  enableMoon: 1
+  moonTexture: {fileID: 0}
+  moonColor: {r: 1, g: 1, b: 1, a: 0.6295172}
+  moonSize: 0.07
+  moonSoftEdge: 0.22
+  moonGlow: 0.236
+  useBakedMoon: 0
+  moonCubemap: {fileID: 0}
+  moonLightColor: {r: 0.8431373, g: 0.9843138, b: 1, a: 1}
+  moonLightIntensity: 0.046027362
+  customCloudTexture: {fileID: 0}
+  enableHorizonCloud: 0
+  horizonCloudColor: {r: 1, g: 1, b: 1, a: 1}
+  horizonCloudStartPosition: -0.01
+  horizonCloudEndPosition: 0.35
+  horizonCloudSize: 5
+  horizonCloudStep: 25
+  horizonCloudAnimationSpeed: 50
+  enableOverheadCloud: 1
+  overheadCloudColor: {r: 1, g: 1, b: 1, a: 0.22709298}
+  overheadCloudAltitude: 1000
+  overheadCloudSize: 10
+  overheadCloudStep: 2
+  overheadCloudAnimationSpeed: 50
+  overheadCloudFlowDirectionX: 1
+  overheadCloudFlowDirectionZ: 1
+  overheadCloudRemapMin: 0.54
+  overheadCloudRemapMax: 4
+  overheadCloudCastShadow: 0
+  overheadCloudShadowClipMask: 0
+  enableDetailOverlay: 0
+  detailOverlayTintColor: {r: 1, g: 1, b: 1, a: 1}
+  detailOverlayCubeMap: {fileID: 0}
+  detailOverlayLayer: 5
+  detailOverlayRotationSpeed: 1
+  allowStepEffect: 0
+  material: {fileID: 8543305277494947058}
+  shadowMaterial: {fileID: -194747788320905733}
+--- !u!21 &8543305277494947058
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jupiter/Sky
+  m_Shader: {fileID: 4800000, guid: 3129e3b90193a0547900ecf4cf4e9864, type: 3}
+  m_ShaderKeywords: DETAIL_OVERLAY_ROTATION MOON OVERHEAD_CLOUD STARS STARS_LAYER_0
+    STARS_LAYER_1 STARS_LAYER_2 SUN
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DetailOverlayCubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MoonCubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MoonTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StarsCubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StarsTwinkleMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SunCubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SunTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _DetailOverlayLayer: 5
+    - _DetailOverlayRotationSpeed: 1
+    - _HorizonCloudAnimationSpeed: 50
+    - _HorizonCloudEnd: 0.35
+    - _HorizonCloudEndPosition: 0.35
+    - _HorizonCloudSize: 5
+    - _HorizonCloudStart: -0.01
+    - _HorizonCloudStartPosition: -0.01
+    - _HorizonCloudStep: 25
+    - _HorizonExponent: 3.1531374
+    - _HorizonStep: 1000
+    - _HorizonThickness: 1
+    - _MoonGlow: 0.236
+    - _MoonLightIntensity: 0.007498911
+    - _MoonSize: 0.07
+    - _MoonSoftEdge: 0.22
+    - _OverheadCloudAltitude: 1000
+    - _OverheadCloudAnimationSpeed: 50
+    - _OverheadCloudFlowDirectionX: 1
+    - _OverheadCloudFlowDirectionZ: 1
+    - _OverheadCloudFlowX: 1
+    - _OverheadCloudFlowZ: 1
+    - _OverheadCloudRemapMax: 1.0038683
+    - _OverheadCloudRemapMin: 0.03006965
+    - _OverheadCloudSize: 10
+    - _OverheadCloudStep: 2
+    - _StarsDensity0: 0.4
+    - _StarsDensity1: 0.34
+    - _StarsDensity2: 0.45
+    - _StarsEnd: 1
+    - _StarsEndPosition: 1
+    - _StarsGlow0: 0.01
+    - _StarsGlow1: 0.01
+    - _StarsGlow2: 0.01
+    - _StarsOpacity: 0.0540455
+    - _StarsSize0: 0.42
+    - _StarsSize1: 0.53
+    - _StarsSize2: 0.46
+    - _StarsStart: 0
+    - _StarsStartPosition: 0
+    - _StarsTwinkle0: 5
+    - _StarsTwinkle1: 6
+    - _StarsTwinkle2: 2
+    - _SunGlow: 0.45
+    - _SunLightIntensity: 0.10167122
+    - _SunSize: 0.07
+    - _SunSoftEdge: 0.5
+    m_Colors:
+    - _DetailOverlayColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DetailOverlayTintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FogColor: {r: 0.8490566, g: 0.69017035, b: 0.6287825, a: 1}
+    - _GroundColor: {r: 0.39603928, g: 0.3724063, b: 0.41818222, a: 1}
+    - _HorizonCloudColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HorizonColor: {r: 0.88537216, g: 0.67108834, b: 0.5928118, a: 1}
+    - _MoonColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MoonDirection: {r: 0.030593019, g: 0.053853486, b: 0.9980801, a: 0}
+    - _MoonLightColor: {r: 0.8431373, g: 0.9843138, b: 1, a: 1}
+    - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.91991}
+    - _SkyColor: {r: 0.20464376, g: 0.3500448, b: 0.58299696, a: 1}
+    - _StarsColor0: {r: 0.96470594, g: 0.9450981, b: 0.76470596, a: 1}
+    - _StarsColor1: {r: 1, g: 0.5294118, b: 0.93725497, a: 1}
+    - _StarsColor2: {r: 0, g: 0.92549026, b: 1, a: 1}
+    - _SunColor: {r: 0.9716981, g: 0.9195442, b: 0.83024085, a: 1}
+    - _SunDirection: {r: -0.05575011, g: -0.027939927, b: -0.99805385, a: 0}
+    - _SunLightColor: {r: 1, g: 0.99511117, b: 0.8632076, a: 1}
+--- !u!21 &8993251732621375409
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jupiter/SkyShadow
+  m_Shader: {fileID: 4800000, guid: 561c1777fd66e5d488ef1b85ed82bbaa, type: 3}
+  m_ShaderKeywords: ALLOW_STEP_EFFECT DETAIL_OVERLAY_ROTATION OVERHEAD_CLOUD STARS
+    STARS_LAYER_0 STARS_LAYER_1 STARS_LAYER_2 SUN
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _OverheadCloudAltitude: 1000
+    - _OverheadCloudAnimationSpeed: 50
+    - _OverheadCloudFlowDirectionX: 1
+    - _OverheadCloudFlowDirectionZ: 1
+    - _OverheadCloudShadowClipMask: 0
+    - _OverheadCloudSize: 10
+    - _OverheadCloudStep: 2
+    m_Colors:
+    - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.22709298}

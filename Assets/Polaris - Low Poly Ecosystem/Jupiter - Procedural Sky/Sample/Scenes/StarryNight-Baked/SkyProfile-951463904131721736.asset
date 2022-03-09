@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5278d11d9502245b5cc174a196561b, type: 3}
+  m_Name: SkyProfile-951463904131721736
+  m_EditorClassIdentifier: 
+  skyColor: {r: 0.10090523, g: 0.06363475, b: 0.20754719, a: 1}
+  horizonColor: {r: 0.38431373, g: 0.48638386, b: 0.6509804, a: 1}
+  groundColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+  horizonThickness: 1
+  horizonExponent: 5
+  horizonStep: 1000
+  enableStars: 1
+  starsStartPosition: -0.01
+  starsEndPosition: 1
+  starsOpacity: 1
+  starsLayerCount: 3
+  starsColor0: {r: 0.9254902, g: 0.88081425, b: 0.5432628, a: 1}
+  starsColor1: {r: 1, g: 0.24056602, b: 0.8628801, a: 1}
+  starsColor2: {r: 0, g: 0.8351569, b: 1, a: 1}
+  starsDensity0: 0.4
+  starsDensity1: 0.34
+  starsDensity2: 0.45
+  starsSize0: 0.42
+  starsSize1: 0.53
+  starsSize2: 0.46
+  starsGlow0: 0.01
+  starsGlow1: 0.01
+  starsGlow2: 0.01
+  starsTwinkle0: 5
+  starsTwinkle1: 6
+  starsTwinkle2: 2
+  useBakedStars: 1
+  starsCubemap: {fileID: 8900000, guid: 59c7b8a8456c65d4aa28c47a49e4ea49, type: 2}
+  starsTwinkleMap: {fileID: 2800000, guid: d69d12cf3b1e2b144881667c78b2e4f9, type: 3}
+  enableSun: 0
+  sunTexture: {fileID: 0}
+  sunColor: {r: 0, g: 0, b: 0, a: 0}
+  sunSize: 0
+  sunSoftEdge: 0
+  sunGlow: 0
+  useBakedSun: 0
+  sunCubemap: {fileID: 0}
+  sunLightColor: {r: 0, g: 0, b: 0, a: 0}
+  sunLightIntensity: 0
+  enableMoon: 1
+  moonTexture: {fileID: 0}
+  moonColor: {r: 1, g: 1, b: 1, a: 1}
+  moonSize: 0.07
+  moonSoftEdge: 0.22
+  moonGlow: 0.24
+  useBakedMoon: 1
+  moonCubemap: {fileID: 8900000, guid: ef0c7a1c7205a274c8ae147b1fc68287, type: 2}
+  moonLightColor: {r: 0.6567283, g: 0.75291616, b: 0.8867924, a: 1}
+  moonLightIntensity: 0.2
+  customCloudTexture: {fileID: 0}
+  enableHorizonCloud: 0
+  horizonCloudColor: {r: 1, g: 1, b: 1, a: 1}
+  horizonCloudStartPosition: -0.01
+  horizonCloudEndPosition: 0.35
+  horizonCloudSize: 4.47
+  horizonCloudStep: 25
+  horizonCloudAnimationSpeed: 50
+  enableOverheadCloud: 0
+  overheadCloudColor: {r: 1, g: 1, b: 1, a: 0.09803922}
+  overheadCloudAltitude: 1000
+  overheadCloudSize: 10
+  overheadCloudStep: 25
+  overheadCloudAnimationSpeed: 50
+  overheadCloudFlowDirectionX: 1
+  overheadCloudFlowDirectionZ: 1
+  enableDetailOverlay: 1
+  detailOverlayTintColor: {r: 1, g: 1, b: 1, a: 0.043137256}
+  detailOverlayCubeMap: {fileID: 8900000, guid: f441ff010e8953541b03c7b6cf64f6f9,
+    type: 2}
+  detailOverlayLayer: 0
+  detailOverlayRotationSpeed: 1
+  allowStepEffect: 1
+  material: {fileID: 336576615334345924}
+--- !u!21 &336576615334345924
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jupiter/Sky
+  m_Shader: {fileID: 4800000, guid: 3129e3b90193a0547900ecf4cf4e9864, type: 3}
+  m_ShaderKeywords: ALLOW_STEP_EFFECT DETAIL_OVERLAY DETAIL_OVERLAY_ROTATION MOON
+    MOON_BAKED STARS STARS_BAKED STARS_LAYER_0 STARS_LAYER_1 STARS_LAYER_2
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DetailOverlayCubemap:
+        m_Texture: {fileID: 8900000, guid: f441ff010e8953541b03c7b6cf64f6f9, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MoonCubemap:
+        m_Texture: {fileID: 8900000, guid: ef0c7a1c7205a274c8ae147b1fc68287, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MoonTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StarsCubemap:
+        m_Texture: {fileID: 8900000, guid: 59c7b8a8456c65d4aa28c47a49e4ea49, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StarsTwinkleMap:
+        m_Texture: {fileID: 2800000, guid: d69d12cf3b1e2b144881667c78b2e4f9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SunCubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SunTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _DetailOverlayLayer: 0
+    - _DetailOverlayRotationSpeed: 1
+    - _HorizonCloudAnimationSpeed: 50
+    - _HorizonCloudEnd: 0.35
+    - _HorizonCloudSize: 4.47
+    - _HorizonCloudStart: -0.01
+    - _HorizonCloudStep: 25
+    - _HorizonExponent: 5
+    - _HorizonStep: 1000
+    - _HorizonThickness: 1
+    - _MoonGlow: 0.24
+    - _MoonSize: 0.07
+    - _MoonSoftEdge: 0.22
+    - _OverheadCloudAltitude: 1000
+    - _OverheadCloudAnimationSpeed: 50
+    - _OverheadCloudFlowX: 1
+    - _OverheadCloudFlowZ: 1
+    - _OverheadCloudSize: 10
+    - _OverheadCloudStep: 25
+    - _StarsDensity0: 0.4
+    - _StarsDensity1: 0.34
+    - _StarsDensity2: 0.45
+    - _StarsEnd: 1
+    - _StarsGlow0: 0.01
+    - _StarsGlow1: 0.01
+    - _StarsGlow2: 0.01
+    - _StarsOpacity: 1
+    - _StarsSize0: 0.42
+    - _StarsSize1: 0.53
+    - _StarsSize2: 0.46
+    - _StarsStart: -0.01
+    - _StarsTwinkle0: 5
+    - _StarsTwinkle1: 6
+    - _StarsTwinkle2: 2
+    - _SunGlow: 0
+    - _SunSize: 0
+    - _SunSoftEdge: 0
+    m_Colors:
+    - _DetailOverlayColor: {r: 1, g: 1, b: 1, a: 0.043137256}
+    - _GroundColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+    - _HorizonCloudColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HorizonColor: {r: 0.38431373, g: 0.48638386, b: 0.6509804, a: 1}
+    - _MoonColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MoonDirection: {r: -0.3213938, g: -0.76604444, b: 0.5566705, a: 0}
+    - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.09803922}
+    - _SkyColor: {r: 0.10090523, g: 0.06363475, b: 0.20754719, a: 1}
+    - _StarsColor0: {r: 0.9254902, g: 0.88081425, b: 0.5432628, a: 1}
+    - _StarsColor1: {r: 1, g: 0.24056602, b: 0.8628801, a: 1}
+    - _StarsColor2: {r: 0, g: 0.8351569, b: 1, a: 1}
+    - _SunColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SunDirection: {r: -1, g: -1, b: -1, a: 0}

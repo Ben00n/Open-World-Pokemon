@@ -1,0 +1,32 @@
+﻿#pragma kernel Init
+#pragma kernel ComputeHistogramLuminance
+#pragma kernel ComputeHistogramChannel
+#include "UnityCG.cginc"
+
+Texture2D<float4> _Texture;
+RWStructuredBuffer<uint> _Histogram;
+RWStructuredBuffer<uint> _Max;
+uint _Channel;
+
+[numthreads(64,1,1)]
+void Init(uint3 id: SV_DispatchThreadID)
+{
+	_Histogram[id.x] = 0;
+	//_Max[0] = 0; //Init on C#
+}
+
+[numthreads(8,8,1)]
+void ComputeHistogramLuminance(uint3 id : SV_DispatchThreadID)
+{
+	uint luma = uint(255.0 * Luminance(_Texture[id.xy]));
+	InterlockedAdd(_Histogram[luma], 1);
+	InterlockedMax(_Max[0], _Histogram[luma]);
+}
+
+[numthreads(8, 8, 1)]
+void ComputeHistogramChannel(uint3 id : SV_DispatchThreadID)
+{
+	uint v = uint(255.0 * _Texture[id.xy][_Channel]);
+	InterlockedAdd(_Histogram[v], 1);
+	InterlockedMax(_Max[0], _Histogram[v]);
+}

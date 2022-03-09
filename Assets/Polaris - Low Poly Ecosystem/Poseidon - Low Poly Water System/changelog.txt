@@ -1,0 +1,280 @@
+V1.7.5
+FIXES
+- Fix water inspector issue in URP
+
+===
+V1.7.4
+FIXES
+- Fix a prefab issue.
+
+===
+V1.7.3
+IMPROVEMENTS
+- Doubling water mesh bounds for better culling.
+
+===
+V1.7.2
+IMPROVEMENTS
+- Wave now take account to Water FX.
+FIXES
+- Fix wet lens bug on game start.
+- Fix water planes get rendered in prefab scene.
+- Change Manual Time to double.
+
+===
+V1.7.1
+IMPROVEMENTS
+- Adding automatic Water Level for WaterFX.
+FIXES
+- Fix GetLocalVertexPosition() bug with Wave Deform parameter (simply set the PerlinNoise.png to non-sRGB).
+- Fix WaterFX trigger bug when player stand still but the water raise/lower.
+
+===
+V1.7.0
+NEW FEATURES
+- Adding support for Aura 2 volumetric light & fog.
+
+===
+V1.6.3
+NEW FEATURES
+- Adding Wave Mask to define wave height and crest intensity in a particular region. Wave Mask take effect on both shader and C# side.
+IMPROVEMENTS
+- Refraction now take Light Absorption into account. Refracted image only visible in range of [0, MaxDepth], otherwise it will appear as DepthColor.
+- Caustic now doesn't require Light Absorption anymore.
+FIXES
+- Auto Time mode now take Time.timeScale into account.
+- Minor fixes.
+
+===
+V1.6.2
+NEW FEATURES
+- Adding Manual Time mode that being set outside of the PWater script. Useful for multiplayer games that need to sync water animation across clients.
+FIXES
+- Fix Mesh Noise, Foam, Caustic to use unified Time params.
+
+===
+V1.6.1
+FIXES
+- Adding simple check for reflection camera rotation to get rid of "Screen position out of view frustum..." error.
+- Minor code fix.
+
+===
+V1.6.0
+IMPORTANT
+- This update requires a complete removal and reimport of the asset!
+NEW FEATURES
+- Complete shader rewrite for both Builtin RP and Universal RP.
+- Adding Flat Lighting option that evaluate lighting uniformly on the polygon.
+- Lambert and Blinn Phong light model now available for Builtin RP.
+IMPROVEMENTS
+- Asset import now a lot faster.
+FIXES
+- Exclude the Water Spline Sync modifier when using Polaris 2019.
+- Minor fixes.
+
+===
+V1.5.6
+IMPROVEMENTS
+- Adding support for Unity 2020.2 and URP 10.2.2+.
+
+===
+V1.5.5
+FIXES
+- Skip rendering reflection for Overlay Camera in URP.
+
+===
+V1.5.4
+NEW FEATURES
+- Adding extension function to query vertex height at runtime.
+IMPROVEMENTS
+- Minor improvements for all shaders.
+FIXES
+- Minor editor fixes.
+
+===
+V1.5.3
+FIXES
+- Fix shader compile error in URP.
+
+===
+V1.5.2
+FIXES
+- Fix Water FX setup issue in URP
+
+===
+V1.5.1
+FIXES
+- Fix build fail issue on Android when Crest Foam is enabled.
+- Fix Ripple and Foam issue on GLES2 and GLES3.
+
+===
+V1.5.0
+NEW FEATURES
+- Adding Underwater and Wet Lens support for URP.
+- Adding new shader variant for back face render (Tileable Plane only)
+IMPROVEMENTS
+- Adding more instruction to Water FX demo scene.
+FIXES
+- Minor bugs fixing.
+
+===
+V1.4.1
+IMPROVEMENTS
+- Adding support for Unity 2020.
+FIXES
+- Fix foam issue in URP.
+
+===
+V1.4.0
+NEW FEATURES
+- Adding Wave effect.
+- Adding Crest Foam and Slope Foam effect.
+IMPROVEMENTS
+- Optimize screen position calculation for URP shader.
+- Adding Height Offset for Polaris Spline Sync modifier.
+FIXES
+- Minor fixes.
+
+===
+V1.3.4
+IMPROVEMENTS
+- Rewrite URP shaders using newest URP template. Better environment lighting.
+- Water now receive shadow in URP.
+
+===
+V1.3.3
+NEW FEATURES
+- Adding Tiles Follow Main Camera option for ease of making infinite open water.
+
+===
+V1.3.2
+NEW FEATURES
+- Adding Water Spline Sync modifier for Polaris Spline tool.
+IMPROVEMENTS
+- Show Foam Color as HDR color picker.
+
+===
+V1.3.1
+FIXES
+- Fix water mesh type keep revert back to Tileable Plane when entering Play mode.
+
+===
+V1.3.0
+NEW FEATURES
+- Adding Area, Spline and Custom Mesh mode as experimental features.
+- Adding new River shader for spline mesh.
+IMPROVEMENTS
+- Mesh settings now move from Water Profile to Water component and serialized with the scene.
+- Foam now react correctly with scene lighting.
+- Ripple scale well with water object scale.
+- Refine frame pre-render check (depth texture, opaque texture, MSAA).
+- Better tile pinning mode, drag left mouse to add more tiles.
+- Refraction in Builtin RP now use Grab Texture instead of re-render.
+FIXES
+- Fix gizmos bug in OnSceneGUI callback.
+- Fix Ripple and Foam effect on GLES3.
+
+===
+V1.2.9
+IMPROVEMENTS
+- Adding support for Refraction and Caustic in VR.
+- Support for Single Pass Instanced stereo rendering.
+FIXES
+- Fix water FX shaders, removing distortion artifacts.
+DEPRECATED
+- Remove support for LWRP.
+
+===
+V1.2.8
+IMPROVEMENTS
+- Adding some scene view message following mouse position in Tile Pinning mode.
+FIXES
+- Fix some build issues.
+- Unlock water rotation.
+
+===
+V1.2.7
+FIXES
+- Strip water effect shader to prevent build fail when PPv2 is not installed.
+
+===
+V1.2.6
+IMPROVEMENTS
+- Stop rendering reflection when not needed.
+FIXES
+- Fix some issues with VR rendering for Light Absorption and Foam.
+- Temporarily disable Reflection, Refraction and Caustic in VR, update coming soon.
+- Minor bug fixes.
+
+===
+V1.2.5
+IMPORTANT!
+- Please BACK UP your project and perform a clean update due to major package structure changes.
+IMPROVEMENTS
+- Re-organize project files.
+- Adding some tests for detecting mis-configuring in package settings.
+
+===
+V1.2.4
+NEW FEATURES
+- Adding water effect (Underwater, Wet Lens).
+- Adding back face shader variant.
+IMPROVEMENTS
+- Minor editor workflow updates.
+FIXES
+- Minor issue fixes.
+
+===
+V1.2.3
+FIXES
+- Fix shader references in LWRP.
+
+===
+V1.2.2
+NEW FEATURES
+- Now you can select which lighting model to use: Physical Based, Blinn Phong, Lambert.
+IMPROVEMENTS
+- Optimize all shaders for Mobile devices.
+
+===
+V1.2.1
+IMPROVEMENTS
+- Refraction: now read from camera opaque texture in LWRP, URP instead of re-render the scene.
+FIXES
+- Fix water tiles not being saved in the editor in some cases.
+- Fix material render queue getting resetted to default shader value.
+
+===
+V1.2.0
+NEW FEATURES
+- Adding more water mesh pattern: Hexagon, Diamond, Quad.
+- New Caustic effect.
+IMPROVEMENTS
+- Better performance for Foam HQ effect.
+- Adding blur filter for Reflection, useful for low-res reflection textures.
+- Re-organize include files.
+FIXES
+- Depth-based effects (Light Absorbtion, Foam, etc) now work correctly in orthographic mode.
+- Water now react correctly to built-in fog.
+CHANGES
+- Ripple effect now always on.
+DEPRECATED
+- Horizon Blend effect was removed. Use built-in fog instead.
+
+===
+V1.1.0
+NEW FEATURES
+- Adding support for Universal Render Pipeline.
+IMPROVEMENTS
+- Editor GUI: Display water tiles list in the inspector.
+FIXES
+- Fix reflection and refraction glitching in LWRP and URP.
+
+===
+V1.0.1
+FIXES
+- Package now initialize correctly in LWRP.
+
+===
+V1.0.0
+Initial release

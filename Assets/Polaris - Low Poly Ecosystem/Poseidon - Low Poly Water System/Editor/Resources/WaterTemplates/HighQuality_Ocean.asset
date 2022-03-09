@@ -1,0 +1,269 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &-9222825754462057760
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Poseidon/LWRP/WaterAdvancedLWRP
+  m_Shader: {fileID: 4800000, guid: 73b5c01cfdec6464cae3426697338f48, type: 3}
+  m_ShaderKeywords: FOAM FOAM_HQ LIGHT_ABSORBTION REFLECTION REFRACTION RIPPLE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _ReflectionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RefractionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _FoamDistance: 2
+    - _FoamNoiseScaleHQ: 1.75
+    - _FoamNoiseSpeedHQ: 1
+    - _FresnelBias: 0
+    - _FresnelStrength: 1.5
+    - _HorizonEnhancement: 0.5
+    - _HorizonThickness: 0.1
+    - _MaxDepth: 8
+    - _MeshNoise: 0
+    - _ReflectionDistortionStrength: 50
+    - _RefractionDistortionStrength: 50
+    - _RippleHeight: 0.15
+    - _RippleSpeed: 5
+    - _Smoothness: 0.5
+    m_Colors:
+    - _Color: {r: 0, g: 0.5660378, b: 0.48113206, a: 0.69803923}
+    - _DepthColor: {r: 0.09019608, g: 0.30110097, b: 0.48235294, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HorizonColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Specular: {r: 0.103773594, g: 0.101267025, b: 0.087620154, a: 1}
+    - _WaveParams: {r: 1, g: 1, b: 0.5, a: 10}
+--- !u!43 &-1019950947047327512
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Water Mesh
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 24
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 24
+    localAABB:
+      m_Center: {x: 0.41666666, y: 0, z: 0.5}
+      m_Extent: {x: 0.5833333, y: 0, z: 0.5}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 00000100020003000400050006000700080009000a000b000c000d000e000f0010001100120013001400150016001700
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 24
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 24
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 40
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 56
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 1728
+    _typelessdata: 000000000000000000000000000000000000803f000000000000803f0000000000000000000080bfaaaaaa3e000000000000003f00000000abaa2abe000000000000003f00000000abaa2abe000000000000003f000000000000803f000000000000803f0000000000000000000080bf00000000000000000000000000000000aaaaaa3e000000000000003f00000000aaaaaa3e000000000000003f000000000000803f000000000000803f0000000000000000000080bfabaa2abe000000000000003f0000000000000000000000000000000000000000000000000000000000000000000000000000803f000000000000803f0000000000000000000080bf0000003f000000000000000000000000aaaaaa3e000000000000003f00000000aaaaaa3e000000000000003f000000000000803f000000000000803f0000000000000000000080bf000000000000000000000000000000000000003f0000000000000000000000000000003f0000000000000000000000000000803f000000000000803f0000000000000000000080bfaaaaaa3e000000000000003f00000000000000000000000000000000000000000000003f0000000000000000000000000000803f000000000000803f0000000000000000000080bf5555553f000000000000003f00000000aaaaaa3e000000000000003f00000000aaaaaa3e000000000000003f000000000000803f000000000000803f0000000000000000000080bf0000003f0000000000000000000000005555553f000000000000003f000000005555553f000000000000003f000000000000803f000000000000803f0000000000000000000080bfaaaaaa3e000000000000003f000000000000003f0000000000000000000000000000003f0000000000000000000000000000803f000000000000803f0000000000000000000080bf0000803f0000000000000000000000005555553f000000000000003f000000005555553f000000000000003f000000000000803f000000000000803f0000000000000000000080bf0000003f0000000000000000000000000000803f0000000000000000000000000000803f0000000000000000000000000000803f000000000000803f0000000000000000000080bf5555553f000000000000003f000000000000003f000000000000000000000000abaa2abe000000000000003f000000000000803f000000000000803f0000000000000000000080bfaaaaaa3e000000000000003f0000000000000000000000000000803f0000000000000000000000000000803f000000000000803f000000000000803f0000000000000000000080bfabaa2abe000000000000003f00000000aaaaaa3e000000000000003f00000000aaaaaa3e000000000000003f000000000000803f000000000000803f0000000000000000000080bf00000000000000000000803f00000000abaa2abe000000000000003f000000000000003f000000000000803f000000000000803f000000000000803f0000000000000000000080bf00000000000000000000803f00000000aaaaaa3e000000000000003f00000000aaaaaa3e000000000000003f000000000000803f000000000000803f0000000000000000000080bf0000003f000000000000803f0000000000000000000000000000803f0000000000000000000000000000803f000000000000803f000000000000803f0000000000000000000080bfaaaaaa3e000000000000003f000000000000003f000000000000803f00000000aaaaaa3e000000000000003f000000000000803f000000000000803f0000000000000000000080bf5555553f000000000000003f000000000000003f000000000000803f000000000000003f000000000000803f000000000000803f000000000000803f0000000000000000000080bfaaaaaa3e000000000000003f000000005555553f000000000000003f000000005555553f000000000000003f000000000000803f000000000000803f0000000000000000000080bf0000003f000000000000803f00000000aaaaaa3e000000000000003f000000000000803f000000000000803f000000000000803f000000000000803f0000000000000000000080bf0000003f000000000000803f000000005555553f000000000000003f000000005555553f000000000000003f000000000000803f000000000000803f0000000000000000000080bf0000803f000000000000803f000000000000003f000000000000803f000000000000003f000000000000803f000000000000803f000000000000803f0000000000000000000080bf5555553f000000000000003f000000000000803f000000000000803f00000000
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0.41666666, y: 0, z: 0.5}
+    m_Extent: {x: 0.5833333, y: 0, z: 0.5}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    offset: 0
+    size: 0
+    path: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004ffb8c9b4e90d438d35887f7b002e4, type: 3}
+  m_Name: HighQuality_Ocean
+  m_EditorClassIdentifier: 
+  waterMode: 0
+  meshResolution: 2
+  meshNoise: 0
+  mesh: {fileID: -1019950947047327512}
+  material: {fileID: -9222825754462057760}
+  color: {r: 0, g: 0.5660378, b: 0.48113206, a: 0.69803923}
+  specColor: {r: 0.103773594, g: 0.101267025, b: 0.087620154, a: 1}
+  smoothness: 0.5
+  enableLightAbsorbtion: 1
+  depthColor: {r: 0.09019608, g: 0.30110097, b: 0.48235294, a: 1}
+  maxDepth: 8
+  enableHorizonBlend: 0
+  horizonColor: {r: 1, g: 1, b: 1, a: 1}
+  horizonThickness: 0.1
+  horizonEnhancement: 0.5
+  enableFoam: 1
+  foamColor: {r: 1, g: 1, b: 1, a: 1}
+  foamDistance: 2
+  enableFoamHQ: 1
+  foamNoiseScaleHQ: 1.75
+  foamNoiseSpeedHQ: 1
+  enableRipple: 1
+  rippleHeight: 0.15
+  rippleSpeed: 5
+  fresnelStrength: 1.5
+  fresnelBias: 0
+  enableReflection: 1
+  reflectionTextureResolution: 512
+  enableReflectionPixelLight: 0
+  reflectionClipPlaneOffset: 0.2
+  reflectionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  reflectCustomSkybox: 0
+  reflectionDistortionStrength: 50
+  enableRefraction: 1
+  refractionTextureResolution: 512
+  enableRefractionPixelLight: 0
+  refractionClipPlaneOffset: 0.2
+  refractionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  refractionDistortionStrength: 50

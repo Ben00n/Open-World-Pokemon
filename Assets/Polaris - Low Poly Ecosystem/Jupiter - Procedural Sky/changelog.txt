@@ -1,0 +1,87 @@
+1.2.10
+NEW FEATURES
+- Adding Remap filter for Overhead Cloud
+FIXES
+- Minor fixes
+
+===
+V1.2.9
+NEW FEATURES
+- Adding Overhead Cloud Shadow Casting as an experimental feature.
+- Adjusting Overhead Cloud opacity.
+
+===
+V1.2.8.1
+FIXES
+- Minor DNC fixes.
+
+===
+V1.2.8
+IMPROVEMENTS
+- Adding HDR mode for sky color.
+- DNC now become non-destructive (not modifying the Sky Profile directly).
+- Optimizing material setup.
+- Display a message to indicate that a property is overridden by DNC.
+
+===
+V1.2.7
+FIXES
+- Fix rendering issue in VR (Single Pass Instanced).
+
+===
+V1.2.6
+FIXES
+- Further fix for DNC environment reflection issue on mobile.
+
+===
+V1.2.5
+FIXES
+- Fix DNC environment reflection issue.
+
+===
+V1.2.4
+IMPROVEMENTS
+- Adding support for Unity 2020.
+
+===
+V1.2.3
+IMPROVEMENTS
+- DNC: render a custom cubemap for environment reflection.
+- DNC: allow sun and moon to orbit around different pivots.
+
+===
+V1.2.2
+IMPROVEMENTS
+- Better stars placement.
+
+===
+V1.2.1
+FIXES
+- Fix Fog Sync issue in URP
+
+===
+V1.2.0
+NEW FEATURES
+- Adding Fog Sync option to sync fog with sky color, or animate overtime using day night cycle.
+IMPROVEMENTS
+- New button for adding DNC component.
+- DNC animated properties will have default value instead of zero when added.
+FIXES
+- Default sky profile cannot be animated with DNC anymore.
+
+===
+V1.1.0
+IMPORTANT!
+- Please BACK UP your project and perform a clean update due to major package structure changes.
+IMPROVEMENTS
+- Compile Runtime and Editor code into their own assembly.
+- Adding some test cases to detecting package mis-configuration.
+
+===
+V1.0.1
+IMPROVEMENTS
+- Adding HDR color picker for sun, moon and star color.
+
+===
+V1.0.0
+First release

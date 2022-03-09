@@ -1,0 +1,61 @@
+﻿TView2DWindow
+{
+	position: absolute;
+}
+
+#image
+{
+	width: 100%;
+	height: 100%;
+}
+
+#headerToolbar
+{
+	flex-direction: row;
+	height: 100%;
+	width: auto;
+	margin: 0px 4px;
+	position: absolute;
+	left: auto;
+	top: 0px;
+	right: 25px;
+	bottom: 0px;
+}
+
+#headerToolbar Button
+{
+	border-radius: 0px;
+	border-width: 0px;
+	margin: 0px;
+	background-color: rgb(64,64,64)
+}
+
+#headerToolbar Button:hover
+{
+	background-color: rgb(75,75,75)
+}
+
+#rButton
+{
+	color: rgb(255,50,50);
+}
+
+#gButton
+{
+	color: rgb(50,255,50);
+}
+
+#bButton
+{
+	color: rgb(100,100,255);
+}
+
+#aButton
+{
+	color: rgb(150,150,150);
+}
+
+#headerToolbar Button.active-button
+{
+	background-color: rgb(80,80,80)
+}

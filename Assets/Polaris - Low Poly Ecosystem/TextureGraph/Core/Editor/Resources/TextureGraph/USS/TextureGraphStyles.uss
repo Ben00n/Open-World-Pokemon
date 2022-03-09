@@ -1,0 +1,53 @@
+﻿.stretch
+{
+	flex : 1;
+	flex-grow : 1;
+	flex-shrink : 0; 
+}
+
+.column
+{
+	flex-direction : column;
+}
+
+.row
+{
+	flex-direction : row;
+}
+
+.left-container
+{
+	width : auto;
+	height : auto;
+}
+
+.right-container
+{
+	width : 300px;
+	max-width : 50%;
+	min-width : 10%;
+	height : auto;
+	border-width : 0px 0px 0px 1px;
+	border-color : rgb(35,35,35);
+}
+
+.preview-container
+{
+	width : auto;
+	height : 300px;
+}
+
+.scroll-view-content
+{
+	margin: 0px 4px 0px 18px; 
+}
+
+Foldout > Toggle
+{
+	-unity-font-style: bold;
+}
+
+Foldout
+{
+	padding-right: 4px;
+}
