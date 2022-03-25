@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,IDropHandler
 {
     private PokemonPartyManager pokemonPartyManager;
-    private Canvas canvas;
+    [SerializeField] private Canvas canvas;
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private Vector3 startLocalPosition;
@@ -28,7 +28,6 @@ public class PCPokemonButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<Canvas>();
         startLocalPosition = rectTransform.localPosition;
     }
 

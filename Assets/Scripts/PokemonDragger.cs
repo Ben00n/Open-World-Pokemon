@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class PokemonDragger : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler,IDropHandler
 {
+    private Canvas canvas;
     PokemonPartyManager pokemonPartyManager;
     PartyMemberUI partyMember;
 
@@ -16,6 +17,7 @@ public class PokemonDragger : MonoBehaviour, IPointerDownHandler, IBeginDragHand
 
     private void Awake()
     {
+        canvas = GetComponentInParent<Canvas>();
         partyMember = GetComponent<PartyMemberUI>();
         pokemonPartyManager = FindObjectOfType<PokemonPartyManager>();
         rectTransform = GetComponent<RectTransform>();
@@ -31,7 +33,7 @@ public class PokemonDragger : MonoBehaviour, IPointerDownHandler, IBeginDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta;
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
