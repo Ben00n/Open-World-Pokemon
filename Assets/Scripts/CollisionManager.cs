@@ -12,6 +12,8 @@ public class CollisionManager : MonoBehaviour
     BattleDialogBox battleDialogBox;
     public Collider playerCollider;
 
+    [SerializeField] AudioClip battleMusic;
+
     private void Awake()
     {
         battleManager = FindObjectOfType<BattleManager>();
@@ -50,6 +52,9 @@ public class CollisionManager : MonoBehaviour
                 battleManager.escapeAttempts = 0;
                 battleDialogBox.SetDialog("Encountered a wild " + battleManager.wildPokemonStatsCalculator.pokemonBase.Name + "!");
                 battleManager.Field = new Field();
+                
+                if(battleMusic != null)
+                    AudioManager.i.PlayMusic(battleMusic, fade:true);
 
                 // Test weather effect on start of battle with this
                 //battleManager.Field.SetWeather(ConditionID.rain);
